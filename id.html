@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Веб-страница с выводом ID пользователя</title>
+</head>
+<body>
+    <script>
+        // Получение идентификатора пользователя из параметров URL
+        var params = new URLSearchParams(window.location.search);
+        var userId = params.get('user_id');
+
+        // Создание элемента <p> для вывода идентификатора пользователя
+        var paragraph = document.createElement('p');
+        paragraph.textContent = "ID пользователя: " + userId;
+
+        // Добавление элемента <p> на страницу
+        document.body.appendChild(paragraph);
+    </script>
+</body>
+</html>
