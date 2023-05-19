@@ -40,14 +40,14 @@
 
         let tg = window.Telegram.WebApp;
         
-        let btn0 = document.getElementsById('btn0');
-        let btn1 = document.getElementsById('btn1');
+        let btn0 = document.getElementsById("btn0");
+        let btn1 = document.getElementsById("btn1");
 
-        btn0.addEventListener('click', () => {
+        btn0.addEventListener("click", () => {
             document.getElementById("idTx").value = tg.initDataUnsafe.user.id;
         });
 
-        btn1.addEventListener('click', () => {
+        btn1.addEventListener("click", () => {
             tg.close();
         });
 
