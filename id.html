@@ -40,8 +40,8 @@
 
         let tg = window.Telegram.WebApp;
         
-        let btn0 = document.getElementsById("btn0");
-        let btn1 = document.getElementsById("btn1");
+        let btn0 = document.getElementById("btn0");
+        let btn1 = document.getElementById("btn1");
 
         btn0.addEventListener("click", () => {
             document.getElementById("idTx").value = tg.initDataUnsafe.user.id;
