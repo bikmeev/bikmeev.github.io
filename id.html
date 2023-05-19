@@ -44,12 +44,12 @@
         let btn1 = document.getElementById("btn1");
 
         btn0.addEventListener("click", () => {
-            document.write("btn0 cliked");
+            console.log("btn0 cliked");
             document.getElementById("idTx").value = tg.initDataUnsafe.user.id;
         });
 
         btn1.addEventListener("click", () => {
-            document.write("btn1 cliked");
+            console.log("btn1 cliked");
             tg.close();
         });
 
