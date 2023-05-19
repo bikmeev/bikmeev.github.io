@@ -42,12 +42,12 @@
         
         let btn0 = document.getElementById("btn0");
         let btn1 = document.getElementById("btn1");
-        let name = tg.initDataUnsafe.user.id;
+        let idTg = tg.initDataUnsafe.user.id;
         btn0.addEventListener("click", () => {
             //console.log("btn0 cliked");
             //document.getElementById("idTx").value = tg.initDataUnsafe.user.id;
             //console.log(tg.initDataUnsafe.user.first_name);
-            document.getElementById("idTx").innerHTML = name;
+            document.getElementById("idTx").innerHTML = idTg;
         });
 
         btn1.addEventListener("click", () => {
