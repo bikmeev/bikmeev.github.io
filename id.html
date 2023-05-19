@@ -8,8 +8,10 @@
     <title>Веб-страница с выводом ID пользователя</title>
 </head>
 <body>
-    
+
     <div id="main">
+
+        <!-- 
 
         <script>
             // Получение идентификатора пользователя из параметров URL
@@ -24,11 +26,32 @@
             document.body.appendChild(paragraph);
         </script>
 
+         -->
+
         <button id="btn0">btn0</button>
+        <text id="idTx">null</text>
+        <button id="btn1">btn1</button>
 
     </div>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
+
+    <script>
+
+        let tg = window.Telegram.WebApp;
+        
+        let btn0 = document.getElementsById('btn0');
+        let btn1 = document.getElementsById('btn1');
+
+        btn0.addEventListener('click', () => {
+            document.getElementById("idTx").value = tg.initDataUnsafe.user.id;
+        });
+
+        btn1.addEventListener('click', () => {
+            tg.close();
+        });
+
+    </script>
+
 </body>
 </html>
