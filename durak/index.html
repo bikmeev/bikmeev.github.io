@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>GG Durachok</title>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .header {
+      width: 100%;
+      background-color: #028A07;
+      text-align: center;
+      padding: 22px;
+    }
+
+    .logo {
+      width: 520px;
+      height: 130px;
+      background-image: url('https://bikmeev.github.io/Frame%202%20(1).png');
+      background-size: cover;
+      background-position: center;
+      display: inline-block;
+    }
+
+    .main {
+      height: calc(100vh - 22px);
+      background-color: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .on_table {
+      background-color: #F2F2F2;
+      padding: 20px;
+      flex: 3;
+    }
+
+    .on_hand {
+      background-color: #D0D0D0;
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+
+    .card {
+      width: 80px;
+      height: 120px;
+      background-color: #FFFFFF;
+      border: 1px solid #000000;
+      border-radius: 5px;
+      margin-right: 5px;
+      cursor: grab;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo"></div>
+  </div>
+  <div class="main">
+    <div class="on_table" id="table">
+      <!-- Здесь можно добавить карты для поля on_table -->
+    </div>
+    <div class="on_hand" id="hand">
+      <div class="card"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+    $(document).ready(function() {
+      $(".card").draggable({
+        revert: "invalid",
+        containment: "body",
+        helper: "clone"
+      });
+
+      $(".card").on("touchstart mousedown", function(event) {
+        $(this).addClass("dragging");
+      });
+
+      $(document).on("touchmove mousemove", function(event) {
+        $(".dragging").offset({
+          top: event.pageY - $(".dragging").outerHeight() / 2,
+          left: event.pageX - $(".dragging").outerWidth() / 2
+        });
+      });
+
+      $(document).on("touchend mouseup", function(event) {
+        $(".dragging").removeClass("dragging");
+      });
+
+      $("#table").droppable({
+        accept: ".card",
+        drop: function(event, ui) {
+          $(this).append(ui.helper.clone());
+        }
+      });
+    });
+  </script>
+</body>
+</html>
