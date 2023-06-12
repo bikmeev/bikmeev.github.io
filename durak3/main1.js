@@ -18,11 +18,7 @@ window.onload = function () {
     onEnd: function (evt) {
       updateCardPositions();
     },
-    ghostClass: 'ghost', // Class name for the drop placeholder
-    chosenClass: 'chosen', // Class name for the chosen item
-    dragClass: 'drag' // Class name for the dragging item
   });
-
 
   var angleStep = 15; // угол наклона каждой следующей карты в веере
 
