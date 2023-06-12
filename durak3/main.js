@@ -52,7 +52,17 @@ window.onload = function () {
         e.preventDefault();
       });
     });
+
+    var cardsOnTable = document.querySelectorAll('#on_table .card');
+    var totalCardsOnTable = cardsOnTable.length;
+
+    cardsOnTable.forEach(function(card, index) {
+      var offsetX = (index % 3 - (totalCardsOnTable - 1) % 3 / 2) * 170; // Updating offset calculation for x-axis
+      var offsetY = Math.floor(index / 3) * 280; // Updating offset calculation for y-axis
+      card.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    });
   }
+
 
 
   updateCardPositions();
