@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Дурак - Карточная игра</title>
+    <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .container {
+        height: 100%;
+        width: 100%;
+      }
+
+      .header {
+        width: 100%;
+        height: 180px;
+        background-color: #028A07;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #logo {
+        width: 480px;
+        height: 170px;
+      }
+
+      .main {
+        height: calc(100% - 70px);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .on_table {
+        flex-grow: 6.5;
+      }
+
+      #on_table {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 20px;
+        justify-items: center;
+        align-items: center;
+      }
+
+
+      .on_hand {
+        position: relative; /* Добавлено */
+        flex-grow: 3.5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: visible;
+      }
+
+      .card {
+        position: absolute; /* Изменено с relative на absolute */
+        width: 156px;
+        height: 260px;
+        margin: 5px;
+        padding: 10px;
+        background-color: white;
+        border: 1px solid #028A07;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+        color: #028A07;
+        transform-origin: bottom; /* Добавлено */
+        transition: transform 0.2s, z-index 0.2s linear;
+      }
+
+
+      .card:active {
+        transform: scale(1.2);
+        z-index: 100;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <img src="https://bikmeev.github.io/Frame%202%20(1).png" alt="Logo" id="logo" />
+      </header>
+      <main class="main">
+        <div class="on_table" id="on_table"></div>
+        <div class="on_hand" id="on_hand">
+          <div class="card" draggable="true">1</div>
+          <div class="card" draggable="true">2</div>
+          <div class="card" draggable="true">3</div>
+          <div class="card" draggable="true">4</div>
+          <div class="card" draggable="true">5</div>
+          <div class="card" draggable="true">6</div>
+        </div>
+      </main>
+    </div>
+    <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
+  </body>
+</html>
