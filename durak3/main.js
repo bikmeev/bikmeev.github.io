@@ -15,14 +15,16 @@ window.onload = function () {
 
   Sortable.create(on_table, {
     group: 'shared',
+    animation: 150,
     onEnd: function (evt) {
       updateCardPositions();
+      // Log the position of the moved card
+      if (evt.from === el) {
+        var index = Array.from(on_table.children).indexOf(evt.item);
+        console.log(`Card ${evt.item.innerText} is in cell ${index + 1}`);
+      }
     },
-    ghostClass: 'ghost', // Class name for the drop placeholder
-    chosenClass: 'chosen', // Class name for the chosen item
-    dragClass: 'drag' // Class name for the dragging item
   });
-
 
   var angleStep = 15; // угол наклона каждой следующей карты в веере
 
@@ -57,13 +59,11 @@ window.onload = function () {
     var totalCardsOnTable = cardsOnTable.length;
 
     cardsOnTable.forEach(function(card, index) {
-      var offsetX = (index % 3 - (totalCardsOnTable - 1) % 3 / 2) * 170; // Updating offset calculation for x-axis
-      var offsetY = Math.floor(index / 3) * 280; // Updating offset calculation for y-axis
+      var offsetX = (index % 3 - (totalCardsOnTable - 1) % 3 / 2) * 160; // Reduce offset to decrease distance between cards
+      var offsetY = Math.floor(index / 3) * 260; // Reduce offset to decrease distance between cards
       card.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
     });
   }
-
-
 
   updateCardPositions();
 };
