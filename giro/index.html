@@ -7,6 +7,7 @@
 <body>
     <h1>Значение гироскопа</h1>
     <p id="gyroscope-data">Ожидание данных...</p>
+    <button id="toggle-rounding">Переключить округление</button>
 
     <script>
         // Ожидаем загрузку страницы
@@ -20,15 +21,39 @@
             }
         });
 
+        // Флаг для отслеживания состояния округления
+        var isRoundingEnabled = false;
+
         // Функция для обработки изменения ориентации
         function handleOrientation(event) {
             var alpha = event.alpha; // Значение поворота вокруг оси Z
             var beta = event.beta; // Значение поворота вокруг оси X
             var gamma = event.gamma; // Значение поворота вокруг оси Y
 
+            // Проверяем состояние округления и форматируем значения гироскопа
+            if (isRoundingEnabled) {
+                alpha = roundToTwoDecimals(alpha);
+                beta = roundToTwoDecimals(beta);
+                gamma = roundToTwoDecimals(gamma);
+            }
+
             // Выводим значения гироскопа на страницу
             document.getElementById('gyroscope-data').textContent = 'Alpha: ' + alpha + ', Beta: ' + beta + ', Gamma: ' + gamma;
         }
+
+        // Функция для округления числа до двух десятичных знаков
+        function roundToTwoDecimals(value) {
+            return Math.round(value * 100) / 100;
+        }
+
+        // Обработчик события нажатия на кнопку переключения
+        document.getElementById('toggle-rounding').addEventListener('click', function() {
+            isRoundingEnabled = !isRoundingEnabled;
+
+            // Обновляем текст кнопки в зависимости от состояния округления
+            var buttonText = isRoundingEnabled ? 'Отключить округление' : 'Включить округление';
+            document.getElementById('toggle-rounding').textContent = buttonText;
+        });
     </script>
 </body>
 </html>
