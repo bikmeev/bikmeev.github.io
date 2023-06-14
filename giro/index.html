@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Значение гироскопа</title>
+</head>
+<body>
+    <h1>Значение гироскопа</h1>
+    <p id="gyroscope-data">Ожидание данных...</p>
+
+    <script>
+        // Ожидаем загрузку страницы
+        window.addEventListener('load', function() {
+            // Проверяем поддержку гироскопа
+            if (window.DeviceOrientationEvent) {
+                // Обработчик события изменения ориентации устройства
+                window.addEventListener('deviceorientation', handleOrientation);
+            } else {
+                document.getElementById('gyroscope-data').textContent = 'Гироскоп не поддерживается';
+            }
+        });
+
+        // Функция для обработки изменения ориентации
+        function handleOrientation(event) {
+            var alpha = event.alpha; // Значение поворота вокруг оси Z
+            var beta = event.beta; // Значение поворота вокруг оси X
+            var gamma = event.gamma; // Значение поворота вокруг оси Y
+
+            // Выводим значения гироскопа на страницу
+            document.getElementById('gyroscope-data').textContent = 'Alpha: ' + alpha + ', Beta: ' + beta + ', Gamma: ' + gamma;
+        }
+    </script>
+</body>
+</html>
