@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <style>
     body {
@@ -10,6 +9,7 @@
       align-items: center;
       height: 100vh;
       font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
     }
     #question {
       font-size: 24px;
@@ -19,6 +19,21 @@
       justify-content: space-between;
       width: 100%;
       padding: 50px;
+    }
+    button {
+      padding: 20px 40px;
+      font-size: 24px;
+      border: none;
+      border-radius: 30px;
+      color: #fff;
+      cursor: pointer;
+      outline: none;
+    }
+    #noButton {
+      background-color: #ff5050;
+    }
+    #yesButton {
+      background-color: #50b050;
     }
   </style>
 </head>
@@ -55,7 +70,7 @@
     var urlParams = new URLSearchParams(window.location.search);
     var name = urlParams.get('name');
     
-    question.innerText = name ? `Привет, Ваше имя ${name} ? ` : "null";
+    question.innerText = name ? `Привет, ${name}! Вам задан вопрос: ` : "Привет! Вам задан вопрос: ";
     
     // Тут можно загрузить вопрос с сервера, если необходимо.
   </script>
