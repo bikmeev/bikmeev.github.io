@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+    #question {
+      font-size: 24px;
+    }
+    #buttons {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <p id="orientationWarning">Пожалуйста, переверните ваше устройство в горизонтальное положение.</p>
+    <div id="content">
+      <p id="question"></p>
+      <div id="buttons">
+        <button id="noButton">Нет</button>
+        <button id="yesButton">Да</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var orientationWarning = document.getElementById('orientationWarning');
+    var content = document.getElementById('content');
+    var question = document.getElementById('question');
+
+    function handleOrientation() {
+      if (window.innerHeight > window.innerWidth) {
+        orientationWarning.style.display = 'block';
+        content.style.display = 'none';
+      } else {
+        orientationWarning.style.display = 'none';
+        content.style.display = 'block';
+      }
+    }
+
+    window.addEventListener('resize', handleOrientation);
+    handleOrientation();
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var name = urlParams.get('name');
+    
+    question.innerText = name ? `Привет, Ваше имя ${name} ? ` : "null";
+    
+    // Тут можно загрузить вопрос с сервера, если необходимо.
+  </script>
+</body>
+</html>
