@@ -5,6 +5,7 @@ body {
     height: 100vh;
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
+    position: relative; /* Добавлено */
 }
 .container {
     text-align: center;
@@ -18,11 +19,16 @@ body {
     width: 50px;
     background-color: red;
     border-radius: 50%;
-    display: inline-block;
-    margin: 0 20px;
+    position: absolute; /* Добавлено */
+    bottom: 20px; /* Добавлено */
+}
+#leftCircle {
+    left: 20px; /* Добавлено */
+}
+#rightCircle {
+    right: 20px; /* Добавлено */
 }
 #chart {
     width: 80%;
     height: 300px;
 }
-
