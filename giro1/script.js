@@ -20,8 +20,8 @@ document.getElementById('rightCircle').addEventListener('touchend', function() {
 });
 
 // Проверка ориентации устройства
-window.addEventListener('deviceorientation', function(event) {
-    if (Math.abs(event.beta) > 45 || Math.abs(event.gamma) > 45) {
+window.addEventListener('orientationchange', function() {
+    if (window.orientation === 0 || window.orientation === 180) {
         document.querySelector('.question').textContent = 'Переверните телефон в горизонтальное положение';
     } else {
         document.querySelector('.question').textContent = question;
@@ -50,4 +50,3 @@ window.addEventListener('deviceorientation', function(event) {
     chart.data.datasets[0].data.push(event.gamma);
     chart.update();
 });
-
