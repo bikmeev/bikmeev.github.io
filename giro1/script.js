@@ -57,12 +57,12 @@ const chart = new Chart(ctx, {
 window.addEventListener('deviceorientation', function(event) {
     if (leftPressed && rightPressed) {
         chart.data.labels.push(new Date().toLocaleTimeString());
-        chart.data.datasets[0].data.push(event.gamma);
+        chart.data.datasets[0].data.push(event.beta);
         chart.update();
 
-        if (event.gamma > 0) {
+        if (event.beta > 0) {
             console.log('Положительно');
-        } else if (event.gamma < 0) {
+        } else if (event.beta < 0) {
             console.log('Отрицательно');
         }
     }
