@@ -2,9 +2,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const question = urlParams.get('question') || 'null';
 
-// Установка вопроса на странице
-document.querySelector('.question').textContent = question;
-
 // Обработка нажатия на круги
 let leftPressed = false;
 let rightPressed = false;
@@ -27,7 +24,7 @@ document.getElementById('rightCircle').addEventListener('touchend', function() {
 });
 
 // Проверка ориентации устройства
-window.addEventListener('orientationchange', function() {
+function checkOrientation() {
     const container = document.querySelector('.container');
     if (window.orientation === 0 || window.orientation === 180) {
         document.querySelector('.question').textContent = 'Переверните телефон в горизонтальное положение';
@@ -36,7 +33,9 @@ window.addEventListener('orientationchange', function() {
         document.querySelector('.question').textContent = question;
         container.style.display = 'block';
     }
-});
+}
+
+setInterval(checkOrientation, 100);
 
 // Создание графика
 const ctx = document.getElementById('chart').getContext('2d');
