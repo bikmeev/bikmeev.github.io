@@ -59,5 +59,12 @@ window.addEventListener('deviceorientation', function(event) {
         chart.data.labels.push(new Date().toLocaleTimeString());
         chart.data.datasets[0].data.push(event.gamma);
         chart.update();
+
+        if (event.gamma > 0) {
+            console.log('Положительно');
+        } else if (event.gamma < 0) {
+            console.log('Отрицательно');
+        }
     }
 });
+
