@@ -24,7 +24,7 @@ body {
     width: 50px;
     background-color: red;
     border-radius: 50%;
-    position: absolute; 
+    position: fixed; /* Изменено с absolute на fixed */
     bottom: 20px; 
 }
 #leftCircle {
