@@ -98,7 +98,7 @@ window.addEventListener('deviceorientation', function(event) {
             answerTime = Date.now();
             console.log('отрицательно');
         }
-    } else if (answerTime && Date.now() - answerTime > 1000) {
+    } else if (answerTime && Date.now() - answerTime > 1000 && !answerRecorded) {
         // Если устройство вернулось в позицию "не ответил", фиксируем ответ
         console.log('ответ зафиксирован');
         answerRecorded = true;
