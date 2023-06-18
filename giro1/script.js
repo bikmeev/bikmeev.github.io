@@ -27,7 +27,6 @@ document.getElementById('leftCircle').addEventListener('touchstart', function() 
 document.getElementById('leftCircle').addEventListener('touchend', function() {
     this.style.backgroundColor = 'red';
     leftPressed = false;
-    checkPosition();
 });
 document.getElementById('rightCircle').addEventListener('touchstart', function() {
     this.style.backgroundColor = 'green';
@@ -37,7 +36,6 @@ document.getElementById('rightCircle').addEventListener('touchstart', function()
 document.getElementById('rightCircle').addEventListener('touchend', function() {
     this.style.backgroundColor = 'red';
     rightPressed = false;
-    checkPosition();
 });
 
 // Проверка ориентации устройства
@@ -84,22 +82,22 @@ window.addEventListener('deviceorientation', function(event) {
 
         let deltaBeta = event.beta - initialBeta;
 
-        // Записываем данные только если устройство находится в позиции "не ответил"
+        // Записываем данные только если устройство на
+                // Записываем данные только если устройство находится в позиции "не ответил"
         chart.data.labels.push(new Date().toLocaleTimeString());
-        chart.data.datasets[0].data.push(deltaBeta);
-        chart.update();
-
         if (deltaBeta > posAngle) {
             currentPosition = "положительно";
+            console.log('Положительно');
         } else if (deltaBeta < negAngle) {
             currentPosition = "отрицательно";
+            console.log('отрицательно');
         }
     } else if (currentPosition !== "не ответил" && Math.abs(event.beta - initialBeta) < 5) {
         // Если устройство вернулось в позицию "не ответил", фиксируем ответ
+        console.log('ответ зафиксирован');
         answerRecorded = true;
         document.querySelector('.container').style.display = 'none';
         document.getElementById('header').style.display = 'none';
         document.getElementById('chart').style.display = 'block';
     }
 });
-
