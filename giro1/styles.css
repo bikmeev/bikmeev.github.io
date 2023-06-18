@@ -16,12 +16,13 @@ header {
     width: 100%;
     position: fixed;
     top: 0;
-    padding: 20px; /* Увеличен отступ */
-    background-color: black; /* Изменен цвет на черный */
+    padding: 20px; 
+    background-color: black; 
     z-index: 1;
 }
 #negative, #positive {
-    color: white; /* Изменен цвет на белый */
+    color: white; 
+    padding: 0 20px; // Добавлено
 }
 .container {
     display: flex;

@@ -30,15 +30,17 @@ document.getElementById('rightCircle').addEventListener('touchend', function() {
 // Проверка ориентации устройства
 function checkOrientation() {
     const container = document.querySelector('.container');
+    const header = document.getElementById('header'); // Добавлено
     if (window.orientation === 0 || window.orientation === 180) {
         document.querySelector('.question').textContent = 'Переверните телефон в горизонтальное положение';
         container.style.display = 'none';
+        header.style.display = 'none'; // Добавлено
     } else {
         document.querySelector('.question').textContent = question;
         container.style.display = 'block';
+        header.style.display = 'flex'; // Добавлено
     }
 }
-
 setInterval(checkOrientation, 100);
 
 // Создание графика
