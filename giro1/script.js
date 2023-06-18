@@ -15,7 +15,7 @@ let initialBeta = null;
 
 // Флаг для отслеживания, когда ответ был зафиксирован
 let answerRecorded = false;
-
+let answerRecorded1 = false;
 // Флаг для отслеживания, в какой позиции находится устройство
 let currentPosition = "не ответил";
 
@@ -98,13 +98,14 @@ window.addEventListener('deviceorientation', function(event) {
             answerTime = Date.now();
             console.log('отрицательно');
         }
-    } else if (answerTime && Date.now() - answerTime > 1000 && !answerRecorded) {
+    } else if (answerTime && Date.now() - answerTime > 1000 && answerRecorded == false) {
         // Если устройство вернулось в позицию "не ответил", фиксируем ответ
         console.log('ответ зафиксирован');
         answerRecorded = true;
         document.querySelector('.container').style.display = 'none';
         document.getElementById('header').style.display = 'none';
         document.getElementById('chart').style.display = 'block';
+
     }
 
 });
