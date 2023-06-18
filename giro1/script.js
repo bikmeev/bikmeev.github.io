@@ -19,6 +19,9 @@ let answerRecorded = false;
 // Флаг для отслеживания, в какой позиции находится устройство
 let currentPosition = "не ответил";
 
+
+let answerTime = null;
+
 document.getElementById('leftCircle').addEventListener('touchstart', function() {
     this.style.backgroundColor = 'green';
     leftPressed = true;
@@ -87,12 +90,15 @@ window.addEventListener('deviceorientation', function(event) {
         chart.data.labels.push(new Date().toLocaleTimeString());
         if (deltaBeta > posAngle) {
             currentPosition = "положительно";
+            answerTime = Date.now();
             console.log('Положительно');
+
         } else if (deltaBeta < negAngle) {
             currentPosition = "отрицательно";
+            answerTime = Date.now();
             console.log('отрицательно');
         }
-    } else if (!answerRecorded && currentPosition !== "не ответил" && Math.abs(event.beta - initialBeta) < 5) {
+    } else if (answerTime && Date.now() - answerTime > 1000) {
         // Если устройство вернулось в позицию "не ответил", фиксируем ответ
         console.log('ответ зафиксирован');
         answerRecorded = true;
