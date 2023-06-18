@@ -92,7 +92,7 @@ window.addEventListener('deviceorientation', function(event) {
             currentPosition = "отрицательно";
             console.log('отрицательно');
         }
-    } else if (currentPosition !== "не ответил" && Math.abs(event.beta - initialBeta) < 5) {
+    } else if (!answerRecorded && currentPosition !== "не ответил" && Math.abs(event.beta - initialBeta) < 5) {
         // Если устройство вернулось в позицию "не ответил", фиксируем ответ
         console.log('ответ зафиксирован');
         answerRecorded = true;
@@ -100,4 +100,5 @@ window.addEventListener('deviceorientation', function(event) {
         document.getElementById('header').style.display = 'none';
         document.getElementById('chart').style.display = 'block';
     }
+
 });
