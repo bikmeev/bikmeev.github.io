@@ -6,13 +6,17 @@ const question = urlParams.get('question') || 'null';
 let leftPressed = false;
 let rightPressed = false;
 
-//угл наклона для ответа
+// Угол наклона для ответа
 let posAngle = 15;
 let negAngle = -15;
+
+// Начальное положение устройства
+let initialBeta = null;
 
 document.getElementById('leftCircle').addEventListener('touchstart', function() {
     this.style.backgroundColor = 'green';
     leftPressed = true;
+    initialBeta = null; // Сброс начального положения при каждом нажатии
 });
 document.getElementById('leftCircle').addEventListener('touchend', function() {
     this.style.backgroundColor = 'red';
@@ -21,6 +25,7 @@ document.getElementById('leftCircle').addEventListener('touchend', function() {
 document.getElementById('rightCircle').addEventListener('touchstart', function() {
     this.style.backgroundColor = 'green';
     rightPressed = true;
+    initialBeta = null; // Сброс начального положения при каждом нажатии
 });
 document.getElementById('rightCircle').addEventListener('touchend', function() {
     this.style.backgroundColor = 'red';
@@ -62,15 +67,22 @@ const chart = new Chart(ctx, {
 // Сбор данных с гироскопа
 window.addEventListener('deviceorientation', function(event) {
     if (leftPressed && rightPressed) {
+        if (initialBeta === null) {
+            initialBeta = event.beta; // Задаем начальное положение при первом нажатии
+        }
+
         chart.data.labels.push(new Date().toLocaleTimeString());
         chart.data.datasets[0].data.push(event.beta);
         chart.update();
 
-        if (event.beta > posAngle) {
+        let deltaBeta = event.beta - initialBeta;
+
+        if (deltaBeta > posAngle) {
             console.log('Положительно');
-        } else if (event.beta < negAngle) {
+        } else if (deltaBeta < negAngle) {
             console.log('Отрицательно');
+        } else {
+            console.log('Не ответил');
         }
     }
 });
-
