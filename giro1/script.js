@@ -7,8 +7,8 @@ let leftPressed = false;
 let rightPressed = false;
 
 //угл наклона для ответа
-let posAngle = 30;
-let negAngle = -30;
+let posAngle = 15;
+let negAngle = -15;
 
 document.getElementById('leftCircle').addEventListener('touchstart', function() {
     this.style.backgroundColor = 'green';
