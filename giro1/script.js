@@ -16,6 +16,9 @@ let initialBeta = null;
 // Флаг для отслеживания, когда ответ был зафиксирован
 let answerRecorded = false;
 
+// Флаг для отслеживания, в какой позиции находится устройство
+let currentPosition = "не ответил";
+
 document.getElementById('leftCircle').addEventListener('touchstart', function() {
     this.style.backgroundColor = 'green';
     leftPressed = true;
@@ -24,6 +27,7 @@ document.getElementById('leftCircle').addEventListener('touchstart', function() 
 document.getElementById('leftCircle').addEventListener('touchend', function() {
     this.style.backgroundColor = 'red';
     leftPressed = false;
+    checkPosition();
 });
 document.getElementById('rightCircle').addEventListener('touchstart', function() {
     this.style.backgroundColor = 'green';
@@ -33,20 +37,24 @@ document.getElementById('rightCircle').addEventListener('touchstart', function()
 document.getElementById('rightCircle').addEventListener('touchend', function() {
     this.style.backgroundColor = 'red';
     rightPressed = false;
+    checkPosition();
 });
 
 // Проверка ориентации устройства
 function checkOrientation() {
     const container = document.querySelector('.container');
     const header = document.getElementById('header'); // Добавлено
+    const chart = document.getElementById('chart'); // Добавлено
     if (window.orientation === 0 || window.orientation === 180) {
         document.querySelector('.question').textContent = 'Переверните телефон в горизонтальное положение';
         container.style.display = 'none';
         header.style.display = 'none'; // Добавлено
+        chart.style.display = 'none'; // Добавлено
     } else {
         document.querySelector('.question').textContent = question;
         container.style.display = 'block';
         header.style.display = 'flex'; // Добавлено
+        chart.style.display = 'none'; // Добавлено
     }
 }
 setInterval(checkOrientation, 100);
@@ -69,31 +77,28 @@ const chart = new Chart(ctx, {
 
 // Сбор данных с гироскопа
 window.addEventListener('deviceorientation', function(event) {
-    if (leftPressed && rightPressed && !answerRecorded) {
+    if (leftPressed && rightPressed && currentPosition === "не ответил") {
         if (initialBeta === null) {
             initialBeta = event.beta; // Задаем начальное положение при первом нажатии
         }
 
         let deltaBeta = event.beta - initialBeta;
 
-        if (deltaBeta > posAngle) {
-            console.log('Положительно');
-            answerRecorded = true;
-        } else if (deltaBeta < negAngle) {
-            console.log('Отрицательно');
-            answerRecorded = true;
-        }
+        // Записываем данные только если устройство находится в позиции "не ответил"
+        chart.data.labels.push(new Date().toLocaleTimeString());
+        chart.data.datasets[0].data.push(deltaBeta);
+        chart.update();
 
-        // Если ответ был зафиксирован, скрываем все элементы и показываем график
-        if (answerRecorded) {
-            document.querySelector('.container').style.display = 'none';
-            document.getElementById('header').style.display = 'none';
-            document.getElementById('chart').style.display = 'block';
-        } else {
-            // Если ответ еще не был зафиксирован, продолжаем собирать данные
-            chart.data.labels.push(new Date().toLocaleTimeString());
-            chart.data.datasets[0].data.push(deltaBeta);
-            chart.update();
+        if (deltaBeta > posAngle) {
+            currentPosition = "положительно";
+        } else if (deltaBeta < negAngle) {
+            currentPosition = "отрицательно";
         }
+    } else if (currentPosition !== "не ответил" && Math.abs(event.beta - initialBeta) < 5) {
+        // Если устройство вернулось в позицию "не ответил", фиксируем ответ
+        answerRecorded = true;
+        document.querySelector('.container').style.display = 'none';
+        document.getElementById('header').style.display = 'none';
+        document.getElementById('chart').style.display = 'block';
     }
 });
