@@ -13,6 +13,9 @@ let negAngle = -15;
 // Начальное положение устройства
 let initialBeta = null;
 
+// Флаг для отслеживания, когда ответ был зафиксирован
+let answerRecorded = false;
+
 document.getElementById('leftCircle').addEventListener('touchstart', function() {
     this.style.backgroundColor = 'green';
     leftPressed = true;
@@ -66,23 +69,31 @@ const chart = new Chart(ctx, {
 
 // Сбор данных с гироскопа
 window.addEventListener('deviceorientation', function(event) {
-    if (leftPressed && rightPressed) {
+    if (leftPressed && rightPressed && !answerRecorded) {
         if (initialBeta === null) {
             initialBeta = event.beta; // Задаем начальное положение при первом нажатии
         }
-
-        chart.data.labels.push(new Date().toLocaleTimeString());
-        chart.data.datasets[0].data.push(event.beta);
-        chart.update();
 
         let deltaBeta = event.beta - initialBeta;
 
         if (deltaBeta > posAngle) {
             console.log('Положительно');
+            answerRecorded = true;
         } else if (deltaBeta < negAngle) {
             console.log('Отрицательно');
+            answerRecorded = true;
+        }
+
+        // Если ответ был зафиксирован, скрываем все элементы и показываем график
+        if (answerRecorded) {
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('header').style.display = 'none';
+            document.getElementById('chart').style.display = 'block';
         } else {
-            console.log('Не ответил');
+            // Если ответ еще не был зафиксирован, продолжаем собирать данные
+            chart.data.labels.push(new Date().toLocaleTimeString());
+            chart.data.datasets[0].data.push(deltaBeta);
+            chart.update();
         }
     }
 });
