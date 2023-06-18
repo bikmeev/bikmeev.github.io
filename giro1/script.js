@@ -102,3 +102,4 @@ window.addEventListener('deviceorientation', function(event) {
         document.getElementById('chart').style.display = 'block';
     }
 });
+
