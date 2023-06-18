@@ -10,6 +10,19 @@ body {
     background-color: #f0f0f0;
     overflow: hidden;
 }
+header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    padding: 20px; /* Увеличен отступ */
+    background-color: black; /* Изменен цвет на черный */
+    z-index: 1;
+}
+#negative, #positive {
+    color: white; /* Изменен цвет на белый */
+}
 .container {
     display: flex;
     flex-direction: column;
@@ -22,6 +35,7 @@ body {
 .question {
     font-size: 24px;
     margin-bottom: 20px;
+    text-align: center; /* Добавлено для центрирования текста */
 }
 .circle {
     height: 50px;

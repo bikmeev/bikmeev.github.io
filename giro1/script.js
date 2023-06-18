@@ -6,6 +6,10 @@ const question = urlParams.get('question') || 'null';
 let leftPressed = false;
 let rightPressed = false;
 
+//угл наклона для ответа
+let posAngle = 30;
+let negAngle = -30;
+
 document.getElementById('leftCircle').addEventListener('touchstart', function() {
     this.style.backgroundColor = 'green';
     leftPressed = true;
@@ -60,9 +64,9 @@ window.addEventListener('deviceorientation', function(event) {
         chart.data.datasets[0].data.push(event.beta);
         chart.update();
 
-        if (event.beta > 0) {
+        if (event.beta > posAngle) {
             console.log('Положительно');
-        } else if (event.beta < 0) {
+        } else if (event.beta < negAngle) {
             console.log('Отрицательно');
         }
     }
