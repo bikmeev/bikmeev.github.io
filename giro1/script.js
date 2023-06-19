@@ -115,5 +115,9 @@ window.addEventListener('deviceorientation', function(event) {
         document.getElementById('chart').style.visibility = 'visible'; // Изменено
         document.getElementById('chart').style.height = 'auto'; // Добавлено
         chart.update(); // Обновляем график
+
+        console.log('container display:', window.getComputedStyle(document.querySelector('.container')).display);
+        console.log('header display:', window.getComputedStyle(document.getElementById('header')).display);
+        console.log('chart display:', window.getComputedStyle(document.getElementById('chart')).display);
     }
 });
