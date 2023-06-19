@@ -120,6 +120,7 @@ window.addEventListener('deviceorientation', function(event) {
         // Сохраняем данные графика в localStorage
         localStorage.setItem('chartLabels', JSON.stringify(chart.data.labels));
         localStorage.setItem('chartData', JSON.stringify(chart.data.datasets[0].data));
+        console.log('Сохраненные данные:', localStorage.getItem('chartLabels'), localStorage.getItem('chartData'));
 
         // Переходим на новую страницу
         window.location.href = 'result.html';

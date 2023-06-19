@@ -15,9 +15,13 @@
 
     <script>
     window.onload = function() {
+        localStorage.clear();
         // Получаем данные из localStorage
         let labels = JSON.parse(localStorage.getItem('chartLabels'));
         let data = JSON.parse(localStorage.getItem('chartData'));
+
+        console.log('Загруженные данные:', labels, data);
+
 
         // Проверяем, есть ли данные в localStorage
         if (!labels || !data) {
