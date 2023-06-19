@@ -15,8 +15,14 @@
     <script>
     window.onload = function() {
         // Получаем данные из localStorage
-        const labels = JSON.parse(localStorage.getItem('chartLabels'));
-        const data = JSON.parse(localStorage.getItem('chartData'));
+        let labels = JSON.parse(localStorage.getItem('chartLabels'));
+        let data = JSON.parse(localStorage.getItem('chartData'));
+
+        // Проверяем, есть ли данные в localStorage
+        if (!labels || !data) {
+            document.body.innerHTML = '<p>Data is null</p>';
+            return;
+        }
 
         // Создаем график
         const ctx = document.getElementById('chart').getContext('2d');
