@@ -51,11 +51,17 @@ function checkOrientation() {
         container.style.display = 'none';
         header.style.display = 'none'; // Добавлено
         chart.style.display = 'none'; // Добавлено
+
+        chart.style.visibility = 'hidden';
+
     } else {
         document.querySelector('.question').textContent = question;
         container.style.display = 'block';
         header.style.display = 'flex'; // Добавлено
         chart.style.display = 'none'; // Добавлено
+
+        chart.style.visibility = 'hidden';
+
     }
 }
 setInterval(checkOrientation, 100);
@@ -106,6 +112,8 @@ window.addEventListener('deviceorientation', function(event) {
             document.querySelector('.container').style.display = 'none';
             document.getElementById('header').style.display = 'none';
             document.getElementById('chart').style.display = 'block';
+            document.getElementById('chart').style.visibility = 'visible'; // Изменено
+            document.getElementById('chart').style.height = 'auto'; // Добавлено
         }, 0);
     }
 
