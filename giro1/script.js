@@ -85,9 +85,10 @@ const chart = new Chart(ctx, {
 // Сбор данных с гироскопа
 // Сбор данных с гироскопа
 window.addEventListener('deviceorientation', function(event) {
-    if (leftPressed && rightPressed && currentPosition === "не ответил") {
+    if (leftPressed && rightPressed) {
         if (initialBeta === null) {
             initialBeta = event.beta; // Задаем начальное положение при первом нажатии
+            currentPosition = "не ответил";
         }
 
         let deltaBeta = event.beta - initialBeta;
@@ -104,17 +105,15 @@ window.addEventListener('deviceorientation', function(event) {
             answerTime = Date.now();
             console.log('отрицательно');
         }
-    } else if (answerTime && Date.now() - answerTime > 1000 && answerRecorded == false) {
+    } else if (currentPosition !== "не ответил" && Math.abs(event.beta - initialBeta) < 5) {
         // Если устройство вернулось в позицию "не ответил", фиксируем ответ
         console.log('ответ зафиксирован');
-        answerRecorded = true;
-        setTimeout(function() {
-            document.querySelector('.container').style.display = 'none';
-            document.getElementById('header').style.display = 'none';
-            document.getElementById('chart').style.display = 'block';
-            document.getElementById('chart').style.visibility = 'visible'; // Изменено
-            document.getElementById('chart').style.height = 'auto'; // Добавлено
-            chart.update(); // Обновляем график
-        }, 0);
+        currentPosition = "не ответил";
+        document.querySelector('.container').style.display = 'none';
+        document.getElementById('header').style.display = 'none';
+        document.getElementById('chart').style.display = 'block';
+        document.getElementById('chart').style.visibility = 'visible'; // Изменено
+        document.getElementById('chart').style.height = 'auto'; // Добавлено
+        chart.update(); // Обновляем график
     }
 });
