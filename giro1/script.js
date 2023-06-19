@@ -85,16 +85,17 @@ const chart = new Chart(ctx, {
 // Сбор данных с гироскопа
 // Сбор данных с гироскопа
 window.addEventListener('deviceorientation', function(event) {
-    if (leftPressed && rightPressed) {
+    if (leftPressed && rightPressed && currentPosition === "не ответил") {
         if (initialBeta === null) {
             initialBeta = event.beta; // Задаем начальное положение при первом нажатии
-            currentPosition = "не ответил";
         }
 
         let deltaBeta = event.beta - initialBeta;
 
         // Записываем данные только если устройство находится в позиции "не ответил"
         chart.data.labels.push(new Date().toLocaleTimeString());
+        chart.data.datasets[0].data.push(deltaBeta); // Добавляем данные в график
+
         if (deltaBeta > posAngle) {
             currentPosition = "положительно";
             answerTime = Date.now();
@@ -105,19 +106,17 @@ window.addEventListener('deviceorientation', function(event) {
             answerTime = Date.now();
             console.log('отрицательно');
         }
-    } else if (currentPosition !== "не ответил" && Math.abs(event.beta - initialBeta) < 5) {
+    } else if (currentPosition !== "не ответил" && Math.abs(event.beta - initialBeta) < 5 && answerRecorded == false) {
         // Если устройство вернулось в позицию "не ответил", фиксируем ответ
         console.log('ответ зафиксирован');
-        currentPosition = "не ответил";
-        document.querySelector('.container').style.display = 'none';
-        document.getElementById('header').style.display = 'none';
-        document.getElementById('chart').style.display = 'block';
-        document.getElementById('chart').style.visibility = 'visible'; // Изменено
-        document.getElementById('chart').style.height = 'auto'; // Добавлено
-        chart.update(); // Обновляем график
-
-        console.log('container display:', window.getComputedStyle(document.querySelector('.container')).display);
-        console.log('header display:', window.getComputedStyle(document.getElementById('header')).display);
-        console.log('chart display:', window.getComputedStyle(document.getElementById('chart')).display);
+        answerRecorded = true;
+        setTimeout(function() {
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('header').style.display = 'none';
+            document.getElementById('chart').style.display = 'block';
+            document.getElementById('chart').style.visibility = 'visible'; // Изменено
+            document.getElementById('chart').style.height = 'auto'; // Добавлено
+            chart.update(); // Обновляем график
+        }, 0);
     }
 });

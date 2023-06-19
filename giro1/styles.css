@@ -55,7 +55,11 @@ header {
     right: 20px;
 }
 #chart {
-    width: 80%;
-    height: 0; /* Изменено */
-    visibility: hidden; /* Добавлено */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
+
+
