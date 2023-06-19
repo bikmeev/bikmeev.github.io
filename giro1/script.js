@@ -102,10 +102,11 @@ window.addEventListener('deviceorientation', function(event) {
         // Если устройство вернулось в позицию "не ответил", фиксируем ответ
         console.log('ответ зафиксирован');
         answerRecorded = true;
-        document.querySelector('.container').style.display = 'none';
-        document.getElementById('header').style.display = 'none';
-        document.getElementById('chart').style.display = 'block';
-
+        setTimeout(function() {
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('header').style.display = 'none';
+            document.getElementById('chart').style.display = 'block';
+        }, 0);
     }
 
 });
