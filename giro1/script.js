@@ -115,8 +115,8 @@ window.addEventListener('deviceorientation', function(event) {
         //    document.getElementById('chart').style.visibility = 'visible'; // Изменено
         //    document.getElementById('chart').style.height = 'auto'; // Добавлено
         //}, 0);
-
-
+        
+        localStorage.clear();
         // Сохраняем данные графика в localStorage
         localStorage.setItem('chartLabels', JSON.stringify(chart.data.labels));
         localStorage.setItem('chartData', JSON.stringify(chart.data.datasets[0].data));
