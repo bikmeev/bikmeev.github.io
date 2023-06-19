@@ -108,13 +108,21 @@ window.addEventListener('deviceorientation', function(event) {
         // Если устройство вернулось в позицию "не ответил", фиксируем ответ
         console.log('ответ зафиксирован');
         answerRecorded = true;
-        setTimeout(function() {
-            document.querySelector('.container').style.display = 'none';
-            document.getElementById('header').style.display = 'none';
-            document.getElementById('chart').style.display = 'block';
-            document.getElementById('chart').style.visibility = 'visible'; // Изменено
-            document.getElementById('chart').style.height = 'auto'; // Добавлено
-        }, 0);
+        //setTimeout(function() {
+        //    document.querySelector('.container').style.display = 'none';
+        //    document.getElementById('header').style.display = 'none';
+        //   document.getElementById('chart').style.display = 'block';
+        //    document.getElementById('chart').style.visibility = 'visible'; // Изменено
+        //    document.getElementById('chart').style.height = 'auto'; // Добавлено
+        //}, 0);
+
+
+        // Сохраняем данные графика в localStorage
+        localStorage.setItem('chartLabels', JSON.stringify(chart.data.labels));
+        localStorage.setItem('chartData', JSON.stringify(chart.data.datasets[0].data));
+
+        // Переходим на новую страницу
+        window.location.href = 'result.html';
     }
 
 });
