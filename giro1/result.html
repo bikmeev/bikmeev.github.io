@@ -9,7 +9,8 @@
 </head>
 <body>
     <div class="container">
-        <canvas id="chart"></canvas>
+        <canvas id="chart" style="width: 100%; height: 400px;"></canvas>
+
     </div>
 
     <script>
@@ -21,6 +22,7 @@
         // Проверяем, есть ли данные в localStorage
         if (!labels || !data) {
             document.body.innerHTML = '<p>Data is null</p>';
+            console.log('null data');//debug
             return;
         }
 
