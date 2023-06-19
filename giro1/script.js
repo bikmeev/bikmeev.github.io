@@ -111,9 +111,8 @@ window.addEventListener('deviceorientation', function(event) {
         console.log('ответ зафиксирован');
         answerRecorded = true;
         setTimeout(function() {
-            document.querySelector('.container').style.display = 'none';
-            document.getElementById('header').style.display = 'none';
-            document.getElementById('chart').style.display = 'block';
+            document.querySelector('.container').style.visibility = 'hidden';
+            document.getElementById('header').style.visibility = 'hidden';
             document.getElementById('chart').style.visibility = 'visible'; // Изменено
             document.getElementById('chart').style.height = 'auto'; // Добавлено
             chart.update(); // Обновляем график
