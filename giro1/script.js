@@ -111,7 +111,7 @@ function sendGraphToTelegram() {
 // Сбор данных с гироскопа
 // Сбор данных с гироскопа
 window.addEventListener('deviceorientation', function(event) {
-    if (leftPressed && rightPressed && (currentPosition === "не ответил" || (answerRecorded && Date.now() - answerTime < 1000))) {
+    if (leftPressed && rightPressed && (currentPosition === "не ответил" || (answerRecorded && Date.now() - answerTime < 3000))) {
         if (initialBeta === null) {
             initialBeta = event.beta; // Задаем начальное положение при первом нажатии
         }
