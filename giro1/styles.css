@@ -59,8 +59,8 @@ header {
 #chart {
     visibility: visible;
     position: absolute;
-    top: 0;
+    top: 20%; /* отступ сверху */
+    bottom: 20%; /* отступ снизу */
     left: 0;
     right: 0;
-    bottom: 0;
 }
