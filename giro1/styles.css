@@ -59,8 +59,11 @@ header {
 #chart {
     visibility: visible;
     position: absolute;
+    width: 600px; /* ширина графика */
+    height: 300px; /* высота графика */
     top: 20%; /* отступ сверху */
     bottom: 20%; /* отступ снизу */
-    left: 0;
-    right: 0;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, -50%); /* смещение для центрирования */
 }
