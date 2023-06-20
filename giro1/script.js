@@ -58,9 +58,9 @@ function checkOrientation() {
         document.querySelector('.question').textContent = question;
         container.style.display = 'block';
         header.style.display = 'flex'; // Добавлено
-        chart.style.display = 'none'; // Добавлено
+        chart.style.display = 'block'; // Добавлено
 
-        chart.style.visibility = 'hidden';
+        //chart.style.visibility = 'hidden';
 
     }
 }
@@ -112,12 +112,12 @@ window.addEventListener('deviceorientation', function(event) {
         // Если устройство вернулось в позицию "не ответил", фиксируем ответ
         console.log('ответ зафиксирован');
         answerRecorded = true;
-        setTimeout(function() {
-            document.querySelector('.container').style.visibility = 'hidden';
-            document.getElementById('header').style.visibility = 'hidden';
-            document.getElementById('chart').style.visibility = 'visible'; // Изменено
-            document.getElementById('chart').style.height = '400px'; // Добавлено
-            chart.update(); // Обновляем график
-        }, 0);
+        
+        //document.querySelector('.container').style.visibility = 'hidden';            
+        //document.getElementById('header').style.visibility = 'hidden';
+        //document.getElementById('chart').style.visibility = 'visible'; // Изменено
+        //document.getElementById('chart').style.height = '400px'; // Добавлено
+        //chart.update(); // Обновляем график
+ 
     }
 });

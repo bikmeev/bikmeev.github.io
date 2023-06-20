@@ -23,7 +23,7 @@ header {
 }
 #negative, #positive {
     color: white; 
-    padding: 0 20px; // Добавлено
+    padding: 0 20px;
 }
 .container {
     visibility: visible;
@@ -38,7 +38,7 @@ header {
 .question {
     font-size: 24px;
     margin-bottom: 20px;
-    text-align: center; /* Добавлено для центрирования текста */
+    text-align: center;
 }
 .circle {
     height: 50px;
@@ -57,12 +57,10 @@ header {
     right: 20px;
 }
 #chart {
-    visibility: hidden;
+    visibility: visible;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
 }
-
-
