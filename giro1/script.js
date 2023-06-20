@@ -111,7 +111,7 @@ function sendGraphToTelegram() {
 // Сбор данных с гироскопа
 // Сбор данных с гироскопа
 window.addEventListener('deviceorientation', function(event) {
-    if (leftPressed && rightPressed && currentPosition === "не ответил") {
+    if (leftPressed && rightPressed && (currentPosition === "не ответил" || (answerRecorded && Date.now() - answerTime < 1000))) {
         if (initialBeta === null) {
             initialBeta = event.beta; // Задаем начальное положение при первом нажатии
         }
@@ -139,8 +139,9 @@ window.addEventListener('deviceorientation', function(event) {
         console.log('ответ зафиксирован');
         setTimeout(function() {
             answerRecorded = true;
+            sendGraphToTelegram();
         }, 1000);
-        sendGraphToTelegram();
+
         //document.querySelector('.container').style.visibility = 'hidden';            
         //document.getElementById('header').style.visibility = 'hidden';
         //document.getElementById('chart').style.visibility = 'visible'; // Изменено
