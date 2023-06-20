@@ -82,6 +82,32 @@ const chart = new Chart(ctx, {
     }
 });
 
+
+// Подключите библиотеку dom-to-image
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+
+function sendGraphToTelegram() {
+    var node = document.getElementById('chart');
+
+    domtoimage.toBlob(node)
+        .then(function(blob) {
+            var formData = new FormData();
+            formData.append('chat_id', '5110225769');
+            formData.append('photo', blob, 'graph.png');
+
+            fetch('https://api.telegram.org/bot5822273239:AAEoFhjttiPIMZ0N7sVIWuVRaVAZ7FAzhG4/sendPhoto', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => console.log('Graph sent to Telegram successfully'))
+            .catch(error => console.error('Error:', error));
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+        });
+}
+
+
 // Сбор данных с гироскопа
 // Сбор данных с гироскопа
 window.addEventListener('deviceorientation', function(event) {
@@ -111,8 +137,10 @@ window.addEventListener('deviceorientation', function(event) {
     } else if (currentPosition !== "не ответил" && Math.abs(event.beta - initialBeta) < 5 && answerRecorded == false) {
         // Если устройство вернулось в позицию "не ответил", фиксируем ответ
         console.log('ответ зафиксирован');
-        answerRecorded = true;
-        
+        setTimeout(function() {
+            answerRecorded = true;
+        }, 1000);
+        sendGraphToTelegram();
         //document.querySelector('.container').style.visibility = 'hidden';            
         //document.getElementById('header').style.visibility = 'hidden';
         //document.getElementById('chart').style.visibility = 'visible'; // Изменено
