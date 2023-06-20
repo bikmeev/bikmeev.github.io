@@ -93,8 +93,10 @@ window.addEventListener('deviceorientation', function(event) {
         let deltaBeta = event.beta - initialBeta;
 
         // Записываем данные только если устройство находится в позиции "не ответил"
+        console.log(new Date().toLocaleTimeString(), deltaBeta);
         chart.data.labels.push(new Date().toLocaleTimeString());
         chart.data.datasets[0].data.push(deltaBeta); // Добавляем данные в график
+        chart.update();
 
         if (deltaBeta > posAngle) {
             currentPosition = "положительно";
