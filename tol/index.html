@@ -14,12 +14,13 @@
         <script src="https://telegram.org/js/telegram-web-app.js"></script>
     </head>
     <body>
-        <h1>v0.1</h1>
+        <h1>v0.2</h1>
         <p id="output"></p>
 
         <script>
+            var WebApp = window.Telegram.WebApp;
             window.onload = function() {
-                document.getElementById('output').innerText = Telegram.WebApp.initData.user.id;
+                document.getElementById('output').innerText = WebApp.WebAppUser.id;
             };
         </script>
     </body>
