@@ -76,7 +76,7 @@
             } else if (message.length > 5000) {
                 errorElement.innerText = 'Ваше сообщение не может превышать 5000 символов';
             } else {
-                window.location.href = `/reply.html/${deviceId}/${chatId}?message=${encodeURIComponent(message)}`;
+                window.location.href = `${window.location.origin}/reply.html/${deviceId}/${chatId}?message=${encodeURIComponent(message)}`;
             }
         });
 
