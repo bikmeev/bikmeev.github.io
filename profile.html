@@ -41,7 +41,7 @@
                         premiumStatusElement.innerText = 'У вас есть премиум подписка';
                         premiumContainer.innerHTML = `<p>Дата окончания подписки: ${data.premium_end_date}</p><button id="extendPremium">Продлить подписку</button>`;
                         document.getElementById('extendPremium').addEventListener('click', () => {
-                            window.location.href = '/bill.html?user=' + deviceId;
+                            window.location.href = '/bill.html?deviceId=' + deviceId;
                         });
                     }
                 } else {
