@@ -15,9 +15,11 @@
     </head>
     <body>
         <h1>main menu</h1>
+        <p id="output"></p>
+
         <script>
             window.onload = function() {
-                console.log(Telegram.WebApp.initData.user.id);
+                document.getElementById('output').innerText = Telegram.WebApp.initData.user.id;
             };
         </script>
     </body>
