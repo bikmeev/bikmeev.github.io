@@ -26,10 +26,11 @@
         
         let btn0 = document.getElementById("btn0");
         let btn1 = document.getElementById("btn1");
-        let idTg = tg.initDataUnsafe;
+        let idTg = tg.WebAppUser.id;
+        
         btn0.addEventListener("click", () => {
             
-            document.getElementById("idTx").innerHTML = JSON.stringify(idTg, null, 2);
+            document.getElementById("idTx").innerHTML = idTg;
 
         });
 
