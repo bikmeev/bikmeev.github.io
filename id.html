@@ -2,42 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>v22</title>
+    <style>
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
 
     <div id="main">
-
-        <button id="btn0">btn0</button>
-        <p id="idTx">null</p>
-        <button id="btn1">btn1</button>
-
+        <a id="askQuestion" class="btn">Задать вопрос</a>
+        <a id="profile" class="btn">Профиль</a>
+        <a id="support" class="btn">Поддержка</a>
     </div>
-
-    
 
     <script>
 
         let tg = window.Telegram.WebApp;
-        
-        let btn0 = document.getElementById("btn0");
-        let btn1 = document.getElementById("btn1");
         let idTg = tg.initDataUnsafe.user.id;
 
-        btn0.addEventListener("click", () => {
-            
-            document.getElementById("idTx").innerHTML = idTg;
-
-        });
-
-        btn1.addEventListener("click", () => {
-            console.log("btn1 cliked");
-            tg.close();
-        });
+        document.getElementById('askQuestion').href = `https://bikmeev.github.io/id.html/question.html?user=${idTg}`;
+        document.getElementById('profile').href = `https://bikmeev.github.io/id.html/profile.html?user=${idTg}`;
+        document.getElementById('support').href = `https://bikmeev.github.io/id.html/support.html?user=${idTg}`;
 
     </script>
 
