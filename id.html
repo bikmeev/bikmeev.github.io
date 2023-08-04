@@ -5,28 +5,12 @@
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Веб-страница с выводом ID пользователя</title>
+    <title>v11</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
 
     <div id="main">
-
-        <!-- 
-
-        <script>
-            // Получение идентификатора пользователя из параметров URL
-            var params = new URLSearchParams(window.location.search);
-            var userId = params.get('user_id');
-    
-            // Создание элемента <p> для вывода идентификатора пользователя
-            var paragraph = document.createElement('p');
-            paragraph.textContent = "ID пользователя: " + userId;
-    
-            // Добавление элемента <p> на страницу
-            document.body.appendChild(paragraph);
-        </script>
-
-         -->
 
         <button id="btn0">btn0</button>
         <p id="idTx">null</p>
@@ -34,7 +18,7 @@
 
     </div>
 
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
 
     <script>
 
@@ -44,9 +28,6 @@
         let btn1 = document.getElementById("btn1");
         let idTg = tg.initDataUnsafe.user.id;
         btn0.addEventListener("click", () => {
-            //console.log("btn0 cliked");
-            //document.getElementById("idTx").value = tg.initDataUnsafe.user.id;
-            //console.log(tg.initDataUnsafe.user.first_name);
             document.getElementById("idTx").innerHTML = idTg;
         });
 
