@@ -10,18 +10,17 @@
         <meta name="MobileOptimized" content="176" />
         <meta name="HandheldFriendly" content="True" />
         <title>Интелектус</title>
-        <script src="main.js"></script>
         <script src="https://telegram.org/js/telegram-web-app.js"></script>
     </head>
     <body>
-        <h1>v0.2</h1>
+        <h1>v0.3</h1>
         <p id="output"></p>
 
         <script>
+            
             var WebApp = window.Telegram.WebApp;
-            window.onload = function() {
-                document.getElementById('output').innerText = WebApp.WebAppUser.id;
-            };
+            WebApp.showAlert(`Добро пожаловать, @${WebApp.WebAppUser.username}.`);
+            
         </script>
     </body>
 </html>
