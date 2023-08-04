@@ -1,1 +1,67 @@
-profile
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Profile Page</title>
+</head>
+<body>
+
+    <div id="main">
+        <h1>Страница профиля</h1>
+        <h2 id="premiumStatus"></h2>
+        <div id="premiumContainer"></div>
+        <button id="backButton">Вернуться в меню</button>
+    </div>
+
+    <script>
+
+        const premiumStatusElement = document.getElementById('premiumStatus');
+        const premiumContainer = document.getElementById('premiumContainer');
+        const backButton = document.getElementById('backButton');
+
+        const params = new URLSearchParams(window.location.search);
+        const deviceId = params.get('deviceId');
+
+        const fetchPremiumStatus = () => {
+            fetch(`https://intelektusrv.ru:8000/premium_end_date/${deviceId}`, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    if (data.reason === "User is not premium" || data.premium_end_date === "expired") {
+                        premiumStatusElement.innerText = 'У вас нет премиум подписки';
+                        premiumContainer.innerHTML = '<button id="buyPremium">Купить премиум</button>';
+                        document.getElementById('buyPremium').addEventListener('click', () => {
+                            window.location.href = '/bill.html?user=' + deviceId;
+                        });
+                    } else if (data.premium_end_date) {
+                        premiumStatusElement.innerText = 'У вас есть премиум подписка';
+                        premiumContainer.innerHTML = `<p>Дата окончания подписки: ${data.premium_end_date}</p><button id="extendPremium">Продлить подписку</button>`;
+                        document.getElementById('extendPremium').addEventListener('click', () => {
+                            window.location.href = '/bill.html?user=' + deviceId;
+                        });
+                    }
+                } else {
+                    console.error(data.reason);
+                }
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
+        }
+
+        backButton.addEventListener('click', () => {
+            window.location.href = '/';
+        });
+
+        if (deviceId) {
+            fetchPremiumStatus();
+        }
+
+    </script>
+
+</body>
+</html>
