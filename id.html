@@ -5,7 +5,7 @@
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>v12</title>
+    <title>v13</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -28,7 +28,9 @@
         let btn1 = document.getElementById("btn1");
         let idTg = tg.initDataUnsafe;
         btn0.addEventListener("click", () => {
-            document.getElementById("idTx").innerHTML = idTg;
+            
+            document.getElementById("idTx").innerHTML = JSON.stringify(idTg, null, 2);
+
         });
 
         btn1.addEventListener("click", () => {
