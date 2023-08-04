@@ -29,7 +29,7 @@
 
         let chatId = null;
         let remainingRequests = null;
-        let deviceId = new URLSearchParams(window.location.search).get("user");
+        let deviceId = new URLSearchParams(window.location.search).get("deviceId");
 
         const fetchRemainingRequests = () => {
             fetch(`https://intelektusrv.ru:8000/remaining_requests/${deviceId}`, {
