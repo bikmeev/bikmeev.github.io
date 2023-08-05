@@ -23,9 +23,9 @@
 <body>
 
     <div id="main">
-        <a id="askQuestion" class="btn">Задать вопрос</a>
-        <a id="profile" class="btn">Профиль</a>
-        <a id="support" class="btn">Поддержка</a>
+        <button id="askQuestion" class="btn">Задать вопрос</button>
+        <button id="profile" class="btn">Профиль</button>
+        <button id="support" class="btn">Поддержка</button>
     </div>
 
     <script>
@@ -33,10 +33,15 @@
         let tg = window.Telegram.WebApp;
         let idTg = tg.initDataUnsafe.user.id;
 
-        document.getElementById('askQuestion').href = `https://bikmeev.github.io/question.html?deviceId=${idTg}`;
-        document.getElementById('profile').href = `https://bikmeev.github.io/profile.html?deviceId=${idTg}`;
-        document.getElementById('support').href = `mailto:support@intelektus.ru?subject=запрос TgId||${idTg}`;
-
+        document.getElementById('askQuestion').addEventListener('click', function() {
+            window.location.href = `https://bikmeev.github.io/question.html?deviceId=${idTg}`;
+        });
+        document.getElementById('profile').addEventListener('click', function() {
+            window.location.href = `https://bikmeev.github.io/profile.html?deviceId=${idTg}`;
+        });
+        document.getElementById('support').addEventListener('click', function() {
+            window.location.href = `mailto:support@intelektus.ru?subject=запрос TgId||${idTg}`;
+        });
 
     </script>
 
