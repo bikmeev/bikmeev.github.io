@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>v23</title>
+    <title>v24</title>
     <style>
         .btn {
             display: inline-block;
@@ -34,13 +34,13 @@
         let idTg = tg.initDataUnsafe.user.id;
 
         document.getElementById('askQuestion').addEventListener('click', function() {
-            window.location.href = `https://bikmeev.github.io/question.html?deviceId=${idTg}`;
+            window.location.href = `/question.html?deviceId=${idTg}`;
         });
         document.getElementById('profile').addEventListener('click', function() {
-            window.location.href = `https://bikmeev.github.io/profile.html?deviceId=${idTg}`;
+            window.location.href = `/profile.html?deviceId=${idTg}`;
         });
         document.getElementById('support').addEventListener('click', function() {
-            window.location.href = `mailto:support@intelektus.ru?subject=запрос TgId||${idTg}`;
+            window.location.href = `mailto:support@intelektus.ru?subject=запрос_TgId||${idTg}`;
         });
 
     </script>
