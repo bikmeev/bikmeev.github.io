@@ -3,19 +3,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let idTg = tg.initDataUnsafe.user.id;
 });
 
-function showQuestion() {
+function showLayer(layerId) {
     hideAll();
-    document.getElementById('question').style.display = 'block';
-}
-
-function showProfile() {
-    hideAll();
-    document.getElementById('profile').style.display = 'block';
+    document.getElementById(layerId).style.display = 'block';
 }
 
 function hideAll() {
     document.getElementById('question').style.display = 'none';
     document.getElementById('profile').style.display = 'none';
+    document.getElementById('menu').style.display = 'none';
 }
 
 function sendEmail() {
