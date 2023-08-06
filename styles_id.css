@@ -1,0 +1,17 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#menu {
+    display: flex;
+    justify-content: space-around;
+}
+
+.hidden {
+    display: none;
+}
+
+#question, #profile {
+    padding: 20px;
+    border: 1px solid #ccc;
+}
