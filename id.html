@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -20,7 +18,7 @@
             <h1>Страница вопросов</h1>
             <p id="error" style="color: red;"></p>
             <p id="remainingRequests"></p>
-            <form id="questionForm">
+            <form id="questionForm" onsubmit="submitQuestion(event); return false;">
                 <input type="text" id="messageInput" />
                 <input type="submit" value="Отправить" />
             </form>
@@ -34,61 +32,32 @@
     </div>
     <div id="reply" class="hidden">
         <div id="main">
-        <h1>Ответ</h1>
-        <p id="reply"></p>
-        <button id="copyButton">Скопировать ответ</button>
-        <button id="continueButton">Продолжить разговор</button>
-        <button id="backButton">Вернуться в меню</button>
-    </div>
-        <div id="main">
             <h1>Ответ</h1>
             <p id="reply"></p>
-            <button id="copyButton">Скопировать ответ</button>
+            <button id="copyButton" onclick="navigator.clipboard.writeText(replyElement.innerText)">Скопировать ответ</button>
             <button id="continueButton" onclick="showLayer('question')">Продолжить разговор</button>
             <button id="backButton" onclick="showLayer('menu')">Вернуться в меню</button>
         </div>
     </div>
-    <script src="script_id.js"></script>
-    <!-- Скрипты страниц вопросов и ответа -->
     <script>
-        const errorElement = document.getElementById('error');
-        const remainingRequestsElement = document.getElementById('remainingRequests');
-        const messageInput = document.getElementById('messageInput');
-        const questionForm = document.getElementById('questionForm');
-        const backButton = document.getElementById('backButton');
-
         let chatId = null;
-        let remainingRequests = null;
-        let deviceId = new URLSearchParams(window.location.search).get("deviceId");
+        let idTg;
 
-        const fetchRemainingRequests = () => {
-            fetch(`https://intelektusrv.ru:8000/remaining_requests/${deviceId}`, {
-                method: 'POST',
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "success") {
-                    remainingRequests = data.remainingRequests;
-                    remainingRequestsElement.innerText = `Оставшиеся запросы: ${remainingRequests}`;
-                }
-            })
-            .catch((error) => {
-                console.error('Ошибка:', error);
-            });
-        }
+        document.addEventListener('DOMContentLoaded', (event) => {
+            let tg = window.Telegram.WebApp;
+            idTg = tg.initDataUnsafe.user.id;
+            if (idTg) {
+                startChat();
+            }
+        });
 
         const startChat = () => {
-            fetch('https://intelektusrv.ru:8000/start_chat/' + deviceId, {
+            fetch('https://intelektusrv.ru:8000/start_chat/' + idTg, {
                 method: 'POST',
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === "failed") {
-                    console.error(data.reason);
-                    if(data.reason === "No remaining requests"){
-                        errorElement.innerText = 'No remaining requests';
-                    }
-                } else {
+                if (data.status !== "failed") {
                     chatId = data.chat_id;
                     fetchRemainingRequests();
                 }
@@ -96,77 +65,64 @@
             .catch((error) => {
                 console.error('Ошибка:', error);
             });
-        }
+        };
 
-        questionForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const message = messageInput.value.trim();
-            if (!message) {
-                errorElement.innerText = 'Пожалуйста, введите сообщение';
-            } else if (message.length > 5000) {
-                errorElement.innerText = 'Ваше сообщение не может превышать 5000 символов';
-            } else {
-                window.location.href = `reply.html?deviceId=${deviceId}&chatId=${chatId}&message=${encodeURIComponent(message)}`;
-            }
-        });
-
-        backButton.addEventListener('click', () => {
-            window.location.href = '/id.html';
-        });
-
-        if (deviceId) {
-            startChat();
-        }
-    </script>
-    <script>
-        const replyElement = document.getElementById('reply');
-        const copyButton = document.getElementById('copyButton');
-        const continueButton = document.getElementById('continueButton');
-        const backButton = document.getElementById('backButton');
-
-        const params = new URLSearchParams(window.location.search);
-        const deviceId = params.get('deviceId');
-        const chatId = params.get('chatId');
-        const message = params.get('message');
-
-        const fetchReply = () => {
-            fetch(`https://intelektusrv.ru:8000/send_message/${chatId}/${deviceId}`, {
+        const fetchRemainingRequests = () => {
+            fetch(`https://intelektusrv.ru:8000/remaining_requests/${idTg}`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    role: "user",
-                    content: message,
-                }),
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === "failed") {
-                    console.error(data.reason);
-                } else {
-                    replyElement.innerText = data.message;
+                if (data.status === "success") {
+                    document.getElementById('remainingRequests').innerText = `Оставшиеся запросы: ${data.remainingRequests}`;
                 }
             })
             .catch((error) => {
                 console.error('Ошибка:', error);
             });
+        };
+
+        const submitQuestion = (event) => {
+            event.preventDefault();
+            const message = document.getElementById('messageInput').value.trim();
+            if (message) {
+                fetch(`https://intelektusrv.ru:8000/send_message/${chatId}/${idTg}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        role: "user",
+                        content: message,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status !== "failed") {
+                        document.getElementById('reply').innerText = data.message;
+                        showLayer('reply');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Ошибка:', error);
+                });
+            }
+        };
+
+        function showLayer(layerId) {
+            hideAll();
+            document.getElementById(layerId).style.display = 'flex';
         }
 
-        copyButton.addEventListener('click', () => {
-            navigator.clipboard.writeText(replyElement.innerText);
-        });
+        function hideAll() {
+            document.getElementById('question').style.display = 'none';
+            document.getElementById('profile').style.display = 'none';
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('reply').style.display = 'none';
+        }
 
-        continueButton.addEventListener('click', () => {
-            window.location.href = `/question?deviceId=${deviceId}&chatId=${chatId}`;
-        });
-
-        backButton.addEventListener('click', () => {
-            window.location.href = '/id.html';
-        });
-
-        if (message) {
-            fetchReply();
+        function sendEmail() {
+            window.location.href = "mailto:support@example.com";
         }
     </script>
 </body>
