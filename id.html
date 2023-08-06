@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус</title>
+    <title>Одностраничный сайт</title>
     <link rel="stylesheet" href="styles_id.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -34,10 +34,12 @@
         <div id="main">
             <h1>Ответ</h1>
             <p id="reply"></p>
-            <button id="copyButton" onclick="navigator.clipboard.writeText(replyElement.innerText)">Скопировать ответ</button>
-            <button id="continueButton" onclick="showLayer('question')">Продолжить разговор</button>
             <button id="backButton" onclick="showLayer('menu')">Вернуться в меню</button>
+            <button id="continueButton" onclick="continueChat()">Продолжить разговор</button>
         </div>
+    </div>
+    <div id="loading" class="hidden">
+        <h1>Загрузка...</h1>
     </div>
     <script>
         let chatId = null;
@@ -85,7 +87,8 @@
         const submitQuestion = (event) => {
             event.preventDefault();
             const message = document.getElementById('messageInput').value.trim();
-            if (message) {
+            if (message && message.length <= 5000) {
+                showLayer('loading');
                 fetch(`https://intelektusrv.ru:8000/send_message/${chatId}/${idTg}`, {
                     method: 'POST',
                     headers: {
@@ -109,6 +112,12 @@
             }
         };
 
+        const continueChat = () => {
+            if (chatId) {
+                showLayer('question');
+            }
+        };
+
         function showLayer(layerId) {
             hideAll();
             document.getElementById(layerId).style.display = 'flex';
@@ -119,6 +128,7 @@
             document.getElementById('profile').style.display = 'none';
             document.getElementById('menu').style.display = 'none';
             document.getElementById('reply').style.display = 'none';
+            document.getElementById('loading').style.display = 'none';
         }
 
         function sendEmail() {
