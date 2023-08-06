@@ -1,10 +1,13 @@
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Одностраничный сайт</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles_id.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
     <div id="menu" style="display: flex; flex-direction: column; align-items: center;">
@@ -13,7 +16,6 @@
         <button onclick="sendEmail()">Поддержка</button>
     </div>
     <div id="question" class="hidden">
-        <!-- Код страницы вопросов -->
         <div id="main">
             <h1>Страница вопросов</h1>
             <p id="error" style="color: red;"></p>
@@ -30,8 +32,24 @@
         <p>Информация о профиле...</p>
         <button onclick="showLayer('menu')">Обратно в меню</button>
     </div>
-    <script src="script.js"></script>
-
+    <div id="reply" class="hidden">
+        <div id="main">
+        <h1>Ответ</h1>
+        <p id="reply"></p>
+        <button id="copyButton">Скопировать ответ</button>
+        <button id="continueButton">Продолжить разговор</button>
+        <button id="backButton">Вернуться в меню</button>
+    </div>
+        <div id="main">
+            <h1>Ответ</h1>
+            <p id="reply"></p>
+            <button id="copyButton">Скопировать ответ</button>
+            <button id="continueButton" onclick="showLayer('question')">Продолжить разговор</button>
+            <button id="backButton" onclick="showLayer('menu')">Вернуться в меню</button>
+        </div>
+    </div>
+    <script src="script_id.js"></script>
+    <!-- Скрипты страниц вопросов и ответа -->
     <script>
         const errorElement = document.getElementById('error');
         const remainingRequestsElement = document.getElementById('remainingRequests');
@@ -99,7 +117,57 @@
         if (deviceId) {
             startChat();
         }
+    </script>
+    <script>
+        const replyElement = document.getElementById('reply');
+        const copyButton = document.getElementById('copyButton');
+        const continueButton = document.getElementById('continueButton');
+        const backButton = document.getElementById('backButton');
 
+        const params = new URLSearchParams(window.location.search);
+        const deviceId = params.get('deviceId');
+        const chatId = params.get('chatId');
+        const message = params.get('message');
+
+        const fetchReply = () => {
+            fetch(`https://intelektusrv.ru:8000/send_message/${chatId}/${deviceId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    role: "user",
+                    content: message,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "failed") {
+                    console.error(data.reason);
+                } else {
+                    replyElement.innerText = data.message;
+                }
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
+        }
+
+        copyButton.addEventListener('click', () => {
+            navigator.clipboard.writeText(replyElement.innerText);
+        });
+
+        continueButton.addEventListener('click', () => {
+            window.location.href = `/question?deviceId=${deviceId}&chatId=${chatId}`;
+        });
+
+        backButton.addEventListener('click', () => {
+            window.location.href = '/id.html';
+        });
+
+        if (message) {
+            fetchReply();
+        }
     </script>
 </body>
 </html>
