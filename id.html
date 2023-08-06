@@ -3,25 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус</title>
+    <title>Одностраничный сайт</title>
     <link rel="stylesheet" href="styles_id.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
     <div id="menu">
-        <button onclick="showQuestion()">Задать вопрос</button>
-        <button onclick="showProfile()">Профиль</button>
+        <button onclick="showLayer('question')">Задать вопрос</button>
+        <button onclick="showLayer('profile')">Профиль</button>
         <button onclick="sendEmail()">Поддержка</button>
     </div>
     <div id="question" class="hidden">
         <h1>Задать вопрос</h1>
         <textarea placeholder="Ваш вопрос..."></textarea>
-        <button onclick="hideAll()">Отправить</button>
+        <button onclick="showLayer('menu')">Обратно в меню</button>
     </div>
     <div id="profile" class="hidden">
         <h1>Профиль</h1>
         <p>Информация о профиле...</p>
-        <button onclick="hideAll()">Закрыть</button>
+        <button onclick="showLayer('menu')">Обратно в меню</button>
     </div>
     <script src="script_id.js"></script>
 </body>
