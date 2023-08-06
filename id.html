@@ -32,7 +32,7 @@
     </div>
     <div id="reply" class="hidden">
         <h1>Ответ</h1>
-        <div id="replyText"></div> <!-- Элемент для текста ответа -->
+        <div id="replyText"></div>
         <button id="backButton" onclick="showLayer('menu')">Вернуться в меню</button>
         <button id="continueButton" onclick="continueChat()">Продолжить разговор</button>
     </div>
@@ -87,6 +87,9 @@
             const message = document.getElementById('messageInput').value.trim();
             if (message && message.length <= 5000) {
                 showLayer('loading');
+                if (!chatId) {
+                    startChat();
+                }
                 fetch(`https://intelektusrv.ru:8000/send_message/${chatId}/${idTg}`, {
                     method: 'POST',
                     headers: {
@@ -100,8 +103,9 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.status !== "failed") {
-                        document.getElementById('replyText').innerText = data.message; // Изменение здесь
+                        document.getElementById('replyText').innerText = data.message;
                         showLayer('reply');
+                        chatId = null;
                     }
                 })
                 .catch((error) => {
@@ -119,6 +123,9 @@
         function showLayer(layerId) {
             hideAll();
             document.getElementById(layerId).style.display = 'flex';
+            if (layerId !== 'reply') {
+                chatId = null;
+            }
         }
 
         function hideAll() {
