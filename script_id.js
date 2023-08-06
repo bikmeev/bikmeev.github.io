@@ -5,13 +5,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 function showLayer(layerId) {
     hideAll();
-    document.getElementById(layerId).style.display = 'block';
+    if (layerId === 'menu') {
+        document.getElementById('menu').style.display = 'flex';
+    } else {
+        document.getElementById(layerId).style.display = 'block';
+    }
 }
 
 function hideAll() {
     document.getElementById('question').style.display = 'none';
     document.getElementById('profile').style.display = 'none';
-    document.getElementById('menu').style.display = 'none';
+    // Меню больше не скрывается
 }
 
 function sendEmail() {
