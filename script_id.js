@@ -1,5 +1,7 @@
-let tg = window.Telegram.WebApp;
-let idTg = tg.initDataUnsafe.user.id;
+document.addEventListener('DOMContentLoaded', (event) => {
+    let tg = window.Telegram.WebApp;
+    let idTg = tg.initDataUnsafe.user.id;
+});
 
 function showQuestion() {
     hideAll();
