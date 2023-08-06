@@ -32,7 +32,7 @@
     </div>
     <div id="reply" class="hidden">
         <h1>Ответ</h1>
-        <p id="reply"></p>
+        <div id="replyText"></div> <!-- Элемент для текста ответа -->
         <button id="backButton" onclick="showLayer('menu')">Вернуться в меню</button>
         <button id="continueButton" onclick="continueChat()">Продолжить разговор</button>
     </div>
@@ -100,7 +100,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.status !== "failed") {
-                        document.getElementById('reply').innerText = data.message;
+                        document.getElementById('replyText').innerText = data.message; // Изменение здесь
                         showLayer('reply');
                     }
                 })
