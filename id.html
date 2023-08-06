@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Одностраничный сайт</title>
-    <link rel="stylesheet" href="styles_id.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="menu" style="display: flex; flex-direction: column; align-items: center;">
@@ -14,15 +13,93 @@
         <button onclick="sendEmail()">Поддержка</button>
     </div>
     <div id="question" class="hidden">
-        <h1>Задать вопрос</h1>
-        <textarea placeholder="Ваш вопрос..."></textarea>
-        <button onclick="showLayer('menu')">Обратно в меню</button>
+        <!-- Код страницы вопросов -->
+        <div id="main">
+            <h1>Страница вопросов</h1>
+            <p id="error" style="color: red;"></p>
+            <p id="remainingRequests"></p>
+            <form id="questionForm">
+                <input type="text" id="messageInput" />
+                <input type="submit" value="Отправить" />
+            </form>
+            <button id="backButton" onclick="showLayer('menu')">Вернуться в меню</button>
+        </div>
     </div>
     <div id="profile" class="hidden">
         <h1>Профиль</h1>
         <p>Информация о профиле...</p>
         <button onclick="showLayer('menu')">Обратно в меню</button>
     </div>
-    <script src="script_id.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        const errorElement = document.getElementById('error');
+        const remainingRequestsElement = document.getElementById('remainingRequests');
+        const messageInput = document.getElementById('messageInput');
+        const questionForm = document.getElementById('questionForm');
+        const backButton = document.getElementById('backButton');
+
+        let chatId = null;
+        let remainingRequests = null;
+        let deviceId = new URLSearchParams(window.location.search).get("deviceId");
+
+        const fetchRemainingRequests = () => {
+            fetch(`https://intelektusrv.ru:8000/remaining_requests/${deviceId}`, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    remainingRequests = data.remainingRequests;
+                    remainingRequestsElement.innerText = `Оставшиеся запросы: ${remainingRequests}`;
+                }
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
+        }
+
+        const startChat = () => {
+            fetch('https://intelektusrv.ru:8000/start_chat/' + deviceId, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "failed") {
+                    console.error(data.reason);
+                    if(data.reason === "No remaining requests"){
+                        errorElement.innerText = 'No remaining requests';
+                    }
+                } else {
+                    chatId = data.chat_id;
+                    fetchRemainingRequests();
+                }
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
+        }
+
+        questionForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const message = messageInput.value.trim();
+            if (!message) {
+                errorElement.innerText = 'Пожалуйста, введите сообщение';
+            } else if (message.length > 5000) {
+                errorElement.innerText = 'Ваше сообщение не может превышать 5000 символов';
+            } else {
+                window.location.href = `reply.html?deviceId=${deviceId}&chatId=${chatId}&message=${encodeURIComponent(message)}`;
+            }
+        });
+
+        backButton.addEventListener('click', () => {
+            window.location.href = '/id.html';
+        });
+
+        if (deviceId) {
+            startChat();
+        }
+
+    </script>
 </body>
 </html>
