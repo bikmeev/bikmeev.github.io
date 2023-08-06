@@ -1,43 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>v29</title>
-    <style>
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            color: #fff;
-            background-color: #007bff;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Одностраничный сайт</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <div id="main">
-        <a href="/question">v30_Задать вопрос</a>
-        <a href="/profile">Профиль</a>
-        <a id="support" class="btn" href="mailto:support@intelektus.ru">Поддержка</a>
+    <div id="menu">
+        <button onclick="showQuestion()">Задать вопрос</button>
+        <button onclick="showProfile()">Профиль</button>
+        <button onclick="sendEmail()">Поддержка</button>
     </div>
-
-    <script>
-
-        let tg = window.Telegram.WebApp;
-        let idTg = tg.initDataUnsafe.user.id;
-
-        //document.getElementById('askQuestion').href = `https://bikmeev.github.io/question.html?deviceId=${idTg}`;
-        //document.getElementById('profile').href = `https://bikmeev.github.io/profile.html?deviceId=${idTg}`;
-        //document.getElementById('support').href = `mailto:support@intelektus.ru?subject=запрос TgId||${idTg}`;
-
-    </script>
-
+    <div id="question" class="hidden">
+        <h1>Задать вопрос</h1>
+        <textarea placeholder="Ваш вопрос..."></textarea>
+        <button onclick="hideAll()">Отправить</button>
+    </div>
+    <div id="profile" class="hidden">
+        <h1>Профиль</h1>
+        <p>Информация о профиле...</p>
+        <button onclick="hideAll()">Закрыть</button>
+    </div>
+    <script src="script_id.js"></script>
 </body>
 </html>
