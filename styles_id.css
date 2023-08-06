@@ -4,7 +4,8 @@ body {
 
 #menu {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column; /* Добавьте это свойство, чтобы расположить кнопки вертикально */
+    align-items: center; /* Центрирует кнопки по горизонтали */
 }
 
 .hidden {
