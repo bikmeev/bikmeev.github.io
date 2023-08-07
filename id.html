@@ -83,35 +83,35 @@
         };
 
         const submitQuestion = (event) => {
-        event.preventDefault();
-        const message = document.getElementById('messageInput').value.trim();
-        if (message && message.length <= 5000) {
-            showLayer('loading');
-            // Убираем вызов startChat отсюда
-            fetch(`https://intelektusrv.ru:8000/send_message/${chatId}/${idTg}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    role: "user",
-                    content: message,
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('submitQuestion response:', data);
-                if (data.status !== "failed") {
-                    document.getElementById('replyText').innerText = data.message;
-                    showLayer('reply');
-                    chatId = null;
-                }
-            })
-            .catch((error) => {
-                console.error('Ошибка:', error);
-            });
-        }
-    };
+            event.preventDefault();
+            const message = document.getElementById('messageInput').value.trim();
+            if (message && message.length <= 5000) {
+                showLayer('loading');
+                fetch(`https://intelektusrv.ru:8000/send_message/${chatId}/${idTg}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        role: "user",
+                        content: message,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('submitQuestion response:', data);
+                    if (data.status !== "failed") {
+                        document.getElementById('replyText').innerText = data.message;
+                        showLayer('reply');
+                        // Убираем сброс chatId в null
+                    }
+                })
+                .catch((error) => {
+                    console.error('Ошибка:', error);
+                });
+            }
+        };
+
 
 
         const continueChat = () => {
