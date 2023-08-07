@@ -60,6 +60,9 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.status !== "failed") {
+                        
+                        console.log('start_chat||ss');
+                        
                         chatId = data.chat_id;
                         fetchRemainingRequests();
                     }
@@ -67,6 +70,9 @@
                 .catch((error) => {
                     console.error('Ошибка:', error);
                 });
+            }
+            else {
+                console.log('start_chat||skiped');
             }
         };
 
@@ -112,6 +118,9 @@
                         showLayer('reply');
                         chatId = null;
                     }
+                    else {
+                        console.log('send_message||ss');
+                    }
                 })
                 .catch((error) => {
                     console.error('Ошибка:', error);
@@ -122,6 +131,7 @@
         const continueChat = () => {
             continueConversation = true; // Устанавливаем флаг продолжения разговора
             showLayer('question');
+            console.log('Устанавливаем флаг продолжения разговора');
         };
 
         function showLayer(layerId) {
@@ -129,6 +139,7 @@
             document.getElementById(layerId).style.display = 'flex';
             if (layerId !== 'reply') {
                 continueConversation = false; // Сбрасываем флаг продолжения разговора
+                console.log('Сбрасываем флаг продолжения разговора');
             }
         }
 
