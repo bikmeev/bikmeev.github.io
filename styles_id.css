@@ -16,3 +16,13 @@ body {
     padding: 20px;
     border: 1px solid #ccc;
 }
+
+#reply {
+    display: flex;
+    flex-direction: column; /* Располагает элементы вертикально */
+    align-items: center; /* Центрирует элементы по горизонтали */
+}
+
+#reply button {
+    margin: 5px; /* Добавляет небольшой отступ между кнопками */
+}
