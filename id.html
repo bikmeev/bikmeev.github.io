@@ -42,35 +42,29 @@
     <script>
         let chatId = null;
         let idTg;
-        let continueConversation = false; // Переменная для отслеживания продолжения разговора
+        let continueConversation = false;
 
         document.addEventListener('DOMContentLoaded', (event) => {
             let tg = window.Telegram.WebApp;
             idTg = tg.initDataUnsafe.user.id;
-            if (idTg) {
-                startChat();
-            }
         });
 
         const startChat = () => {
-            if (!continueConversation) {
-                fetch('https://intelektusrv.ru:8000/start_chat/' + idTg, {
-                    method: 'POST',
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('startChat response:', data); // Логирование ответа
-                    if (data.status !== "failed") {
-                        chatId = data.chat_id;
-                        fetchRemainingRequests();
-                    }
-                })
-                .catch((error) => {
-                    console.error('Ошибка:', error);
-                });
-            } else {
-                console.log('Продолжение разговора, chatId:', chatId); // Логирование продолжения разговора
-            }
+            console.log('Начало нового чата, создание chatId...');
+            fetch('https://intelektusrv.ru:8000/start_chat/' + idTg, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('startChat response:', data);
+                if (data.status !== "failed") {
+                    chatId = data.chat_id;
+                    fetchRemainingRequests();
+                }
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
         };
 
         const fetchRemainingRequests = () => {
@@ -80,11 +74,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === "success") {
-                    console.log('remaining_requests||ss');
                     document.getElementById('remainingRequests').innerText = `Оставшиеся запросы: ${data.remainingRequests}`;
-                }
-                else {
-                    console.log(data.reason);
                 }
             })
             .catch((error) => {
@@ -97,7 +87,7 @@
             const message = document.getElementById('messageInput').value.trim();
             if (message && message.length <= 5000) {
                 showLayer('loading');
-                startChat(); // Вызываем startChat, который проверит continueConversation
+                startChat();
                 fetch(`https://intelektusrv.ru:8000/send_message/${chatId}/${idTg}`, {
                     method: 'POST',
                     headers: {
@@ -110,7 +100,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('submitQuestion response:', data); // Логирование ответа
+                    console.log('submitQuestion response:', data);
                     if (data.status !== "failed") {
                         document.getElementById('replyText').innerText = data.message;
                         showLayer('reply');
@@ -124,17 +114,16 @@
         };
 
         const continueChat = () => {
-            continueConversation = true; // Устанавливаем флаг продолжения разговора
+            console.log('Продолжение разговора, chatId:', chatId);
+            continueConversation = true;
             showLayer('question');
-            console.log('Устанавливаем флаг продолжения разговора');
         };
 
         function showLayer(layerId) {
             hideAll();
             document.getElementById(layerId).style.display = 'flex';
-            if (layerId !== 'reply') {
-                continueConversation = false; // Сбрасываем флаг продолжения разговора
-                console.log('Сбрасываем флаг продолжения разговора');
+            if (layerId === 'question' && !continueConversation) {
+                startChat();
             }
         }
 
