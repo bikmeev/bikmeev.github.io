@@ -126,7 +126,12 @@
             if (layerId === 'question' && !continueConversation) {
                 startChat();
             }
+            if (layerId === 'menu') { // Если пользователь возвращается в меню, сбрасываем chatId и continueConversation
+                chatId = null;
+                continueConversation = false;
+            }
         }
+
 
         function hideAll() {
             document.getElementById('question').style.display = 'none';
