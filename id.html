@@ -48,6 +48,7 @@
             idTg = tg.initDataUnsafe.user.id;
             if (idTg) {
                 startChat();
+                console.log('startChat || sended');
             }
         });
 
@@ -61,6 +62,9 @@
                     console.log('start_chat||ss');
                     chatId = data.chat_id;
                     fetchRemainingRequests();
+                }
+                else {
+                    console.log(data.reason);
                 }
             })
             .catch((error) => {
@@ -77,6 +81,9 @@
                 if (data.status === "success") {
                     console.log('remaining_requests||ss');
                     document.getElementById('remainingRequests').innerText = `Оставшиеся запросы: ${data.remainingRequests}`;
+                }
+                else {
+                    console.log(data.reason);
                 }
             })
             .catch((error) => {
