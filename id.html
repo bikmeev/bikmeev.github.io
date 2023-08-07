@@ -53,16 +53,14 @@
         });
 
         const startChat = () => {
-            if (!continueConversation) { // Если разговор не продолжается, создаем новый chatId
+            if (!continueConversation) {
                 fetch('https://intelektusrv.ru:8000/start_chat/' + idTg, {
                     method: 'POST',
                 })
                 .then(response => response.json())
                 .then(data => {
+                    console.log('startChat response:', data); // Логирование ответа
                     if (data.status !== "failed") {
-                        
-                        console.log('start_chat||ss');
-                        
                         chatId = data.chat_id;
                         fetchRemainingRequests();
                     }
@@ -70,9 +68,8 @@
                 .catch((error) => {
                     console.error('Ошибка:', error);
                 });
-            }
-            else {
-                console.log('start_chat||skiped');
+            } else {
+                console.log('Продолжение разговора, chatId:', chatId); // Логирование продолжения разговора
             }
         };
 
@@ -113,13 +110,11 @@
                 })
                 .then(response => response.json())
                 .then(data => {
+                    console.log('submitQuestion response:', data); // Логирование ответа
                     if (data.status !== "failed") {
                         document.getElementById('replyText').innerText = data.message;
                         showLayer('reply');
                         chatId = null;
-                    }
-                    else {
-                        console.log('send_message||ss');
                     }
                 })
                 .catch((error) => {
