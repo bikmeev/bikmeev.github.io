@@ -42,34 +42,32 @@
     <script>
         let chatId = null;
         let idTg;
+        let continueConversation = false; // Переменная для отслеживания продолжения разговора
 
         document.addEventListener('DOMContentLoaded', (event) => {
             let tg = window.Telegram.WebApp;
             idTg = tg.initDataUnsafe.user.id;
             if (idTg) {
                 startChat();
-                console.log('startChat || sended');
             }
         });
 
         const startChat = () => {
-            fetch('https://intelektusrv.ru:8000/start_chat/' + idTg, {
-                method: 'POST',
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status !== "failed") {
-                    console.log('start_chat||ss');
-                    chatId = data.chat_id;
-                    fetchRemainingRequests();
-                }
-                else {
-                    console.log(data.reason);
-                }
-            })
-            .catch((error) => {
-                console.error('Ошибка:', error);
-            });
+            if (!continueConversation) { // Если разговор не продолжается, создаем новый chatId
+                fetch('https://intelektusrv.ru:8000/start_chat/' + idTg, {
+                    method: 'POST',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status !== "failed") {
+                        chatId = data.chat_id;
+                        fetchRemainingRequests();
+                    }
+                })
+                .catch((error) => {
+                    console.error('Ошибка:', error);
+                });
+            }
         };
 
         const fetchRemainingRequests = () => {
@@ -96,9 +94,7 @@
             const message = document.getElementById('messageInput').value.trim();
             if (message && message.length <= 5000) {
                 showLayer('loading');
-                if (!chatId) {
-                    startChat();
-                }
+                startChat(); // Вызываем startChat, который проверит continueConversation
                 fetch(`https://intelektusrv.ru:8000/send_message/${chatId}/${idTg}`, {
                     method: 'POST',
                     headers: {
@@ -112,7 +108,6 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.status !== "failed") {
-                        console.log('send_message||${chatId}||ss');
                         document.getElementById('replyText').innerText = data.message;
                         showLayer('reply');
                         chatId = null;
@@ -125,17 +120,15 @@
         };
 
         const continueChat = () => {
-            if (chatId) {
-                console.log('continueChat||ss');
-                showLayer('question');
-            }
+            continueConversation = true; // Устанавливаем флаг продолжения разговора
+            showLayer('question');
         };
 
         function showLayer(layerId) {
             hideAll();
             document.getElementById(layerId).style.display = 'flex';
             if (layerId !== 'reply') {
-                chatId = null;
+                continueConversation = false; // Сбрасываем флаг продолжения разговора
             }
         }
 
