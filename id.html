@@ -84,6 +84,8 @@
         };
 
         const fetchPremiumStatus = () => {
+            console.log('fetchPremiumStatus||act');
+            
             const premiumStatusElement = document.getElementById('premiumStatus');
             const premiumContainer = document.getElementById('premiumContainer');
             fetch(`https://intelektusrv.ru:8000/premium_end_date/${idTg}`, {
