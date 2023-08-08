@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Одностраничный сайт</title>
+    <title>Интелектус</title>
     <link rel="stylesheet" href="styles_id.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -84,8 +84,6 @@
         };
 
         const fetchPremiumStatus = () => {
-            console.log('fetchPremiumStatus||act');
-            
             const premiumStatusElement = document.getElementById('premiumStatus');
             const premiumContainer = document.getElementById('premiumContainer');
             fetch(`https://intelektusrv.ru:8000/premium_end_date/${idTg}`, {
@@ -93,7 +91,6 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Ответ от fetchPremiumStatus:', data);
                 if (data.status === "success") {
                     if (data.reason === "User is not premium" || data.premium_end_date === "expired") {
                         premiumStatusElement.innerText = 'У вас нет премиум подписки';
@@ -116,8 +113,7 @@
                 console.error('Ошибка:', error);
             });
         }
-
-
+        
         const submitQuestion = (event) => {
             event.preventDefault();
             const message = document.getElementById('messageInput').value.trim();
@@ -140,7 +136,6 @@
                         document.getElementById('replyText').innerText = data.message;
                         document.getElementById('messageInput').value = '';
                         showLayer('reply');
-                        // Убираем сброс chatId в null
                     }
                 })
                 .catch((error) => {
@@ -164,16 +159,13 @@
                 startChat();
             }
             if (layerId === 'profile') {
-                fetchPremiumStatus(); // Убедитесь, что эта строка присутствует
+                fetchPremiumStatus();
             }
             if (layerId === 'menu') {
                 chatId = null;
                 continueConversation = false;
             }
         }
-
-
-
 
         function hideAll() {
             document.getElementById('menu').style.display = 'none';
@@ -183,9 +175,8 @@
             document.getElementById('loading').style.display = 'none';
         }
 
-
         function sendEmail() {
-            window.location.href = "mailto:support@intelektus.ru";
+            window.location.href = "https://intelektus.ru/support?id=" + idTg;
         }
     </script>
 </body>
