@@ -4,8 +4,12 @@ body {
 
 #menu {
     display: flex;
-    flex-direction: column; /* Добавьте это свойство, чтобы расположить кнопки вертикально */
-    align-items: center; /* Центрирует кнопки по горизонтали */
+    flex-direction: column;
+    align-items: center;
+}
+
+#menu > * {
+    margin: 5px;
 }
 
 .hidden {
@@ -18,10 +22,21 @@ body {
 }
 
 #reply {
-    flex-direction: column; /* Располагает элементы вертикально */
-    align-items: center; /* Центрирует элементы по горизонтали */
+    flex-direction: column;
+    align-items: center;
 }
 
 #reply button {
-    margin: 5px; /* Добавляет небольшой отступ между кнопками */
+    margin: 5px;
+}
+
+#profile {
+    flex-direction: row;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+#profile > * {
+    margin: 5px;
 }
