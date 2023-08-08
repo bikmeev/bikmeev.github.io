@@ -163,11 +163,15 @@
             if (layerId === 'question' && !continueConversation) {
                 startChat();
             }
+            if (layerId === 'profile') {
+                fetchPremiumStatus(); // Убедитесь, что эта строка присутствует
+            }
             if (layerId === 'menu') {
                 chatId = null;
                 continueConversation = false;
             }
         }
+
 
 
 
