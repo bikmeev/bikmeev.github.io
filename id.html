@@ -36,6 +36,12 @@
         <button id="backButton" onclick="showLayer('menu')">Вернуться в меню</button>
         <button id="continueButton" onclick="continueChat()">Продолжить разговор</button>
     </div>
+    <div id="profile" class="hidden">
+        <h1>Профиль</h1>
+        <div id="premiumStatus">Загрузка...</div>
+        <div id="premiumContainer"></div>
+        <button onclick="showLayer('menu')">Вернуться в меню</button>
+    </div>
     <div id="loading" class="hidden">
         <h1>Загрузка...</h1>
     </div>
@@ -82,6 +88,38 @@
             });
         };
 
+        const fetchPremiumStatus = () => {
+            const premiumStatusElement = document.getElementById('premiumStatus');
+            const premiumContainer = document.getElementById('premiumContainer');
+            fetch(`https://intelektusrv.ru:8000/premium_end_date/${idTg}`, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    if (data.reason === "User is not premium" || data.premium_end_date === "expired") {
+                        premiumStatusElement.innerText = 'У вас нет премиум подписки';
+                        premiumContainer.innerHTML = '<button id="buyPremium">Купить премиум</button>';
+                        document.getElementById('buyPremium').addEventListener('click', () => {
+                            window.location.href = '/bill.html?user=' + idTg;
+                        });
+                    } else if (data.premium_end_date) {
+                        premiumStatusElement.innerText = 'У вас есть премиум подписка';
+                        premiumContainer.innerHTML = `<p>Дата окончания подписки: ${data.premium_end_date}</p><button id="extendPremium">Продлить подписку</button>`;
+                        document.getElementById('extendPremium').addEventListener('click', () => {
+                            window.location.href = '/bill.html?user=' + idTg;
+                        });
+                    }
+                } else {
+                    console.error(data.reason);
+                }
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
+        }
+
+
         const submitQuestion = (event) => {
             event.preventDefault();
             const message = document.getElementById('messageInput').value.trim();
@@ -102,6 +140,7 @@
                     console.log('submitQuestion response:', data);
                     if (data.status !== "failed") {
                         document.getElementById('replyText').innerText = data.message;
+                        document.getElementById('messageInput').value = '';
                         showLayer('reply');
                         // Убираем сброс chatId в null
                     }
