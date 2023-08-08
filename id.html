@@ -121,7 +121,7 @@
         };
 
         function showLayer(layerId) {
-            hideAll(layerId === 'menu');
+            hideAll();
             document.getElementById(layerId).style.display = 'flex';
             if (layerId === 'question' && !continueConversation) {
                 startChat();
@@ -133,17 +133,12 @@
         }
 
 
-        function hideAll(exceptMenu = false) {
+        function hideAll() {
             document.getElementById('question').style.display = 'none';
             document.getElementById('profile').style.display = 'none';
             document.getElementById('reply').style.display = 'none';
             document.getElementById('loading').style.display = 'none';
-            if (!exceptMenu) {
-                document.getElementById('menu').style.display = 'none';
-            }
         }
-
-
 
         function sendEmail() {
             window.location.href = "mailto:support@example.com";
