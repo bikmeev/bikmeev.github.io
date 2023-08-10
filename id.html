@@ -25,13 +25,12 @@
     </div>
     <div id="question" class="hidden">
         <div id="main">
-            <h1>Страница вопросов</h1>
-            <p id="error" style="color: red;"></p>
-            <p id="remainingRequests"></p>
-            <form id="questionForm" onsubmit="submitQuestion(event); return false;">
-                <input type="text" id="messageInput" />
-                <input type="submit" value="Отправить" />
-            </form>
+            <h1>Задать вопрос</h1>
+            <p id="attempts">Количество попыток: 3</p>
+            <div class="input-container">
+                <input type="text" id="userQuestion" placeholder="Введите ваш вопрос">
+                <button onclick="submitQuestion()">Отправить</button>
+            </div>
             <button id="backButton" onclick="showLayer('menu')">Вернуться в меню</button>
         </div>
     </div>
