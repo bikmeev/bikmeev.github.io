@@ -1,5 +1,6 @@
 body {
     font-family: Arial, sans-serif;
+    overflow: hidden;
 }
 
 #menu {
@@ -9,6 +10,7 @@ body {
 }
 
 #logo {
+    height: 220px;
     margin-top: 10px;
 }
 
