@@ -67,17 +67,18 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
 #userQuestion {
     width: 100%;
-    min-height: 20px; /* Минимальная высота */
-    max-height: 40px; /* Максимальная высота */
-    overflow-y: auto; /* Прокрутка по вертикали, если текст не помещается */
+    min-height: 20px;
+    max-height: 40px;
+    overflow-y: auto;
     border: 1px solid #ccc;
     padding: 5px;
     box-sizing: border-box;
-    resize: none; /* Запретить изменение размера пользователем */
+    resize: none;
 }
 
 
@@ -95,6 +96,8 @@ body {
     border-radius: 10px;
     cursor: pointer;
     margin-top: 10px;
+    margin-left: 4px; /* Отступ слева для кнопки "Задать вопрос" */
+    align-self: center; /* Центрирование кнопки "Отправить" */
 }
 
 #question button:hover {
