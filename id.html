@@ -24,15 +24,14 @@
         </div>
     </div>
     <div id="question" class="hidden">
-        <div id="main">
-            <h1>Задать вопрос</h1>
-            <p id="attempts">Количество попыток: 3</p>
-            <div class="input-container">
-                <input type="text" id="userQuestion" placeholder="Введите ваш вопрос">
-                <button onclick="submitQuestion()">Отправить</button>
-            </div>
-            <button id="backButton" onclick="showLayer('menu')">Вернуться в меню</button>
+        <h1>Задать вопрос</h1>
+        <p id="attempts">Количество попыток: 3</p>
+        <div class="input-container">
+            <textarea id="userQuestion" rows="1" placeholder="Введите ваш вопрос"></textarea>
+            <button onclick="submitQuestion()">Отправить</button>
         </div>
+    </div>
+
     </div>
     <div id="reply" class="hidden">
         <h1>Ответ</h1>
