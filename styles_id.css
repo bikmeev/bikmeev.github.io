@@ -71,12 +71,15 @@ body {
 
 #userQuestion {
     width: 100%;
-    max-height: 30px;
-    overflow-y: auto;
+    min-height: 20px; /* Минимальная высота */
+    max-height: 40px; /* Максимальная высота */
+    overflow-y: auto; /* Прокрутка по вертикали, если текст не помещается */
     border: 1px solid #ccc;
     padding: 5px;
     box-sizing: border-box;
+    resize: none; /* Запретить изменение размера пользователем */
 }
+
 
 #question button {
     background-color: #0091DD;
