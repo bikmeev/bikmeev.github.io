@@ -12,10 +12,11 @@ body {
 #logo {
     height: 220px;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .button-container {
-    margin-top: 20px;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,12 +30,13 @@ body {
     background-color: #0091DD;
     border: none;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 23px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
+    font-size: 18px;
     border-radius: 10px;
     cursor: pointer;
 }
