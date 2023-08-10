@@ -8,10 +8,20 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <div id="menu" style="display: flex; flex-direction: column; align-items: center;">
-        <button onclick="showLayer('question')">Задать вопрос</button>
-        <button onclick="showLayer('profile')">Профиль</button>
-        <button onclick="sendEmail()">Поддержка</button>
+    <div id="menu">
+        <img src="logo.png" alt="Логотип" id="logo">
+        <div class="button-container">
+            <img src="question-icon.png" alt="Задать вопрос">
+            <button onclick="showLayer('question')">Задать вопрос</button>
+        </div>
+        <div class="button-container">
+            <img src="profile-icon.png" alt="Профиль">
+            <button onclick="showLayer('profile')">Профиль</button>
+        </div>
+        <div class="button-container">
+            <img src="support-icon.png" alt="Поддержка">
+            <button onclick="sendEmail()">Поддержка</button>
+        </div>
     </div>
     <div id="question" class="hidden">
         <div id="main">
