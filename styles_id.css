@@ -8,8 +8,37 @@ body {
     align-items: center;
 }
 
-#menu > * {
-    margin: 5px;
+#logo {
+    margin-top: 10px;
+}
+
+.button-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button-container img {
+    margin-bottom: 10px;
+}
+
+.button-container button {
+    background-color: #0091DD;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.button-container button:hover {
+    background-color: #007bb3;
 }
 
 .hidden {
