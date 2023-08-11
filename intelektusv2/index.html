@@ -31,7 +31,7 @@
         <img src="https://intelektus.ru/img_id_0.png" alt="Логотип" id="logo">
         <p class="blue-box">Задавай любой вопрос я  помогу тебе!</p>
         <div class="input-container">
-            <textarea id="userQuestion" class="text-box" placeholder="Поле для запроса:"></textarea> <!-- Убрал rows="1" -->
+            <textarea id="userQuestion" class="text-box" placeholder="Поле для запроса:"></textarea>
             <p id="remainingRequests">Количество попыток: errer</p>
             <button class="purple-button" onclick="submitQuestion()">Отправить</button>
         </div>
@@ -137,7 +137,7 @@
         
         const submitQuestion = (event) => {
             event.preventDefault();
-            const message = document.getElementById('messageInput').value.trim();
+            const message = document.getElementById('userQuestion').value.trim();
             if (message && message.length <= 5000) {
                 showLayer('loading');
                 fetch(`https://intelektusrv.ru:8000/send_message/${chatId}/${idTg}`, {
