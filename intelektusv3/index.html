@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интелектус</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div id="menu">
+        <img src="logo.svg" alt="Логотип" id="logo">
+        <div class="button-container">
+            <img src="https://intelektus.ru/img_id_1.png" alt="Задать вопрос">
+            <button onclick="showLayer('question')">Задать вопрос</button>
+        </div>
+        <div class="button-container">
+            <img src="https://intelektus.ru/img_id_2.png" alt="Профиль">
+            <button onclick="showLayer('profile')">Профиль</button>
+        </div>
+        <div class="button-container">
+            <img src="https://intelektus.ru/img_id_3.png" alt="Поддержка">
+            <button onclick="sendEmail()">Поддержка</button>
+        </div>
+    </div>
+    <div id="question" class="hidden">
+        <img src="logo.svg" alt="Логотип" id="logo">
+        <p class="blue-box">Задавай любой вопрос я  помогу тебе!</p>
+        <div class="input-container">
+            <textarea id="userQuestion" maxlength="5000" class="text-box" placeholder="Поле для запроса:"></textarea>
+            <div id="counter"></div>
+            <p id="remainingRequests">Количество попыток: errer</p>
+            <button class="purple-button" onclick="submitQuestion()">Отправить</button>
+        </div>
+        <button class="back" onclick="showLayer('menu')">← Вернуться</button>
+    </div>
+    <div id="reply" class="hidden">
+        <img src="logo.svg" alt="Логотип" id="logo">
+        <p class="blue-box">Вот мой ответ на твой запрос!</p>
+        <div id="replyText" class="text-box"></div>
+        <p id="remainingRequests">Количество попыток: errer</p>
+        <button class="purple-button" onclick="continueChat()">Продолжить разговор</button>
+        <button class="back" onclick="showLayer('menu')">← Вернуться</button>
+    </div>
+    <div id="profile" class="hidden">
+        <img src="logo.svg" alt="Логотип" id="logo">
+        <div id="premiumStatus"></div>
+        <div id="premiumBox"></div>
+        <div id="premiumContainer"></div>
+        <button class="back" onclick="showLayer('menu')">← Вернуться</button>
+    </div>
+    <div id="loading" class="hidden">
+        <h1>Загрузка...</h1>
+    </div>
+    <script>
+        let chatId = null;
+        let idTg;
+        let continueConversation = false;
+
+        const messageEle = document.getElementById('userQuestion');
+        const counterEle = document.getElementById('counter');
+
+        messageEle.addEventListener('input', function (e) {
+            const target = e.target;
+            const maxLength = target.getAttribute('maxlength');
+            const currentLength = target.value.length;
+            counterEle.innerHTML = `${currentLength}/${maxLength}`;
+        });
+        document.addEventListener('DOMContentLoaded', (event) => {
+            let tg = window.Telegram.WebApp;
+            idTg = "1234"
+            console.log("idTg", idTg);
+        });
+
+        const startChat = () => {
+            console.log('Начало нового чата, создание chatId...');
+            fetch('https://intelektusrv.ru:8000/start_chat/' + idTg, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('startChat response:', data);
+                if (data.status !== "failed") {
+                    chatId = data.chat_id;
+                    fetchRemainingRequests();
+                }
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
+        };
+
+        const fetchRemainingRequests = () => {
+            fetch(`https://intelektusrv.ru:8000/remaining_requests/${idTg}`, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    document.getElementById('remainingRequests').innerText = `Оставшиеся запросы: ${data.remainingRequests}`;
+                }
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
+        };
+
+        const fetchPremiumStatus = () => {
+            const premiumStatusElement = document.getElementById('premiumStatus');
+            const premiumBox = document.getElementById('premiumBox');
+            const premiumContainer = document.getElementById('premiumContainer');
+            fetch(`https://intelektusrv.ru:8000/premium_end_date/${idTg}`, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    if (data.reason === "User is not premium" || data.premium_end_date === "expired") {
+                        premiumStatusElement.innerHTML = '<p class="blue-box">Похоже что у тебя нет активной подписки :(</p>';
+                        premiumBox.classList.add("noSub");
+                        premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg" class="icon">'
+                        premiumContainer.innerHTML = '<p class="blue-box">Не растраивайся, ты можешь оформить подписку всего за 1 минуту! </p><button id="buyPremium" class="purple-button">Купить подписку</button>';
+                        document.getElementById('buyPremium').addEventListener('click', () => {
+                            window.location.href = '/bill.html?user=' + idTg;
+                        });
+                    } else if (data.premium_end_date) {
+                        premiumStatusElement.innerHTML = '<p class="blue-box">Поздравляю, у тебя есть активная подписка!</p>';
+                        premiumBox.classList.add("sub");
+                        premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg"  class="icon">'
+                        premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button>`;
+                        document.getElementById('extendPremium').addEventListener('click', () => {
+                            window.location.href = '/bill.html?user=' + idTg;
+                        });
+                    }
+                } else {
+                    console.error(data.reason);
+                }
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
+        }
+        
+        const submitQuestion = (event) => {
+            event.preventDefault();
+            const message = document.getElementById('userQuestion').value.trim();
+            if (message && message.length <= 5000) {
+                showLayer('loading');
+                fetch(`https://intelektusrv.ru:8000/send_message/${chatId}/${idTg}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        role: "user",
+                        content: message,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('submitQuestion response:', data);
+                    if (data.status !== "failed") {
+                        document.getElementById('replyText').innerText = data.message;
+                        document.getElementById('userQuestion').value = '';
+                        showLayer('reply');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Ошибка:', error);
+                });
+            }
+        };
+
+
+
+        const continueChat = () => {
+            continueConversation = true;
+            showLayer('question');
+        };
+
+        function showLayer(layerId) {
+            hideAll();
+            document.getElementById(layerId).style.display = 'flex';
+            if (layerId === 'question' && !continueConversation) {
+                startChat();
+            }
+            if (layerId === 'profile') {
+                fetchPremiumStatus();
+            }
+            if (layerId === 'menu') {
+                chatId = null;
+                continueConversation = false;
+            }
+        }
+
+        function hideAll() {
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('question').style.display = 'none';
+            document.getElementById('profile').style.display = 'none';
+            document.getElementById('reply').style.display = 'none';
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        function sendEmail() {
+            window.location.href = "https://intelektus.ru/support.html?id=" + idTg;
+        }
+    </script>
+</body>
+</html>
