@@ -68,7 +68,7 @@
         });
         document.addEventListener('DOMContentLoaded', (event) => {
             let tg = window.Telegram.WebApp;
-            idTg = "1234"
+            idTg = tg.initDataUnsafe.user.id;
             console.log("idTg", idTg);
         });
 
