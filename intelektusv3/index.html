@@ -69,6 +69,7 @@
         document.addEventListener('DOMContentLoaded', (event) => {
             let tg = window.Telegram.WebApp;
             idTg = tg.initDataUnsafe.user.id;
+            tg.expand();
             console.log("idTg", idTg);
         });
 
