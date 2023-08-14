@@ -144,6 +144,7 @@
         const submitQuestion = (event) => {
             event.preventDefault();
             const message = document.getElementById('userQuestion').value.trim();
+            document.getElementById('userQuestion').blur();
             if (message && message.length <= 5000) {
                 document.getElementById('userQuestion').blur();
                 showLayer('loading');
