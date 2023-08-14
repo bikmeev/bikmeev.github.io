@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Введите свой Email</title>
+    <script>
+        function validateEmail() {
+            var email = document.getElementById("email").value;
+            var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (pattern.test(email)) {
+                var user = new URLSearchParams(window.location.search).get("user");
+                var device_id = user; // Используем user как device_id
+                var url = `/create_bill/${device_id}/${email}`; // URL вашего сервера
+
+                fetch(url, {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        window.location.href = "success.html"; // Путь к странице с подтверждением
+                    } else {
+                        alert("Ошибка: " + data.reason);
+                    }
+                })
+                .catch(error => {
+                    alert("Произошла ошибка при обращении к серверу: " + error);
+                });
+            } else {
+                alert("Пожалуйста, введите действительный адрес электронной почты");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Введите свой Email</h1>
+    <form onsubmit="validateEmail(); return false;">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+</html>
