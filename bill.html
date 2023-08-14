@@ -4,27 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Введите свой Email</title>
+    <style>
+        #loading {
+            display: none;
+        }
+    </style>
     <script>
         function validateEmail() {
             var email = document.getElementById("email").value;
             var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (pattern.test(email)) {
+                document.getElementById("loading").style.display = "block"; // Показываем окно ожидания
                 var user = new URLSearchParams(window.location.search).get("user");
-                var device_id = user; // Используем user как device_id
-                var url = `https://intelektusrv.ru:8000/create_bill/${device_id}/${email}`; // URL вашего сервера
+                var device_id = user;
+                var url = `https://intelektusrv.ru:8000/create_bill/${device_id}/${email}`;
 
                 fetch(url, {
                     method: 'POST'
                 })
                 .then(response => response.json())
                 .then(data => {
+                    document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
                     if (data.status === "success") {
-                        window.location.href = "success.html"; // Путь к странице с подтверждением
+                        window.location.href = "success.html";
                     } else {
                         alert("Ошибка: " + data.reason);
                     }
                 })
                 .catch(error => {
+                    document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
                     alert("Произошла ошибка при обращении к серверу: " + error);
                 });
             } else {
@@ -40,5 +48,8 @@
         <input type="text" id="email" name="email" required>
         <button type="submit">Отправить</button>
     </form>
+    <div id="loading">
+        <h2>Пожалуйста, подождите...</h2>
+    </div>
 </body>
 </html>
