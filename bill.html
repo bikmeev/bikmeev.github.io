@@ -11,7 +11,7 @@
             if (pattern.test(email)) {
                 var user = new URLSearchParams(window.location.search).get("user");
                 var device_id = user; // Используем user как device_id
-                var url = `/create_bill/${device_id}/${email}`; // URL вашего сервера
+                var url = `https://intelektusrv.ru:8000/create_bill/${device_id}/${email}`; // URL вашего сервера
 
                 fetch(url, {
                     method: 'POST'
