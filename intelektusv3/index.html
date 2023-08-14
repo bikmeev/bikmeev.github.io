@@ -145,6 +145,7 @@
             event.preventDefault();
             const message = document.getElementById('userQuestion').value.trim();
             if (message && message.length <= 5000) {
+                document.getElementById('userQuestion').blur();
                 showLayer('loading');
                 fetch(`https://intelektusrv.ru:8000/send_message/${chatId}/${idTg}`, {
                     method: 'POST',
