@@ -42,7 +42,6 @@ body {
 }
 
 .email-input{
-    margin-bottom: 30px;
     margin-top: 20px;
     display: inline-block;
 }
@@ -74,4 +73,15 @@ body {
     font-size: 24px;
     border-radius: 10px;
     cursor: pointer;
+}
+
+.form-box p{
+    font-size: 14px;
+    font-weight: 400;
+    color: #8e8e8e;
+    margin-bottom: 30px;
+}
+
+.form-box span{
+    color: #AA6EFC;
 }
