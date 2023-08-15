@@ -1,0 +1,77 @@
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    overflow: hidden;
+    background-color: white;
+}
+
+#loading {
+    display: none;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container p{
+    font-weight: bold;
+    font-size: 26px;
+    text-align: center;
+}
+
+.form-box{
+    border-radius: 10px;
+    border: 2px solid #8e8e8e;
+    margin: 20px 12px 18px 12px;
+    padding: 0.5em;
+    font-size: 20px;
+    text-align: center;
+    width: 325px;
+    display: flex;
+    flex-direction: column;
+}
+
+#logo {
+    height: 105px;
+    margin-top: 0;
+    margin-left: 22px;
+    margin-right: 22px;
+    margin-bottom: 20px;
+}
+
+.email-input{
+    margin-bottom: 30px;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.email-input input{
+    border-radius: 10px;
+    margin: 0 12px 0 12px;
+    padding: 10px;
+    overflow: auto;
+    font-size: 20px;
+}
+
+.email-input label{
+    vertical-align: middle;
+    text-align: right;
+}
+
+.purple-button{
+    background-color: #AA6EFC;
+    border: none;
+    color: white;
+    padding: auto;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 20px;
+    font-weight: 600;
+    padding: 0.5em;
+    font-size: 24px;
+    border-radius: 10px;
+    cursor: pointer;
+}

@@ -1,0 +1,41 @@
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    overflow: hidden;
+    background-color: white;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.blue-box{
+    border-radius: 10px;
+    border: 2px solid #2AABEE;
+    margin: 0 12px 18px 12px;
+    padding: 0.5em;
+    font-size: 20px;
+    text-align: center;
+    width: 325px;
+}
+
+#message-icon{
+    width: 75px;
+    margin-bottom: 20px;
+}
+
+#logo {
+    height: 105px;
+    margin-top: 0;
+    margin-left: 22px;
+    margin-right: 22px;
+    margin-bottom: 20px;
+}
+
+.success-message{
+    font-weight: bold;
+    font-size: 36px;
+    margin-bottom: 0;
+}
