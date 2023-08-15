@@ -1,1 +1,30 @@
-support
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="supportStyle.css">
+    <title>Поддержка</title>
+</head>
+<body>
+    <div class="container">
+        <img src="logo.svg" alt="Логотип" id="logo">
+        <h1>Поддержка</h1>
+        <p class="blue-box">Если появились какие то вопросы по исписпользованию вы можете написать нам на почту.</p>
+        <div class="blue-box">
+            <p>Почта поддержки: <a href="mailto:support@intelektus.ru">support@intelektus.ru</a></p>
+            <button id="writeSupport" class="purple-button">Написать в поддержку</button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const idTg = new URLSearchParams(window.location.search).get('id');
+            const writeSupportButton = document.getElementById('writeSupport');
+        
+            writeSupportButton.addEventListener('click', () => {
+                window.location.href = mailto:support@intelektus.ru?subject=twa||id${idTg};
+            });
+        });
+    </script>
+</body>
+</html>
