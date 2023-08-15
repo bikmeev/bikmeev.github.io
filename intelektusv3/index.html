@@ -52,6 +52,15 @@
         <h1>Загрузка...</h1>
     </div>
     <script>
+        
+        document.addEventListener('click', function(event) {
+            console.log("нажатие");
+            var inputElement = document.getElementById('userQuestion');
+            if (event.target !== inputElement) {
+                inputElement.blur();
+            }
+        });
+
         let chatId = null;
         let idTg;
         let continueConversation = false;
