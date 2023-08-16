@@ -130,7 +130,7 @@
                         premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg" class="icon">'
                         premiumContainer.innerHTML = '<p class="blue-box">Не растраивайся, ты можешь оформить подписку всего за 1 минуту! </p><button id="buyPremium" class="purple-button">Купить подписку</button>';
                         document.getElementById('buyPremium').addEventListener('click', () => {
-                            window.location.href = '/bill.html?user=' + idTg;
+                            window.location.href = 'https://intelektus.ru/pay?user=' + idTg;
                         });
                     } else if (data.premium_end_date) {
                         premiumStatusElement.innerHTML = '<p class="blue-box">Поздравляю, у тебя есть активная подписка!</p>';
@@ -138,7 +138,7 @@
                         premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg"  class="icon">'
                         premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button>`;
                         document.getElementById('extendPremium').addEventListener('click', () => {
-                            window.location.href = '/bill.html?user=' + idTg;
+                            window.location.href = 'https://intelektus.ru/pay?user=' + idTg;
                         });
                     }
                 } else {
