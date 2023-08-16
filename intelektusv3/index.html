@@ -212,8 +212,11 @@
         function showLayer(layerId) {
             hideAll();
             document.getElementById(layerId).style.display = 'flex';
-            if (layerId === 'question' && !continueConversation) {
-                startChat();
+            if (layerId === 'question') {
+                if (!continueConversation) {
+                    startChat();
+                }
+                fetchRemainingRequests(); // Вызывается каждый раз при активации слоя 'question'
             }
             if (layerId === 'profile') {
                 fetchPremiumStatus();
