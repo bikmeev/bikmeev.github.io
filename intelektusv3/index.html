@@ -146,8 +146,13 @@
                         document.getElementById('extendPremium').addEventListener('click', () => {
                             window.location.href = '/bill.html?user=' + idTg;
                         });
-                    }
-                } else {
+                    } 
+                } 
+                else if (data.status === "failed") {
+                    tg.showAlert("критическая ошибка или сервер не досупен - нажмите кнопку <вернутся>");
+                }
+                    
+                else {
                     console.error(data.reason);
                 }
             })
