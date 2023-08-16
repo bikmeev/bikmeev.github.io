@@ -28,7 +28,10 @@
         <p class="blue-box">Задавай любой вопрос я  помогу тебе!</p>
         <div class="input-container">
             <textarea id="userQuestion" maxlength="5000" class="text-box" placeholder="Поле для запроса:"></textarea>
-            <div id="counter"></div>
+            <div class="tools">
+                <div id="counter">0/5000</div>
+                <img src="copy.svg" onclick="copyText()">
+            </div>
             <p id="remainingRequests">Количество попыток: errer</p>
             <button class="purple-button" onclick="submitQuestion(event)">Отправить</button>
         </div>
@@ -37,7 +40,10 @@
     <div id="reply" class="hidden">
         <img src="logo.svg" alt="Логотип" id="logo">
         <p class="blue-box">Вот мой ответ на твой запрос!</p>
-        <div id="replyText" class="text-box"></div>
+        <textarea id="replyText" class="text-box" readonly></textarea>
+        <div class="copyTool">
+            <img class="copyIcon" src="copy.svg" onclick="copyReply()">
+        </div>
         <button class="purple-button" onclick="continueChat()">Продолжить разговор</button>
         <button class="back" onclick="showLayer('menu')">← Вернуться</button>
     </div>
@@ -130,7 +136,7 @@
                         premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg" class="icon">'
                         premiumContainer.innerHTML = '<p class="blue-box">Не растраивайся, ты можешь оформить подписку всего за 1 минуту! </p><button id="buyPremium" class="purple-button">Купить подписку</button>';
                         document.getElementById('buyPremium').addEventListener('click', () => {
-                            window.location.href = 'https://intelektus.ru/pay?user=' + idTg;
+                            window.location.href = '/bill.html?user=' + idTg;
                         });
                     } else if (data.premium_end_date) {
                         premiumStatusElement.innerHTML = '<p class="blue-box">Поздравляю, у тебя есть активная подписка!</p>';
@@ -138,7 +144,7 @@
                         premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg"  class="icon">'
                         premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button>`;
                         document.getElementById('extendPremium').addEventListener('click', () => {
-                            window.location.href = 'https://intelektus.ru/pay?user=' + idTg;
+                            window.location.href = '/bill.html?user=' + idTg;
                         });
                     }
                 } else {
@@ -148,6 +154,20 @@
             .catch((error) => {
                 console.error('Ошибка:', error);
             });
+        }
+
+        const copyText = () =>{
+            const element = document.querySelector('#userQuestion');
+            element.select();
+            element.setSelectionRange(0, 999999);
+            document.execCommand('copy');
+        }
+
+        const copyReply = () =>{
+            const element = document.querySelector('#replyText');
+            element.select();
+            element.setSelectionRange(0, 999999);
+            document.execCommand('copy');
         }
         
         const submitQuestion = (event) => {
