@@ -80,7 +80,31 @@ body {
     height: 200px;
     text-align: left;
     font-family: 'Inter', sans-serif;
-    overflow: auto;
+    overflow-y: scroll;
+}
+
+.tools{
+    display: flex;
+    width: 325px;
+    height: 20px;
+    justify-content: space-between;
+}
+
+.tools div{
+    flex: 1;
+}
+
+
+.text-box::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  
+}
+
+.text-box::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 
 .input-container {
@@ -141,6 +165,18 @@ body {
     align-items: center;
     flex-direction: column;
 }
+
+.copyTool{
+    display: flex;
+    width: 325px;
+    height: 40px;
+    justify-content: right;
+}
+
+.copyTool img{
+    height: 40px;
+}
+
 
 .noSub{
     display: flex;
