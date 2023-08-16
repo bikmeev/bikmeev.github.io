@@ -98,6 +98,8 @@
                 if (data.status !== "failed") {
                     chatId = data.chat_id;
                     fetchRemainingRequests();
+                } else if (data.status == "failed" && data.reason == "No remaining requests") {
+                    tg.showAlert("не осталось запросов - купите подписку в разделе профиль");
                 }
             })
             .catch((error) => {
@@ -147,7 +149,8 @@
                             window.location.href = '/bill.html?user=' + idTg;
                         });
                     } 
-                } 
+                }
+                    
                 else if (data.status === "failed") {
                     tg.showAlert("критическая ошибка или сервер не досупен - нажмите кнопку <вернутся>");
                 }
@@ -199,6 +202,8 @@
                         document.getElementById('replyText').innerText = data.message;
                         document.getElementById('userQuestion').value = '';
                         showLayer('reply');
+                    }else if (data.status == "failed" && data.reason == "No remaining requests") {
+                        tg.showAlert("не осталось запросов - купите подписку в разделе профиль");
                     }
                 })
                 .catch((error) => {
