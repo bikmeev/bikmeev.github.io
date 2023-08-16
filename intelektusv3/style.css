@@ -97,7 +97,7 @@ body {
 
 .text-box::-webkit-scrollbar {
     -webkit-appearance: none;
-    width: 11px;
+    width: 20px;
   
 }
 
