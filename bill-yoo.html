@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="billStyle.css">
+    <title>Введите свой Email</title>
+    <script>
+        function validateEmail() {
+            var email = document.getElementById("email").value;
+            var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (pattern.test(email)) {
+                document.getElementById("loading").style.display = "block"; // Показываем окно ожидания
+                var user = new URLSearchParams(window.location.search).get("user");
+                var device_id = user;
+                var url = `https://intelektusrv.ru:8000/create_bill_yookassa/${device_id}/${email}`;
+
+                fetch(url, {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
+                    if (data.status === "success") {
+                        window.location.href = "success.html";
+                    } else {
+                        alert("Ошибка: " + data.reason);
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
+                    alert("Произошла ошибка при обращении к серверу: " + error);
+                });
+            } else {
+                alert("Пожалуйста, введите действительный адрес электронной почты");
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <img src="logo.svg" alt="Логотип" id="logo">
+        <p>Цена к оплате: 280 руб</p>
+        <p>Введите адрес вашей электронной почты</p>
+        <form class="form-box" onsubmit="validateEmail(); return false;">
+            <div class="email-input">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" required>
+            </div>
+            <p class="agreement">Нажимая на кнопку <span>"Отправить"</span> вы соглашаетесь с <a href="https://intelektus.ru/pub-off-main.txt">офертой</a> и c <a href="https://intelektus.ru/pol-conf.txt">политикой в отношении обработки персональных данных</a>.</p>
+            <button class="purple-button" type="submit">Отправить</button>
+        </form>
+        <div id="loading">
+            <h2>Пожалуйста, подождите...</h2>
+        </div>
+    </div>
+</body>
+</html>
