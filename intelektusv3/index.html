@@ -13,7 +13,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh; /* Занимает всю высоту экрана */
         }
         .loader {
             border: 5px solid #f3f3f3;
@@ -112,6 +111,11 @@
             idTg = tg.initDataUnsafe.user.id;
             tg.expand();
             console.log("idTg", idTg);
+
+            // Получение высоты видимой области
+            let viewportHeight = tg.viewportHeight;
+            // Установка высоты слоя загрузки
+            document.getElementById('loading').style.height = viewportHeight + 'px';
         });
 
         function showAlert(message) {
