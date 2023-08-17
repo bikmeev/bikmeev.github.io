@@ -58,9 +58,8 @@
         <h1>Загрузка...</h1>
     </div>
     <script>
-        
+        //снятие фокуса с imput field при нажатии на пустое место
         document.addEventListener('click', function(event) {
-            console.log("нажатие");
             var inputElement = document.getElementById('userQuestion');
             if (event.target !== inputElement) {
                 inputElement.blur();
@@ -158,7 +157,7 @@
                 }
                     
                 else if (data.status === "failed") {
-                    tg.showAlert("критическая ошибка или сервер не досупен - нажмите кнопку <вернутся>");
+                    showAlert("критическая ошибка или сервер не досупен - нажмите кнопку <вернутся>");
                 }
                     
                 else {
@@ -208,13 +207,17 @@
                         document.getElementById('replyText').innerText = data.message;
                         document.getElementById('userQuestion').value = '';
                         showLayer('reply');
-                    }else if (data.status == "failed" && data.reason == "No remaining requests") {
-                        tg.showAlert("не осталось запросов - купите подписку в разделе профиль");
+                    } else if (data.status == "failed" && data.reason == "No remaining requests") {
+                        showAlert("не осталось запросов - купите подписку в разделе профиль");
                     }
                 })
                 .catch((error) => {
                     console.error('Ошибка:', error);
                 });
+            } else if (message.length >= 5000) {
+                showAlert("сообщение слишком длинное || должно быть не больше 5000 символов");
+            } else {
+                showAlert("сообщение не может быть пустым");
             }
         };
 
