@@ -89,9 +89,9 @@
             console.log("idTg", idTg);
         });
 
-        showAlert(message) {
+        function showAlert(message) {
             window.Telegram.WebApp.showAlert(message);
-        };
+        }
 
         const startChat = () => {
             console.log('Начало нового чата, создание chatId...');
