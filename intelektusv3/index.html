@@ -209,6 +209,8 @@
                         showLayer('reply');
                     } else if (data.status == "failed" && data.reason == "No remaining requests") {
                         showAlert("не осталось запросов - купите подписку в разделе профиль");
+                    } else if (data.status == "failed" && data.reason == "Chat not found") {
+                        showAlert("скорее всего не осталось запросов - купите подписку в разделе профиль");
                     }
                 })
                 .catch((error) => {
