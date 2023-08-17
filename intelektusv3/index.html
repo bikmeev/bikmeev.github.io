@@ -89,6 +89,10 @@
             console.log("idTg", idTg);
         });
 
+        showAlert(message) {
+            window.Telegram.WebApp.showAlert(message);
+        },
+
         const startChat = () => {
             console.log('Начало нового чата, создание chatId...');
             fetch('https://intelektusrv.ru:8000/start_chat/' + idTg, {
@@ -101,7 +105,7 @@
                     chatId = data.chat_id;
                     fetchRemainingRequests();
                 } else if (data.status == "failed" && data.reason == "No remaining requests") {
-                    tg.showAlert("не осталось запросов - купите подписку в разделе профиль");
+                    showAlert("не осталось запросов - купите подписку в разделе профиль");
                 }
             })
             .catch((error) => {
