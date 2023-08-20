@@ -167,6 +167,13 @@
             fetch(`https://intelektusrv.ru:8000/premium_end_date/${idTg}`, {
                 method: 'POST',
             })
+            .then(response => {
+                console.log(response); // Выводит весь объект ответа
+                return response.json();
+            })
+            .then(data => {
+                console.log(data); // Выводит распарсенный JSON-ответ
+            });
             .then(response => response.json())
             .then(data => {
                 if (data.status === "success") {
@@ -189,7 +196,7 @@
                                     premiumStatusElement.innerHTML = '<p class="blue-box">Поздравляю, у тебя есть активная подписка!</p>';
                                     premiumBox.classList.add("sub");
                                     premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg"  class="icon">'
-                                    premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button><button class="red-button">Отменить подписку</button>`;
+                                    premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button><button class="red-button" onclick="cancelPremium()">Отменить подписку</button>`;
                                     document.getElementById('extendPremium').addEventListener('click', () => {
                                         window.location.href = 'https://intelektus.ru/pay?user=' + idTg;
                                     });
@@ -227,19 +234,38 @@
             });
         }
 
-        const copyText = () =>{
+        const copyText = () => {
             const element = document.querySelector('#userQuestion');
             element.select();
             element.setSelectionRange(0, 999999);
             document.execCommand('copy');
         }
 
-        const copyReply = () =>{
+        const copyReply = () => {
             const element = document.querySelector('#replyText');
             element.select();
             element.setSelectionRange(0, 999999);
             document.execCommand('copy');
         }
+
+        const cancelPremium = () => {
+            fetch(`https://intelektusrv.ru:8000/cancel_subscription/${idTg}`, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    showAlert("Ваша подписка была успешно отменена!");
+                }
+                else if (data.status === "failed") {
+                    showAlert(data.reason);
+                }
+                else {
+                    console.error(data.reason);
+                }
+            })
+        }
+
         
         const submitQuestion = (event) => {
             event.preventDefault();
