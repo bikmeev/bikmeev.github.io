@@ -163,6 +163,22 @@ body {
     margin-bottom: 14px;
 }
 
+.red-button{
+    background-color: #f22825;
+    border: none;
+    color: white;
+    padding: auto;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    padding: 0.5em;
+    font-size: 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 14px;
+}
+
 #profile {
     align-items: center;
     flex-direction: column;
@@ -232,5 +248,3 @@ body {
 .noSub img{
     margin-left: 20px;
 }
-
-
