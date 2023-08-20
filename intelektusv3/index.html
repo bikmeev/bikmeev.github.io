@@ -163,6 +163,7 @@
             const premiumStatusElement = document.getElementById('premiumStatus');
             const premiumBox = document.getElementById('premiumBox');
             const premiumContainer = document.getElementById('premiumContainer');
+            let premiumEndDate;
             fetch(`https://intelektusrv.ru:8000/premium_end_date/${idTg}`, {
                 method: 'POST',
             })
@@ -171,6 +172,7 @@
                 return response.json();
             })
             .then(data => {
+                premiumEndDate = data.premium_end_date;
                 console.log(data);
                 if (data.status === "success") {
                     if (data.reason === "User is not premium" || data.premium_end_date === "expired") {
@@ -192,7 +194,7 @@
                                     premiumStatusElement.innerHTML = '<p class="blue-box">Поздравляю, у тебя есть активная подписка!</p>';
                                     premiumBox.classList.add("sub");
                                     premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg"  class="icon">'
-                                    premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button><button class="red-button" onclick="cancelPremium()">Отменить подписку</button>`;
+                                    premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${premiumEndDate}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button><button class="red-button" onclick="cancelPremium()">Отменить подписку</button>`;
                                     document.getElementById('extendPremium').addEventListener('click', () => {
                                         window.location.href = 'https://intelektus.ru/pay?user=' + idTg;
                                     });
@@ -201,17 +203,17 @@
                                     premiumStatusElement.innerHTML = '<p class="blue-box">Поздравляю, у тебя есть активная подписка!</p>';
                                     premiumBox.classList.add("sub");
                                     premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg"  class="icon">'
-                                    premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button>`;
+                                    premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${premiumEndDate}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button>`;
                                     document.getElementById('extendPremium').addEventListener('click', () => {
                                         window.location.href = 'https://intelektus.ru/pay?user=' + idTg;
                                     });
                                 }
                             }
                             else if (data.status === "failed") {
-                            showAlert("критическая ошибка или сервер не досупен - нажмите кнопку <вернутся>");
+                                showAlert("критическая ошибка или сервер не досупен - нажмите кнопку <вернутся>");
                             }
                             else {
-                            console.error(data.reason);
+                                console.error(data.reason);
                             }
                         })
                     } 
