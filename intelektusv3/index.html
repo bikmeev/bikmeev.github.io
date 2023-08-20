@@ -171,10 +171,7 @@
                 return response.json();
             })
             .then(data => {
-                console.log(data); // Выводит распарсенный JSON-ответ
-            });
-            .then(response => response.json())
-            .then(data => {
+                console.log(data);
                 if (data.status === "success") {
                     if (data.reason === "User is not premium" || data.premium_end_date === "expired") {
                         premiumStatusElement.innerHTML = '<p class="blue-box">Похоже что у тебя нет активной подписки :(</p>';
