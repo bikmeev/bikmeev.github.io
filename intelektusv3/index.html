@@ -180,7 +180,7 @@
                         });
                     } else if (data.premium_end_date) {
                         fetch(`https://intelektusrv.ru:8000/check_is_subscription/${idTg}`, {
-                            method: 'POST',
+                            method: 'GET',
                         })
                         .then(response => response.json())
                         .then(data => {
