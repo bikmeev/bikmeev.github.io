@@ -6,6 +6,12 @@
     <link rel="stylesheet" href="billStyle.css">
     <title>Введите свой Email</title>
     <script>
+        document.addEventListener('click', function(event) {
+            var inputElement = document.getElementById('email');
+            if (event.target !== inputElement) {
+                inputElement.blur();
+            }
+        });
         function validateEmail() {
             var email = document.getElementById("email").value;
             var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
