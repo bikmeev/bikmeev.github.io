@@ -6,30 +6,6 @@
     <title>Интелектус</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
-    <style>
-        #loading {
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center; /* Центрирование текста по горизонтали */
-        }
-    
-        .loader {
-            border: 5px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 5px solid #3498db;
-            width: 50px;
-            height: 50px;
-            animation: spin 2s linear infinite;
-            margin-bottom: 20px; /* Отступ между загрузчиком и текстом */
-        }
-    
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
 
 </head>
 <body>
@@ -51,6 +27,33 @@
     <div id="question" class="hidden">
         <img src="logo.svg" alt="Логотип" id="logo">
         <p class="blue-box">Задавай любой вопрос я  помогу тебе!</p>
+        <div class="switch">
+            <button class="text-switch">
+                <p class="text-icon">𝐓</p>
+                <p>Написать текст</p>
+            </button>
+            <button class="camera-switch" onclick="location.href='camera.html'">
+                <img src="camera.svg">
+                <p>Сделать фото</p>
+            </button>
+        </div>
+        <div class="input-container">
+            <textarea id="userQuestion" maxlength="5000" class="text-box" placeholder="Поле для запроса:"></textarea>
+            <div class="tools">
+                <div id="counter">0/5000</div>
+                <img src="copy.svg" onclick="copyText()">
+            </div>
+            <p id="remainingRequests"></p>
+            <button class="purple-button" onclick="submitQuestion(event)">Отправить</button>
+        </div>
+        <button class="back" onclick="showLayer('menu')">← Вернуться</button>
+    </div>
+    <div id="question2" class="hidden">
+        <img src="logo.svg" alt="Логотип" id="logo">
+        <button class="camera" onclick="location.href='camera.html'">
+            <img src="camera.svg">
+            <p>Переделать фото</p>
+        </button>
         <div class="input-container">
             <textarea id="userQuestion" maxlength="5000" class="text-box" placeholder="Поле для запроса:"></textarea>
             <div class="tools">
@@ -85,6 +88,13 @@
         <p>Загрузка в среднем занимает 20 секунд, но может занять до минуты.</p>
     </div>
     <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            console.log(localStorage.getItem('question') == true);
+            if(localStorage.getItem('question') == 'true'){
+                localStorage.clear();
+                showLayer('question');
+            }
+        })
         //снятие фокуса с imput field при нажатии на пустое место
         document.addEventListener('click', function(event) {
             var inputElement = document.getElementById('userQuestion');
@@ -256,8 +266,6 @@
             }
         };
 
-
-
         const continueChat = () => {
             continueConversation = true;
             showLayer('question');
@@ -267,6 +275,12 @@
             hideAll();
             document.getElementById(layerId).style.display = 'flex';
             if (layerId === 'question') {
+                if (!continueConversation) {
+                    startChat();
+                }
+                fetchRemainingRequests(); // Вызывается каждый раз при активации слоя 'question'
+            }
+            if (layerId === 'question2') {
                 if (!continueConversation) {
                     startChat();
                 }
@@ -284,6 +298,7 @@
         function hideAll() {
             document.getElementById('menu').style.display = 'none';
             document.getElementById('question').style.display = 'none';
+            document.getElementById('question2').style.display = 'none';
             document.getElementById('profile').style.display = 'none';
             document.getElementById('reply').style.display = 'none';
             document.getElementById('loading').style.display = 'none';
