@@ -72,7 +72,7 @@
                     formData.append('file', blob, 'image.png');
         
                     // Отправляем FormData на сервер
-                    return fetch('https://intelektus.ru/recognize-text', {
+                    return fetch('https://intelektus.ru:8000/recognize-text', {
                         method: 'POST',
                         body: formData,
                     });
