@@ -54,31 +54,38 @@
             canvas.width = captureSquare.offsetWidth;
             canvas.height = captureSquare.offsetHeight;
             const ctx = canvas.getContext('2d');
-
+        
             // Рисуем видео внутри квадрата на холсте
-            ctx.drawImage(videoElement, 100 , 100);
-
+            ctx.drawImage(videoElement, 100, 100);
+        
             // Получаем изображение в формате data URL
             const imageUrl = canvas.toDataURL('image/png');
-
-            console.log("imageUrl", imageUrl);
-
-            // Отправляем изображение на сервер
-            fetch('https://intelektusrv.ru:8000/recognize-text', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ image: imageUrl }),
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(`Image URL: ${data.imageUrl}`);
+        
+            // Создаем объект FormData
+            const formData = new FormData();
+        
+            // Преобразуем Data URL в Blob
+            fetch(imageUrl)
+                .then(res => res.blob())
+                .then(blob => {
+                    // Добавляем Blob в FormData
+                    formData.append('file', blob, 'image.png');
+        
+                    // Отправляем FormData на сервер
+                    return fetch('https://intelektus.ru/recognize-text', {
+                        method: 'POST',
+                        body: formData,
+                    });
                 })
-                .catch((error) => {
-                    console.error('Error saving image:', error);
+                .then(response => response.json())
+                .then(data => {
+                    console.log(`Received data:`, data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                 });
         });
+
     </script>
 </body>
 </html>
