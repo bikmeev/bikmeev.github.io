@@ -4,6 +4,14 @@ body {
     overflow: hidden;
     background-color: white;
 }
+#serverWarning {
+    text-align: center;
+    margin-top: 20px;
+}
+#serverWarning p:first-child {
+    font-size: 24px;
+    font-weight: bold;
+}
 
 #loading {
     flex-direction: column;
