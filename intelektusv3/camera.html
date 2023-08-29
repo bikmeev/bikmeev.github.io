@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cameraStyle.css">
+    <title>Camera Capture</title>
+</head>
+<body>
+    <div class="container">
+        <p class="blue-box">Сфотографируй свой вопрос </p>
+        <div class="switch">
+            <button class="text-switch" onclick="openText()">
+                <p class="text-icon">𝐓</p>
+                <p>Написать текст</p>
+            </button>
+            <button class="camera-switch">
+                <img src="camera.svg">
+                <p>Сделать фото</p>
+            </button>
+        </div>
+        <video id="videoElement" autoplay></video>
+        <div id="captureContainer">
+            <div id="captureSquare"></div>
+        </div>
+        <button id="captureButton"></button>
+    </div>
+    <script>
+
+        function openText(){
+            localStorage.setItem('question', 'true')
+            window.location.href='index.html';
+        }
+
+        const videoElement = document.getElementById('videoElement');
+        const captureSquare = document.getElementById('captureSquare');
+        const captureButton = document.getElementById('captureButton');
+
+        // Получаем доступ к задней камере
+        navigator.mediaDevices.getUserMedia({ 
+            video: { 
+                facingMode: 'environment' // Используем заднюю камеру
+            } 
+        })
+            .then((stream) => {
+                videoElement.srcObject = stream;
+            })
+            .catch((err) => {
+                console.log("Something went wrong!", err);
+            });
+
+        captureButton.addEventListener('click', () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = captureSquare.offsetWidth;
+            canvas.height = captureSquare.offsetHeight;
+            const ctx = canvas.getContext('2d');
+
+            // Рисуем видео внутри квадрата на холсте
+            ctx.drawImage(videoElement, 100 , 100);
+
+            // Получаем изображение в формате data URL
+            const imageUrl = canvas.toDataURL('image/png');
+
+            // Отправляем изображение на сервер
+            fetch('https://intelektus.ru/saveImage.js', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ image: imageUrl }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(`Image URL: ${data.imageUrl}`);
+                })
+                .catch((error) => {
+                    console.error('Error saving image:', error);
+                });
+        });
+    </script>
+</body>
+</html>
