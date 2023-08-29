@@ -5,6 +5,27 @@ body {
     background-color: white;
 }
 
+#loading {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Центрирование текста по горизонтали */
+}
+
+.loader {
+    border: 5px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 5px solid #3498db;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+    margin-bottom: 20px; /* Отступ между загрузчиком и текстом */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
 #menu{
     display: flex;
@@ -54,8 +75,8 @@ body {
     width: 248px;
     height: 48px;
     font-size: 24px;
-    border-radius: 10px;
     cursor: pointer;
+    border-radius: 10px;
 }
 
 .button-container button:hover {
@@ -66,7 +87,85 @@ body {
     display: none;
 }
 
+.switch{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.switch button{
+    border: none;
+    padding: auto;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    padding: 0.5em;
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+}
+
+.text-switch{
+    color: white;
+    background-color: #2AABEE;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.camera-switch{
+    margin: 0;
+    color: #838383;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    
+}
+
+.camera-switch img{
+    margin-right: 6px;
+}
+
+.camera{
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    border: none;
+    background-color: #2AABEE;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    margin-top: 4px;
+}
+
+.camera img{
+    margin-right: 6px;
+}
+
+.text-icon{
+    font-weight: 600;
+    font-size: 24px;
+    color: black;
+    margin: 0 6px 0 0;
+}
+
 #question {
+    align-items: center;
+    flex-direction: column;
+}
+
+#question2 {
     align-items: center;
     flex-direction: column;
 }
@@ -95,7 +194,6 @@ body {
     flex: 1;
 }
 
-
 .text-box::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 14px;
@@ -123,6 +221,10 @@ body {
 }
 
 #question button:hover {
+    background-color: #007bb3;
+}
+
+#question2 button:hover {
     background-color: #007bb3;
 }
 
