@@ -89,6 +89,25 @@ body, html {
     border-radius: 50%;
 }
 
+#captureSquare {
+    border: 5px solid rgb(85, 85, 85);
+    border-radius: 8px;
+    position: absolute;
+    top: 25%;
+    width: 160px;
+    height: 120px;
+    resize: both;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#captureSquare img{
+    rotate: 45deg;
+    position: relative;
+    justify-content: center;
+}
 
 /* #container {
     position: relative;
