@@ -6,7 +6,6 @@
     <title>Интелектус</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 </head>
 <body>
     <div id="menu">
@@ -120,7 +119,6 @@
         });
         document.addEventListener('DOMContentLoaded', (event) => {
 
-            // Добавляем проверку статуса сервера
             fetch('https://intelektusrv.ru:8000/srv_status', {
                 // Устанавливаем таймаут в 10 секунд
                 timeout: 10000
@@ -140,7 +138,7 @@
                 warningDiv.id = 'serverWarning';
         
                 if (error.name === 'AbortError') {
-                    warningDiv.innerHTML = '<p>Сервер не отвечает - Критическая ошибка</p><p>В ближайшее время починим</p>';
+                    warningDiv.innerHTML = '<p>Сервер не отвечает</p><p>В ближайшее время починим</p>';
                 } else {
                     warningDiv.innerHTML = `<p>Произошла ошибка</p><p>Подробности: ${error.message}</p>`;
                 }
