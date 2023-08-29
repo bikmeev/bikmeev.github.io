@@ -127,6 +127,7 @@
             .then(data => {
                 if (data.status !== "working") {
                     // Если сервер не работает, показываем сообщение
+                    hideAll();
                     const warningDiv = document.createElement('div');
                     warningDiv.id = 'serverWarning';
                     warningDiv.innerHTML = `<p>Сервер не работает</p><p>Причина: ${data.reason}</p>`;
@@ -138,8 +139,10 @@
                 warningDiv.id = 'serverWarning';
         
                 if (error.name === 'AbortError') {
+                    hideAll();
                     warningDiv.innerHTML = '<p>Сервер не отвечает</p><p>В ближайшее время починим</p>';
                 } else {
+                    hideAll();
                     warningDiv.innerHTML = `<p>Произошла ошибка</p><p>Подробности: ${error.message}</p>`;
                 }
         
