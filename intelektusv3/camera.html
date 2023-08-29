@@ -61,8 +61,10 @@
             // Получаем изображение в формате data URL
             const imageUrl = canvas.toDataURL('image/png');
 
+            console.log("imageUrl", imageUrl);
+
             // Отправляем изображение на сервер
-            fetch('https://intelektus.ru/saveImage.js', {
+            fetch('https://intelektus.ru/recognize-text', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
