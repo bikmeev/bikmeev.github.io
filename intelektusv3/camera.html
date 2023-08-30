@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="cameraStyle.css">
-    <title>Camera Capture 1/0</title>
+    <title>Camera Capture 2/0</title>
 </head>
 <body>
     <div class="container">
@@ -20,9 +20,6 @@
             </button>
         </div>
         <video id="videoElement" autoplay></video>
-        <div id="captureSquare">
-            <img src="cross.svg">
-        </div>
         <button id="captureButton"></button>
     </div>
     <script>
@@ -32,7 +29,6 @@
         }
 
         const videoElement = document.getElementById('videoElement');
-        const captureSquare = document.getElementById('captureSquare');
         const captureButton = document.getElementById('captureButton');
 
         navigator.mediaDevices.getUserMedia({ 
@@ -55,16 +51,7 @@
         
             ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
             
-            const rect = captureSquare.getBoundingClientRect();
-            const imageData = ctx.getImageData(rect.left, rect.top, rect.width, rect.height);
-            
-            const newCanvas = document.createElement('canvas');
-            newCanvas.width = rect.width;
-            newCanvas.height = rect.height;
-            const newCtx = newCanvas.getContext('2d');
-            newCtx.putImageData(imageData, 0, 0);
-            
-            const imageUrl = newCanvas.toDataURL('image/png');
+            const imageUrl = canvas.toDataURL('image/png');
             console.log(`Image URL: ${imageUrl}`);
             
             fetch(imageUrl)
