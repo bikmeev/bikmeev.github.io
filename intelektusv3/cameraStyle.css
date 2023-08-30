@@ -84,11 +84,11 @@ input[type="file"] {
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
-    margin-bottom: 30px;
 }
 
 .purple-button{
     background-color: #AA6EFC;
+    margin-top: 20px;
     border: none;
     color: white;
     padding: auto;
