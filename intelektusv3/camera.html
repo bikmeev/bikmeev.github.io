@@ -80,15 +80,16 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(`Received data:`, data);
-                    console.log(`sent data:`, data.text);
                     // Сохраняем значение в localStorage
                     localStorage.setItem('question2', 'true');
-                    localStorage.setItem('question2_data', data.text);
                     if(data.text == '\f'){
-                        console.log(`data.text:`, "null");
+                        localStorage.setItem('question2_data', "null");
+                    }
+                    else{
+                        localStorage.setItem('question2_data', data.text);
                     }
                     // Переходим на index.html
-                    //window.location.href = 'index.html';
+                    window.location.href = 'index.html';
                 })
                 .catch(error => {
                     console.error('Error:', error);
