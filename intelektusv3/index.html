@@ -96,6 +96,18 @@
             else if(localStorage.getItem('question2') == 'true'){
                 localStorage.clear();
                 showLayer('question2');
+                if(localStorage.getItem('question2_data') !== "\f"){
+                    // Получаем элемент textarea по его ID
+                    const textarea = document.getElementById('userQuestion');
+                
+                    // Устанавливаем значение textarea из localStorage
+                    textarea.value = localStorage.getItem('question2_data');
+                    
+                    localStorage.clear();
+                }
+                else{
+                    showAlert("текст на фото не найден");
+                }
             }
         })
         //снятие фокуса с imput field при нажатии на пустое место
