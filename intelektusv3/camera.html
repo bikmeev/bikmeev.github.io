@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="cameraStyle.css">
-    <title>Camera Capture 2/0</title>
+    <title>Camera Capture 2/1</title>
 </head>
 <body>
     <div class="container">
@@ -44,40 +44,44 @@
         });
 
         captureButton.addEventListener('click', () => {
-            const canvas = document.createElement('canvas');
-            canvas.width = videoElement.videoWidth;
-            canvas.height = videoElement.videoHeight;
-            const ctx = canvas.getContext('2d');
-        
-            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+            if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
+                const canvas = document.createElement('canvas');
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                const ctx = canvas.getContext('2d');
             
-            const imageUrl = canvas.toDataURL('image/png');
-            console.log(`Image URL: ${imageUrl}`);
-            
-            fetch(imageUrl)
-                .then(res => res.blob())
-                .then(blob => {
-                    const formData = new FormData();
-                    formData.append('file', blob, 'image.png');
-                    return fetch('https://intelektusrv.ru:8000/recognize-text', {
-                        method: 'POST',
-                        body: formData,
+                ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                
+                const imageUrl = canvas.toDataURL('image/png');
+                console.log(`Image URL: ${imageUrl}`);
+                
+                fetch(imageUrl)
+                    .then(res => res.blob())
+                    .then(blob => {
+                        const formData = new FormData();
+                        formData.append('file', blob, 'image.png');
+                        return fetch('https://intelektusrv.ru:8000/recognize-text', {
+                            method: 'POST',
+                            body: formData,
+                        });
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(`Received data:`, data);
+                        localStorage.setItem('question2', 'true');
+                        if(data.text == '\f'){
+                            localStorage.setItem('question2_data', "null");
+                        }
+                        else{
+                            localStorage.setItem('question2_data', data.text);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
                     });
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(`Received data:`, data);
-                    localStorage.setItem('question2', 'true');
-                    if(data.text == '\f'){
-                        localStorage.setItem('question2_data', "null");
-                    }
-                    else{
-                        localStorage.setItem('question2_data', data.text);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+            } else {
+                console.log("Video stream is not ready.");
+            }
         });
     </script>
 </body>
