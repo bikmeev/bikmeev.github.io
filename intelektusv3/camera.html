@@ -75,6 +75,7 @@
                             localStorage.setItem('question2_data', data.text);
                             localStorage.setItem('question2_data_link', imageUrl);
                         }
+                        window.location.href = 'index.html';
                     })
                     .catch(error => {
                         console.error('Error:', error);
