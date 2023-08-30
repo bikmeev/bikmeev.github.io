@@ -63,6 +63,7 @@
             <button class="purple-button" onclick="submitQuestion(event)">Отправить</button>
         </div>
         <button class="back" onclick="showLayer('menu')">← Вернуться</button>
+        <a id="imageLink" class="hidden" href="" target="_blank">Посмотреть фото</a>
     </div>
     <div id="reply" class="hidden">
         <img src="logo.svg" alt="Логотип" id="logo">
@@ -113,6 +114,11 @@
                 
                     // Устанавливаем значение textarea из localStorage
                     textarea.value = localStorage.getItem('question2_data');
+
+                    // Устанавливаем ссылку на изображение
+                    const imageLink = document.getElementById('imageLink');
+                    imageLink.href = localStorage.getItem('question2_data_link');
+                    imageLink.classList.remove('hidden'); // Показываем ссылку
                     
                     localStorage.clear();
                 }
