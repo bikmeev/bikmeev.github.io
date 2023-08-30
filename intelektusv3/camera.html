@@ -21,14 +21,21 @@
         </div>
         <label for="file" class="custom-file-upload">Выбрать файл</label>
         <input type="file" id="file">
-        <div>
-            <button class="purple-button" id="submit">Загрузить файл</button>
-        </div>
+        <div id="error"><p>Файл не выбран</p></div>
+        <button class="purple-button" id="submit">Загрузить файл</button>
     </div>
     <script>
 
+        const submit = document.getElementById('submit');
+        const error = document.getElementById('error');
+
         function openText(){
             localStorage.setItem('question', 'true')
+            window.location.href='index.html';
+        }
+        
+        function openText(){
+            localStorage.setItem('question', 'true');
             window.location.href='index.html';
         }
 
@@ -45,35 +52,24 @@
             "image/x-icon",
         ];
 
-        function returnFileSize(number) {
-            if (number < 1024) {
-                return `${number} bytes`;
-            } else if (number >= 1024 && number < 1048576) {
-                return `${(number / 1024).toFixed(1)} KB`;
-            } else if (number >= 1048576) {
-                return `${(number / 1048576).toFixed(1)} MB`;
-            }
-        }
-
         function validFileType(file) {
-            return fileTypes.includes(file.type);
-        }
-        
-        function openText(){
-            localStorage.setItem('question', 'true');
-            window.location.href='index.html';
+            return fileTypes.includes(file[0].type);
         }
         
         submit.addEventListener('click', () => {
+            while (error.firstChild) {
+                error.removeChild(error.firstChild);
+            }
+            const input = document.querySelector("input");
+            input.style.opacity = 0;
             const para = document.createElement("p");
+            error.appendChild(para);
+            const file = input.files;
             if (file.length === 0) {
                 para.textContent = "Файл не был выбран.";
             } else{
                 if (validFileType(file)) {
-                    input.style.opacity = 0;
-                    const input = document.querySelector("input");
-                    const file = input.files;
-                    const imageUrl = URL.createObjectURL(file);
+                    const imageUrl = URL.createObjectURL(file[0]);
                     console.log(`Image URL: ${imageUrl}`);
                     fetch(imageUrl)
                     .then(res => res.blob())
@@ -96,16 +92,16 @@
                             localStorage.setItem('question2_data', data.text);
                             localStorage.setItem('question2_data_link', imageUrl);
                         }
-                        window.location.href = 'index.html';
+                            window.location.href = 'index.html';
                     })
                     .catch(error => {
-                        console.error('Error:', error);
+                            console.error('Error:', error);
                     });
-            } else {
-                    para.textContent = ` Формат файл ${file.name}: не подходит. Обновите свой выбор.`;
+                }else{
+                    para.textContent = `File name ${file.name}: Not a valid file type. Update your selection.`;
+                    error.appendChild(para);
                 }
-
-            }
+            }      
         });
 
     </script>
