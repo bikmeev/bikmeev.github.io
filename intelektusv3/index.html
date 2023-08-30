@@ -119,35 +119,51 @@
         });
         document.addEventListener('DOMContentLoaded', (event) => {
 
-            fetch('https://intelektusrv.ru:8000/srv_status', {
-                // Устанавливаем таймаут в 10 секунд
-                timeout: 10000
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status !== "working") {
+           // Получаем IP-адрес клиента
+            fetch('https://api.ipify.org?format=json')
+              .then(response => response.json())
+              .then(data => {
+                const ip = data.ip;
+            
+                // Если IP-адрес соответствует разрешенному, не делаем запрос к серверу
+                if (ip === "217.164.167.171") {
+                  return;
+                }
+            
+                // Ваш код для запроса к серверу
+                fetch('https://intelektusrv.ru:8000/srv_status', {
+                  // Устанавливаем таймаут в 10 секунд
+                  timeout: 10000
+                })
+                .then(response => response.json())
+                .then(data => {
+                  if (data.status !== "working") {
                     // Если сервер не работает, показываем сообщение
                     hideAll();
                     const warningDiv = document.createElement('div');
                     warningDiv.id = 'serverWarning';
                     warningDiv.innerHTML = `<p>Сервер не работает</p><p>Причина: ${data.reason}</p>`;
                     document.body.appendChild(warningDiv);
-                }
-            })
-            .catch(error => {
-                const warningDiv = document.createElement('div');
-                warningDiv.id = 'serverWarning';
-        
-                if (error.name === 'AbortError') {
+                  }
+                })
+                .catch(error => {
+                  const warningDiv = document.createElement('div');
+                  warningDiv.id = 'serverWarning';
+            
+                  if (error.name === 'AbortError') {
                     hideAll();
                     warningDiv.innerHTML = '<p>Сервер не отвечает</p><p>В ближайшее время починим</p>';
-                } else {
+                  } else {
                     hideAll();
                     warningDiv.innerHTML = `<p>Произошла ошибка</p><p>Подробности: ${error.message}</p>`;
-                }
-        
-                document.body.appendChild(warningDiv);
-            });
+                  }
+            
+                  document.body.appendChild(warningDiv);
+                });
+              })
+              .catch(error => {
+                console.error("Ошибка при получении IP-адреса:", error);
+              });
             
             let tg = window.Telegram.WebApp;
             idTg = tg.initDataUnsafe.user.id;
