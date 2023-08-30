@@ -87,6 +87,17 @@
         <p>Загрузка в среднем занимает 20 секунд, но может занять до минуты.</p>
     </div>
     <script>
+
+        let tg;
+        
+        let chatId = null;
+        let idTg;
+        let continueConversation = false;
+        
+        function showAlert(message) {
+            window.Telegram.WebApp.showAlert(message);
+        }
+        
         document.addEventListener('DOMContentLoaded', function(){
             console.log(localStorage.getItem('question') == true);
             if(localStorage.getItem('question') == 'true'){
@@ -94,7 +105,7 @@
                 showLayer('question');
             }
             else if(localStorage.getItem('question2') == 'true'){
-                localStorage.clear();
+                //localStorage.clear();
                 showLayer('question2');
                 if(localStorage.getItem('question2_data') !== "null"){
                     // Получаем элемент textarea по его ID
@@ -107,7 +118,9 @@
                 }
                 else{
                     showAlert("текст на фото не найден");
+                    localStorage.clear();
                 }
+                localStorage.clear();
             }
         })
         //снятие фокуса с imput field при нажатии на пустое место
@@ -117,12 +130,6 @@
                 inputElement.blur();
             }
         });
-
-        let tg;
-        
-        let chatId = null;
-        let idTg;
-        let continueConversation = false;
 
         const messageEle = document.getElementById('userQuestion');
         const counterEle = document.getElementById('counter');
@@ -193,10 +200,6 @@
 
             
         });
-
-        function showAlert(message) {
-            window.Telegram.WebApp.showAlert(message);
-        }
 
         const startChat = () => {
             console.log('Начало нового чата, создание chatId...');
