@@ -93,6 +93,10 @@
                 localStorage.clear();
                 showLayer('question');
             }
+            else if(localStorage.getItem('question2') == 'true'){
+                localStorage.clear();
+                showLayer('question2');
+            }
         })
         //снятие фокуса с imput field при нажатии на пустое место
         document.addEventListener('click', function(event) {
@@ -174,6 +178,8 @@
             let viewportHeight = tg.viewportHeight;
             // Установка высоты слоя загрузки
             document.getElementById('loading').style.height = viewportHeight + 'px';
+
+            
         });
 
         function showAlert(message) {
