@@ -24,13 +24,15 @@
     </div>
     <script>
         function openText(){
-            localStorage.setItem('question', 'true')
+            localStorage.setItem('question', 'true');
             window.location.href='index.html';
         }
-
+        
         const videoElement = document.getElementById('videoElement');
         const captureButton = document.getElementById('captureButton');
-
+        const canvas = document.createElement('canvas'); // Создаем элемент canvas
+        const ctx = canvas.getContext('2d'); // Получаем контекст 2D
+        
         navigator.mediaDevices.getUserMedia({ 
             video: { 
                 facingMode: 'environment'
@@ -42,14 +44,11 @@
         .catch((err) => {
             console.log("Something went wrong!", err);
         });
-
+        
         captureButton.addEventListener('click', () => {
             if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
-                const canvas = document.createElement('canvas');
                 canvas.width = videoElement.videoWidth;
                 canvas.height = videoElement.videoHeight;
-                const ctx = canvas.getContext('2d');
-            
                 ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
                 
                 const imageUrl = canvas.toDataURL('image/png');
@@ -69,7 +68,7 @@
                     .then(data => {
                         console.log(`Received data:`, data);
                         localStorage.setItem('question2', 'true');
-                        if(data.text == '\f'){
+                        if(data.text === '\f'){
                             localStorage.setItem('question2_data', "null");
                         }
                         else{
@@ -83,6 +82,7 @@
                 console.log("Video stream is not ready.");
             }
         });
+
     </script>
 </body>
 </html>
