@@ -4,57 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="cameraStyle.css">
-    <title>Camera Capture 2/2</title>
+    <title>Camera Capture</title>
 </head>
 <body>
     <div class="container">
-        <p class="blue-box">Сфотографируй свой вопрос </p>
+        <p class="blue-box">Загрузи фотографию со своим вопросом</p>
         <div class="switch">
             <button class="text-switch" onclick="openText()">
                 <p class="text-icon">𝐓</p>
                 <p>Написать текст</p>
             </button>
-            <button class="camera-switch">
+            <button class="camera-switch" onclick="location.href='camera.html'">
                 <img src="camera.svg">
                 <p>Сделать фото</p>
             </button>
         </div>
-        <video id="videoElement" autoplay></video>
-        <button id="captureButton"></button>
+        <label for="file" class="custom-file-upload">Выбрать файл</label>
+        <input type="file" id="file">
+        <div>
+            <button class="purple-button" id="submit">Загрузить файл</button>
+        </div>
     </div>
     <script>
+
+        function openText(){
+            localStorage.setItem('question', 'true')
+            window.location.href='index.html';
+        }
+
+        const fileTypes = [
+            "image/apng",
+            "image/bmp",
+            "image/gif",
+            "image/jpeg",
+            "image/pjpeg",
+            "image/png",
+            "image/svg+xml",
+            "image/tiff",
+            "image/webp",
+            "image/x-icon",
+        ];
+
+        function returnFileSize(number) {
+            if (number < 1024) {
+                return `${number} bytes`;
+            } else if (number >= 1024 && number < 1048576) {
+                return `${(number / 1024).toFixed(1)} KB`;
+            } else if (number >= 1048576) {
+                return `${(number / 1048576).toFixed(1)} MB`;
+            }
+        }
+
+        function validFileType(file) {
+            return fileTypes.includes(file.type);
+        }
+        
         function openText(){
             localStorage.setItem('question', 'true');
             window.location.href='index.html';
         }
         
-        const videoElement = document.getElementById('videoElement');
-        const captureButton = document.getElementById('captureButton');
-        const canvas = document.createElement('canvas'); // Создаем элемент canvas
-        const ctx = canvas.getContext('2d'); // Получаем контекст 2D
-        
-        navigator.mediaDevices.getUserMedia({ 
-            video: { 
-                facingMode: 'environment'
-            } 
-        })
-        .then((stream) => {
-            videoElement.srcObject = stream;
-        })
-        .catch((err) => {
-            console.log("Something went wrong!", err);
-        });
-        
-        captureButton.addEventListener('click', () => {
-            if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
-                ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-                
-                const imageUrl = canvas.toDataURL('image/png');
-                console.log(`Image URL: ${imageUrl}`);
-                
-                fetch(imageUrl)
+        submit.addEventListener('click', () => {
+            const para = document.createElement("p");
+            if (file.length === 0) {
+                para.textContent = "Файл не был выбран.";
+            } else{
+                if (validFileType(file)) {
+                    input.style.opacity = 0;
+                    const input = document.querySelector("input");
+                    const file = input.files;
+                    const imageUrl = URL.createObjectURL(file);
+                    console.log(`Image URL: ${imageUrl}`);
+                    fetch(imageUrl)
                     .then(res => res.blob())
                     .then(blob => {
                         const formData = new FormData();
@@ -81,7 +102,9 @@
                         console.error('Error:', error);
                     });
             } else {
-                console.log("Video stream is not ready.");
+                    para.textContent = ` Формат файл ${file.name}: не подходит. Обновите свой выбор.`;
+                }
+
             }
         });
 
