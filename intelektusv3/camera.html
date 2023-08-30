@@ -80,6 +80,12 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(`Received data:`, data);
+
+                    // Сохраняем значение в localStorage
+                    localStorage.setItem('question2', 'true');
+                
+                    // Переходим на index.html
+                    window.location.href = 'index.html';
                 })
                 .catch(error => {
                     console.error('Error:', error);
