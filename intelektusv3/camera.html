@@ -68,7 +68,7 @@
                     .then(data => {
                         console.log(`Received data:`, data);
                         localStorage.setItem('question2', 'true');
-                        if(data.text === '\f'){
+                        if(data.text === '\f' || data.text === ' \n\f'){
                             localStorage.setItem('question2_data', "null");
                         }
                         else{
