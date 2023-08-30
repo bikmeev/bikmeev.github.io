@@ -80,7 +80,7 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(`Received data:`, data);
-
+                    console.log(`sent data:`, data.text);
                     // Сохраняем значение в localStorage
                     localStorage.setItem('question2', 'true');
                     localStorage.setItem('question2_data', data.text);
