@@ -26,7 +26,6 @@
         <button id="captureButton"></button>
     </div>
     <script>
-
         function openText(){
             localStorage.setItem('question', 'true')
             window.location.href='index.html';
@@ -36,47 +35,43 @@
         const captureSquare = document.getElementById('captureSquare');
         const captureButton = document.getElementById('captureButton');
 
-        // Получаем доступ к задней камере
         navigator.mediaDevices.getUserMedia({ 
             video: { 
-                facingMode: 'environment' // Используем заднюю камеру
+                facingMode: 'environment'
             } 
         })
-            .then((stream) => {
-                videoElement.srcObject = stream;
-            })
-            .catch((err) => {
-                console.log("Something went wrong!", err);
-            });
+        .then((stream) => {
+            videoElement.srcObject = stream;
+        })
+        .catch((err) => {
+            console.log("Something went wrong!", err);
+        });
 
         captureButton.addEventListener('click', () => {
             const canvas = document.createElement('canvas');
-            canvas.width = captureSquare.offsetWidth;
-            canvas.height = captureSquare.offsetHeight;
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
             const ctx = canvas.getContext('2d');
         
-            // Получаем координаты и размеры квадрата
+            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+            
             const rect = captureSquare.getBoundingClientRect();
-        
-            // Рисуем видео внутри квадрата на холсте
-            ctx.drawImage(videoElement, rect.left, rect.top, rect.width, rect.height, 0, 0, canvas.width, canvas.height);
-        
-            // Получаем изображение в формате data URL
-            const imageUrl = canvas.toDataURL('image/png');
-        
-            // Создаем объект FormData
-            const formData = new FormData();
-
+            const imageData = ctx.getImageData(rect.left, rect.top, rect.width, rect.height);
+            
+            const newCanvas = document.createElement('canvas');
+            newCanvas.width = rect.width;
+            newCanvas.height = rect.height;
+            const newCtx = newCanvas.getContext('2d');
+            newCtx.putImageData(imageData, 0, 0);
+            
+            const imageUrl = newCanvas.toDataURL('image/png');
             console.log(`Image URL: ${imageUrl}`);
-        
-            // Преобразуем Data URL в Blob
+            
             fetch(imageUrl)
                 .then(res => res.blob())
                 .then(blob => {
-                    // Добавляем Blob в FormData
+                    const formData = new FormData();
                     formData.append('file', blob, 'image.png');
-        
-                    // Отправляем FormData на сервер
                     return fetch('https://intelektusrv.ru:8000/recognize-text', {
                         method: 'POST',
                         body: formData,
@@ -85,7 +80,6 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(`Received data:`, data);
-                    // Сохраняем значение в localStorage
                     localStorage.setItem('question2', 'true');
                     if(data.text == '\f'){
                         localStorage.setItem('question2_data', "null");
@@ -93,14 +87,11 @@
                     else{
                         localStorage.setItem('question2_data', data.text);
                     }
-                    // Переходим на index.html
-                    //window.location.href = 'index.html';
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
         });
-
     </script>
 </body>
 </html>
