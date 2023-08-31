@@ -7,7 +7,7 @@
     <title>Camera Capture</title>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="main">
         <p class="blue-box">Загрузи фотографию со своим вопросом</p>
         <div class="switch">
             <button class="text-switch" onclick="openText()">
@@ -23,6 +23,11 @@
         <input type="file" id="file">
         <div id="error"><p>Файл не выбран</p></div>
         <button class="purple-button" id="submit">Загрузить файл</button>
+    </div>
+    <div id="loading">
+        <div class="loader"></div>
+        <h1>Загрузка...</h1>
+        <p>Загрузка в среднем занимает 20 секунд, но может занять до минуты.</p>
     </div>
     <script>
 
@@ -69,6 +74,9 @@
                 para.textContent = "Файл не был выбран.";
             } else{
                 if (validFileType(file)) {
+                    
+                    document.getElementById('main').style.display = 'none';
+                    document.getElementById('loading').style.display = 'flex';
                     const imageUrl = URL.createObjectURL(file[0]);
                     console.log(`Image URL: ${imageUrl}`);
                     fetch(imageUrl)
