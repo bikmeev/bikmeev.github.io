@@ -54,13 +54,13 @@
             <p>Переделать фото</p>
         </button>
         <div class="input-container">
-            <textarea id="userQuestion" maxlength="5000" class="text-box" placeholder="Поле для запроса:"></textarea>
+            <textarea id="userQuestion2" maxlength="5000" class="text-box" placeholder="Поле для запроса:"></textarea>
             <div class="tools">
-                <div id="counter">0/5000</div>
-                <img src="copy.svg" onclick="copyText()">
+                <div id="counter2">0/5000</div>
+                <img src="copy.svg" onclick="copyText2()">
             </div>
-            <p id="remainingRequests"></p>
-            <button class="purple-button" onclick="submitQuestion(event)">Отправить</button>
+            <p id="remainingRequests2"></p>
+            <button class="purple-button" onclick="submitQuestion2(event)">Отправить</button>
         </div>
         <button class="back" onclick="showLayer('menu')">← Вернуться</button>
         <a id="imageLink" class="hidden" href="" target="_blank">Посмотреть фото</a>
@@ -110,7 +110,7 @@
                 showLayer('question2');
                 if(localStorage.getItem('question2_data') !== "null"){
                     // Получаем элемент textarea по его ID
-                    const textarea = document.getElementById('userQuestion');
+                    const textarea = document.getElementById('userQuestion2');
                 
                     // Устанавливаем значение textarea из localStorage
                     textarea.value = localStorage.getItem('question2_data');
@@ -145,6 +145,16 @@
             const maxLength = target.getAttribute('maxlength');
             const currentLength = target.value.length;
             counterEle.innerHTML = `${currentLength}/${maxLength}`;
+        });
+
+        const messageEle2 = document.getElementById('userQuestion2');
+        const counterEle2 = document.getElementById('counter2');
+
+        messageEle2.addEventListener('input', function (e) {
+            const target = e.target;
+            const maxLength = target.getAttribute('maxlength');
+            const currentLength = target.value.length;
+            counterEle2.innerHTML = `${currentLength}/${maxLength}`;
         });
         document.addEventListener('DOMContentLoaded', (event) => {
 
@@ -242,6 +252,21 @@
             });
         };
 
+        const fetchRemainingRequests2 = () => {
+            fetch(`https://intelektusrv.ru:8000/remaining_requests/${idTg}`, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    document.getElementById('remainingRequests2').innerText = `Оставшиеся запросы: ${data.remainingRequests}`;
+                }
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
+        };
+
         const fetchPremiumStatus = () => {
             const premiumStatusElement = document.getElementById('premiumStatus');
             const premiumBox = document.getElementById('premiumBox');
@@ -286,6 +311,13 @@
 
         const copyText = () => {
             const element = document.querySelector('#userQuestion');
+            element.select();
+            element.setSelectionRange(0, 999999);
+            document.execCommand('copy');
+        }
+
+        const copyText2 = () => {
+            const element = document.querySelector('#userQuestion2');
             element.select();
             element.setSelectionRange(0, 999999);
             document.execCommand('copy');
@@ -339,6 +371,47 @@
             }
         };
 
+        const submitQuestion2 = (event) => {
+            event.preventDefault();
+            const message = document.getElementById('userQuestion2').value.trim();
+            document.getElementById('userQuestion2').blur();
+            if (message && message.length <= 5000) {
+                document.getElementById('userQuestion2').blur();
+                showLayer('loading');
+                fetch(`https://intelektusrv.ru:8000/send_message/${chatId}/${idTg}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        role: "user",
+                        content: message,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('submitQuestion response:', data);
+                    if (data.status !== "failed") {
+                        document.getElementById('replyText').innerText = data.message;
+                        document.getElementById('userQuestion2').value = '';
+                        showLayer('reply');
+                    } else if (data.status == "failed" && data.reason == "No remaining requests") {
+                        showAlert("не осталось запросов - купите подписку в разделе профиль");
+                    } else if (data.status == "failed" && data.reason == "Chat not found") {
+                        showAlert("скорее всего не осталось запросов - купите подписку в разделе профиль");
+                        showLayer('menu');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Ошибка:', error);
+                });
+            } else if (message.length >= 5000) {
+                showAlert("сообщение слишком длинное || должно быть не больше 5000 символов");
+            } else {
+                showAlert("сообщение не может быть пустым");
+            }
+        };
+
         const continueChat = () => {
             continueConversation = true;
             showLayer('question');
@@ -357,7 +430,7 @@
                 if (!continueConversation) {
                     startChat();
                 }
-                fetchRemainingRequests(); // Вызывается каждый раз при активации слоя 'question'
+                fetchRemainingRequests2(); // Вызывается каждый раз при активации слоя 'question'
             }
             if (layerId === 'profile') {
                 fetchPremiumStatus();
