@@ -207,14 +207,13 @@
               });
             
             let tg = window.Telegram.WebApp;
-            try {
-                const idTg = tg.initDataUnsafe.user.id;
-                if (idTg === undefined) {
-                    console.log('Ошибка: idTg не определен и вероятнее всего будте взят из localStorage');
-                } else {
-                    localStorage.setItem('idTg', idTg);
-                    console.log('idTg определен в localStorage');
-                }
+            
+            const idTg = tg.initDataUnsafe.user.id;
+            if (idTg === undefined) {
+                console.log('Ошибка: idTg не определен и вероятнее всего будте взят из localStorage');
+            } else {
+                localStorage.setItem('idTg', idTg);
+                console.log('idTg определен в localStorage');
             }
             
             tg.expand();
