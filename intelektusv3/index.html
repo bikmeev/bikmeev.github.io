@@ -109,6 +109,7 @@
             else if(localStorage.getItem('question2') == 'true'){
                 //localStorage.clear();
                 showLayer('question2');
+                console.log("question2", "opened");
                 if(localStorage.getItem('question2_data') !== "null"){
                     // Получаем элемент textarea по его ID
                     const textarea = document.getElementById('userQuestion2');
