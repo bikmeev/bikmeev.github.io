@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус v2.12</title>
+    <title>Интелектус v2.13</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -207,7 +207,18 @@
               });
             
             let tg = window.Telegram.WebApp;
-            idTg = tg.initDataUnsafe.user.id;
+            try {
+                const idTg = tg.initDataUnsafe.user.id;
+                if (idTg) {
+                    localStorage.setItem('idTg', idTg);
+                    console.log('idTg определен в localStorage');
+                } else {
+                    console.log('Ошибка: idTg не определен');
+                }
+              } catch (error) {
+                    console.log('Ошибка:', error);
+              }
+            
             tg.expand();
             console.log("idTg", idTg);
 
