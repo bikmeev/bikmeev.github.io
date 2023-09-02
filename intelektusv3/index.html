@@ -209,19 +209,8 @@
             let tg = window.Telegram.WebApp;
             
             const idTg = tg.initDataUnsafe.user.id;
-            try{
-                if (idTg === undefined) {
-                    console.log('Ошибка: idTg не определен и вероятнее всего будте взят из localStorage');
-                    idTg = localStorage.getItem('idTg');
-                } else {
-                    localStorage.setItem('idTg', idTg);
-                    console.log('idTg определен в localStorage');
-                }
-                
-            }catch (error) {
-                console.log('Ошибка после try в idTg:', error);
-            }
-            
+            localStorage.setItem('idTg', idTg);
+            console.log('idTg определен в localStorage');
             tg.expand();
             console.log("idTg", idTg);
 
@@ -255,7 +244,7 @@
 
         const startChat2 = () => {
             console.log('Начало нового чата, создание chatId...');
-            fetch('https://intelektusrv.ru:8000/start_chat/' + idTg, {
+            fetch('https://intelektusrv.ru:8000/start_chat/' + localStorage.getItem('idTg'), {
                 method: 'POST',
             })
             .then(response => response.json())
@@ -289,7 +278,7 @@
         };
 
         const fetchRemainingRequests2 = () => {
-            fetch(`https://intelektusrv.ru:8000/remaining_requests/${idTg}`, {
+            fetch(`https://intelektusrv.ru:8000/remaining_requests/${localStorage.getItem('idTg')}`, {
                 method: 'POST',
             })
             .then(response => response.json())
