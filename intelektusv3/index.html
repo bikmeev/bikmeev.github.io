@@ -209,11 +209,11 @@
             let tg = window.Telegram.WebApp;
             try {
                 const idTg = tg.initDataUnsafe.user.id;
-                if (idTg) {
+                if (idTg === undefined) {
+                    console.log('Ошибка: idTg не определен и вероятнее всего будте взят из localStorage');
+                } else {
                     localStorage.setItem('idTg', idTg);
                     console.log('idTg определен в localStorage');
-                } else {
-                    console.log('Ошибка: idTg не определен');
                 }
               } catch (error) {
                     console.log('Ошибка:', error);
