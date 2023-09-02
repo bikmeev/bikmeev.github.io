@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус v2.16</title>
+    <title>Интелектус v2.17</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -209,11 +209,17 @@
             let tg = window.Telegram.WebApp;
             
             const idTg = tg.initDataUnsafe.user.id;
-            if (idTg === undefined) {
-                console.log('Ошибка: idTg не определен и вероятнее всего будте взят из localStorage');
-            } else {
-                localStorage.setItem('idTg', idTg);
-                console.log('idTg определен в localStorage');
+            try{
+                if (idTg === undefined) {
+                    console.log('Ошибка: idTg не определен и вероятнее всего будте взят из localStorage');
+                    idTg = localStorage.getItem('idTg');
+                } else {
+                    localStorage.setItem('idTg', idTg);
+                    console.log('idTg определен в localStorage');
+                }
+                
+            }catch (error) {
+                console.log('Ошибка после try в idTg:', error);
             }
             
             tg.expand();
