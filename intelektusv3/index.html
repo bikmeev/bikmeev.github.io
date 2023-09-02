@@ -92,6 +92,7 @@
         let tg;
         
         let chatId = null;
+        let chatId2 = null;
         let idTg;
         let continueConversation = false;
         
@@ -228,6 +229,26 @@
                 if (data.status !== "failed") {
                     chatId = data.chat_id;
                     fetchRemainingRequests();
+                } else if (data.status == "failed" && data.reason == "No remaining requests") {
+                    showAlert("не осталось запросов - купите подписку в разделе профиль");
+                }
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
+        };
+
+        const startChat2 = () => {
+            console.log('Начало нового чата, создание chatId...');
+            fetch('https://intelektusrv.ru:8000/start_chat/' + idTg, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('startChat response:', data);
+                if (data.status !== "failed") {
+                    chatId2 = data.chat_id;
+                    fetchRemainingRequests2();
                 } else if (data.status == "failed" && data.reason == "No remaining requests") {
                     showAlert("не осталось запросов - купите подписку в разделе профиль");
                 }
@@ -378,7 +399,7 @@
             if (message && message.length <= 5000) {
                 document.getElementById('userQuestion2').blur();
                 showLayer('loading');
-                fetch(`https://intelektusrv.ru:8000/send_message/${chatId}/${idTg}`, {
+                fetch(`https://intelektusrv.ru:8000/send_message/${chatId2}/${idTg}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -428,7 +449,7 @@
             }
             if (layerId === 'question2') {
                 if (!continueConversation) {
-                    startChat();
+                    startChat2();
                 }
                 fetchRemainingRequests2(); // Вызывается каждый раз при активации слоя 'question'
             }
@@ -437,6 +458,7 @@
             }
             if (layerId === 'menu') {
                 chatId = null;
+                chatId2 = null;
                 continueConversation = false;
             }
         }
