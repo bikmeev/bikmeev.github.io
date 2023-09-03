@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус v2.192</title>
+    <title>Интелектус v2.193</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -216,7 +216,7 @@
             
             let tg = window.Telegram.WebApp;
             
-            const idTg = tg.initDataUnsafe.user.id;
+            idTg = tg.initDataUnsafe.user.id;
             tg.expand();
             console.log("idTg", idTg);
 
