@@ -49,7 +49,7 @@
     </div>
     <div id="question2" class="hidden">
         <img src="logo.svg" alt="Логотип" id="logo">
-        <button class="camera" onclick="location.href='camera.html'">
+        <button class="camera" onclick="showLayer('cameralayer')">
             <img src="camera.svg">
             <p>Переделать фото</p>
         </button>
@@ -94,7 +94,7 @@
                 <p class="text-icon">𝐓</p>
                 <p>Написать текст</p>
             </button>
-            <button class="camera-switch1" onclick="location.href='camera.html'">
+            <button class="camera-switch1" onclick="showLayer('cameralayer')">
                 <img src="camera.svg">
                 <p>Сделать фото</p>
             </button>
@@ -452,8 +452,9 @@
             hideAll();
             document.getElementById(layerId).style.display = 'flex';
             if (layerId === 'question') {
-                if (!continueConversation) {
+                if (continueConversation != true) {
                     startChat();
+                    console.log("new chat creating...")
                 }
                 fetchRemainingRequests(); // Вызывается каждый раз при активации слоя 'question'
             }
