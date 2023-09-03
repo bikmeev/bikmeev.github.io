@@ -87,7 +87,39 @@
         <h1>Загрузка...</h1>
         <p>Загрузка в среднем занимает 20 секунд, но может занять до минуты.</p>
     </div>
+    <div id="cameralayer" class="hidden">
+        <p class="blue-box">Загрузи фотографию со своим вопросом</p>
+        <div class="switch">
+            <button class="text-switch1" onclick="openText()">
+                <p class="text-icon">𝐓</p>
+                <p>Написать текст</p>
+            </button>
+            <button class="camera-switch1" onclick="location.href='camera.html'">
+                <img src="camera.svg">
+                <p>Сделать фото</p>
+            </button>
+        </div>
+        <label for="file" class="custom-file-upload">Выбрать файл</label>
+        <input type="file" id="file">
+        <div id="error"><p>Файл не выбран</p></div>
+        <button class="purple-button" id="submit">Загрузить файл</button>
+    </div>
     <script>
+
+        const submit = document.getElementById('submit');
+        const error = document.getElementById('error');
+        const fileTypes = [
+            "image/apng",
+            "image/bmp",
+            "image/gif",
+            "image/jpeg",
+            "image/pjpeg",
+            "image/png",
+            "image/svg+xml",
+            "image/tiff",
+            "image/webp",
+            "image/x-icon",
+        ];
 
         let tg;
         
@@ -106,30 +138,6 @@
                 showLayer('question');
                 localStorage.clear();
             }
-            else if(localStorage.getItem('question2') == 'true'){
-                //localStorage.clear();
-                showLayer('question2');
-                console.log("question2", "opened");
-                if(localStorage.getItem('question2_data') !== "null"){
-                    // Получаем элемент textarea по его ID
-                    const textarea = document.getElementById('userQuestion2');
-                
-                    // Устанавливаем значение textarea из localStorage
-                    textarea.value = localStorage.getItem('question2_data');
-
-                    // Устанавливаем ссылку на изображение
-                    const imageLink = document.getElementById('imageLink');
-                    imageLink.href = localStorage.getItem('question2_data_link');
-                    imageLink.classList.remove('hidden'); // Показываем ссылку
-                    
-                    localStorage.clear();
-                }
-                else{
-                    showAlert("текст на фото не найден");
-                    localStorage.clear();
-                }
-                localStorage.clear();
-            }
         })
         //снятие фокуса с imput field при нажатии на пустое место
         document.addEventListener('click', function(event) {
@@ -138,6 +146,8 @@
                 inputElement.blur();
             }
         });
+
+        
 
         const messageEle = document.getElementById('userQuestion');
         const counterEle = document.getElementById('counter');
@@ -474,11 +484,72 @@
             document.getElementById('profile').style.display = 'none';
             document.getElementById('reply').style.display = 'none';
             document.getElementById('loading').style.display = 'none';
+            document.getElementById('cameralayer').style.display = 'none';
         }
 
         function sendEmail() {
             window.location.href = "https://bikmeev.github.io/support.html?id=" + idTg;
         }
+
+        function openText(){
+            localStorage.setItem('question', 'true');
+            showLayer('question');
+        }
+
+        function validFileType(file) {
+            return fileTypes.includes(file[0].type);
+        }
+        
+        submit.addEventListener('click', () => {
+            while (error.firstChild) {
+                error.removeChild(error.firstChild);
+            }
+            const input = document.querySelector("input");
+            input.style.opacity = 0;
+            const para = document.createElement("p");
+            error.appendChild(para);
+            const file = input.files;
+            if (file.length === 0) {
+                para.textContent = "Файл не был выбран.";
+            } else{
+                if (validFileType(file)) {
+                    
+                    document.getElementById('cameralayer').style.display = 'none';
+                    document.getElementById('loading').style.display = 'flex';
+                    const imageUrl = URL.createObjectURL(file[0]);
+                    console.log(`Image URL: ${imageUrl}`);
+                    fetch(imageUrl)
+                    .then(res => res.blob())
+                    .then(blob => {
+                        const formData = new FormData();
+                        formData.append('file', blob, 'image.png');
+                        return fetch('https://intelektusrv.ru:8000/recognize-text', {
+                            method: 'POST',
+                            body: formData,
+                        });
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(`Received data:`, data);
+                        localStorage.setItem('question2', 'true');
+                        if(data.text === '\f' || data.text === ' \n\f'){
+                            showLayer('question2');
+                            showAlert("текст не расознан");
+                        }
+                        else{
+                            showLayer('question2');
+                            textarea.value = data.text;
+                        }
+                    })
+                    .catch(error => {
+                            console.error('Error:', error);
+                    });
+                }else{
+                    para.textContent = `File name ${file.name}: Not a valid file type. Update your selection.`;
+                    error.appendChild(para);
+                }
+            }      
+        });
  
     </script>
 </body>
