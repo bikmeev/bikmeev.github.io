@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус v2.191</title>
+    <title>Интелектус v2.192</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -249,7 +249,7 @@
 
         const startChat2 = () => {
             console.log('Начало нового чата, создание chatId...');
-            fetch('https://intelektusrv.ru:8000/start_chat/' + localStorage.getItem('idTg'), {
+            fetch('https://intelektusrv.ru:8000/start_chat/' + idTg), {
                 method: 'POST',
             })
             .then(response => response.json())
@@ -283,7 +283,7 @@
         };
 
         const fetchRemainingRequests2 = () => {
-            fetch(`https://intelektusrv.ru:8000/remaining_requests/${localStorage.getItem('idTg')}`, {
+            fetch(`https://intelektusrv.ru:8000/remaining_requests/${idTg}`, {
                 method: 'POST',
             })
             .then(response => response.json())
