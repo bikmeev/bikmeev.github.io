@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус v2.19</title>
+    <title>Интелектус v2.191</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -146,9 +146,7 @@
                 inputElement.blur();
             }
         });
-
         
-
         const messageEle = document.getElementById('userQuestion');
         const counterEle = document.getElementById('counter');
 
@@ -219,8 +217,6 @@
             let tg = window.Telegram.WebApp;
             
             const idTg = tg.initDataUnsafe.user.id;
-            localStorage.setItem('idTg', idTg);
-            console.log('idTg определен в localStorage');
             tg.expand();
             console.log("idTg", idTg);
 
@@ -228,7 +224,6 @@
             let viewportHeight = tg.viewportHeight;
             // Установка высоты слоя загрузки
             document.getElementById('loading').style.height = viewportHeight + 'px';
-
             
         });
 
