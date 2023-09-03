@@ -232,6 +232,7 @@
             fetch('https://intelektusrv.ru:8000/start_chat/' + idTg, {
                 method: 'POST',
             })
+            console.log('https://intelektusrv.ru:8000/start_chat/' + idTg);
             .then(response => response.json())
             .then(data => {
                 console.log('startChat response:', data);
