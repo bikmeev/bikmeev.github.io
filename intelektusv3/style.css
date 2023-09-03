@@ -335,3 +335,47 @@ body {
 .noSub img{
     margin-left: 20px;
 }
+
+.container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 5px;
+    border: 1px #838383;
+}
+
+.text-switch1{
+    color: #838383;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.camera-switch1{
+    margin: 0;
+    color: white;
+    background-color: #2AABEE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    
+}
+
+
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+
+
