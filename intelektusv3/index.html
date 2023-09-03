@@ -249,7 +249,7 @@
 
         const startChat2 = () => {
             console.log('Начало нового чата, создание chatId...');
-            fetch('https://intelektusrv.ru:8000/start_chat/' + idTg), {
+            fetch('https://intelektusrv.ru:8000/start_chat/' + idTg, {
                 method: 'POST',
             })
             .then(response => response.json())
