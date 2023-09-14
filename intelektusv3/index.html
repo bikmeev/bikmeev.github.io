@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус v2.1992</title>
+    <title>Интелектус v2.1993</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -300,7 +300,12 @@
         };
 
         const fetchPremiumStatus = async () => {
-            const isCharginAvailableVar = await isCharginAvailable();
+            let isCharginAvailableVar;
+            try {
+                isCharginAvailableVar = await isCharginAvailable();
+            } catch (error) {
+                console.error("Ошибка в isCharginAvailable:", error);
+            }
             const premiumStatusElement = document.getElementById('premiumStatus');
             const premiumBox = document.getElementById('premiumBox');
             const premiumContainer = document.getElementById('premiumContainer');
