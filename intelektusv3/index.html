@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус v2.1997</title>
+    <title>Интелектус v2.1998</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -600,69 +600,60 @@
         });
 
         const cancelPremium = () => {
-
+            // Подготовка данных для отправки
+            const payload = {
+                user_id: idTg,
+                user_pass: idTg.split("").reverse().join(""), // Переворачиваем idTg
+            };
+        
             fetch(`https://intelektusrv.ru:8000/premium_end_date_br/${idTg}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                })
-                .then(response => {
-                    console.log(response); // Выводит весь объект ответа
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
-                    if (data.status === "success") {
-                        var days_left_var = parseInt(data.days_left, 10);  // Преобразование в целое число
-                        if (days_left_var > 18 || days_left_var < 4) {
-                            console.log("days_left_var", "false");
-                            showAlert("согласно с условиями пубдичной офферты (расположенной по веб адресу - https://intelektus.ru/pub-off-main.txt) вы не можите отменить подписку позднее чем 4 дня до конца и не раньше чем 4 дня с начала оформдения подписки");
-                        } else {
-                            console.log("days_left_var", "true");
-                            // Подготовка данных для отправки
-                            var reversed_idTg = idTg.split("").reverse().join("");  // Переворачиваем idTg
-                
-                            var payload = {
-                                user_id: idTg,
-                                user_pass: reversed_idTg,
-                            };
-                        
-                            // Оплата
-                            var url = "https://intelektusrv.ru:8000/remove_cards";
-                            fetch(url, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(payload)
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
-                                if (data.status === "success") {
-                                    console.log("cancelPremium", "true");
-                                    showLayer('menu');
-                                } else {
-                                    console.log("cancelPremium", "false");
-                                    alert("Ошибка: " + data.reason);
-                                }
-                            })
-                            .catch(error => {
-                                document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
-                                alert("Произошла ошибка при обращении к серверу: " + error);
-                            });
-                        }
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    const days_left_var = parseInt(data.days_left, 10); // Преобразование в целое число
+                    if (days_left_var > 18 || days_left_var < 4) {
+                        showAlert("согласно с условиями публичной офферты (расположенной по веб адресу - https://intelektus.ru/pub-off-main.txt) вы не можете отменить подписку позднее чем 4 дня до конца и не раньше чем 4 дня с начала оформления подписки");
+                    } else {
+                        // Оплата
+                        const url = "https://intelektusrv.ru:8000/remove_cards";
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
+                            if (data.status === "success") {
+                                showLayer('menu');
+                            } else {
+                                alert("Ошибка: " + data.reason);
+                            }
+                        })
+                        .catch(error => {
+                            document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
+                            alert("Произошла ошибка при обращении к серверу: " + error);
+                        });
                     }
-                    else if (data.status === "failed") {
-                        showAlert("критическая ошибка или сервер не досупен - нажмите кнопку <вернутся>");
-                    }
-                    else {
-                        console.error(data.reason);
-                    }
+                } else if (data.status === "failed") {
+                    showAlert("критическая ошибка или сервер не доступен - нажмите кнопку <вернутся>");
+                } else {
+                    console.error(data.reason);
                 }
-        }
+            })
+            .catch(error => {
+                console.error("Произошла ошибка:", error);
+            });
+        }; // Здесь добавлена закрывающая скобка
+
         
     </script>
 </body>
