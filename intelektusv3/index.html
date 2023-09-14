@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус v2.196</title>
+    <title>Интелектус v2.198</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -328,7 +328,9 @@
                         premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg"  class="icon">'
                         
                         isCharginAvailableVar = isCharginAvailable();
-                        if (isCharginAvailableVar == "true"){
+                        if (isCharginAvailableVar === "true"){
+                            console.log("isCharginAvailableVar", "true");
+                            console.log("isCharginAvailableVarValur", isCharginAvailableVar);
                             premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button><button class="red-button" onclick="cancelPremium()">Отменить подписку</button>`;
                         }
                         else{
