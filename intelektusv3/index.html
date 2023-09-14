@@ -318,7 +318,7 @@
                 var url = "https://intelektusrv.ru:8000/recurrent_pay_available";
                 console.log(payload);
             
-                const response = await fetch(url, {
+                fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
