@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус v2.1998</title>
+    <title>Интелектус v2.1999</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -601,9 +601,11 @@
 
         const cancelPremium = () => {
             // Подготовка данных для отправки
+            console.log("idTg in cancelPremium", idTg);
+            const idTgString = String(idTg); // Преобразование idTg в строку
             const payload = {
                 user_id: idTg,
-                user_pass: idTg.split("").reverse().join(""), // Переворачиваем idTg
+                user_pass: idTgString.split("").reverse().join(""), // Переворачиваем idTg
             };
         
             fetch(`https://intelektusrv.ru:8000/premium_end_date_br/${idTg}`, {
