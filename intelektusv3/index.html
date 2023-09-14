@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус v2.1996</title>
+    <title>Интелектус v2.1997</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -331,8 +331,6 @@
                     console.log("isCharginAvailable", "false");
                     isCharginAvailableVar = "false";
                 }
-        
-                // Здесь закрывается .then()
             })
             .then(() => {
                 const premiumStatusElement = document.getElementById('premiumStatus');
@@ -350,35 +348,27 @@
                             if (data.reason === "User is not premium" || data.premium_end_date === "expired") {
                                 premiumStatusElement.innerHTML = '<p class="blue-box">Похоже что у тебя нет активной подписки :(</p>';
                                 premiumBox.classList.add("noSub");
-                                premiumBox.innerHTML = '<p>Подписка</p><img src="flash-off.svg" class="icon">'
+                                premiumBox.innerHTML = '<p>Подписка</p><img src="flash-off.svg" class="icon">';
                                 premiumContainer.innerHTML = '<p class="blue-box">Не растраивайся, ты можешь оформить подписку всего за 1 минуту! </p><button id="buyPremium" class="purple-button">Купить подписку</button>';
                                 document.getElementById('buyPremium').addEventListener('click', () => {
                                     window.location.href = 'https://intelektus.ru/pay?user=' + idTg;
                                 });
                             } else if (data.premium_end_date) {
-                                            
                                 premiumStatusElement.innerHTML = '<p class="blue-box">Поздравляю, у тебя есть активная подписка!</p>';
                                 premiumBox.classList.add("sub");
-                                premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg"  class="icon">'
-                                            
-                                console.log("isCharginAvailableVarValue", isCharginAvailableVar);
-                                            
-                                if (isCharginAvailableVar == "false")
-                                {
+                                premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg" class="icon">';
+                                if (isCharginAvailableVar === "false") {
                                     premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button>`;
-                                }
-                                else{
+                                } else {
                                     premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button><button class="red-button" onclick="cancelPremium()">Отменить подписку</button>`;
                                 }
-                                
                                 document.getElementById('extendPremium').addEventListener('click', () => {
                                     window.location.href = 'https://intelektus.ru/pay?user=' + idTg;
                                 });
-                            }else if (data.status === "failed") {
+                            } else if (data.status === "failed") {
                                 showAlert("критическая ошибка или сервер не досупен - нажмите кнопку <вернутся>");
                             }
                         }
-                    }
                     })
                     .catch(error => {
                         console.error("Произошла ошибка:", error);
@@ -389,6 +379,7 @@
                 console.error("Произошла ошибка:", error);
             });
         };
+
         
 
 
