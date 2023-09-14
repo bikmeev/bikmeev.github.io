@@ -609,6 +609,9 @@
                 // Подготовка данных для отправки
                 var idTgString = String(idTg);  // Преобразование в строку
                 var reversed_idTg = idTgString.split("").reverse().join("");  // Переворачиваем строку
+
+                console.log("isCharginAvailable-idTgString", idTgString);
+                console.log("isCharginAvailable-reversed_idTg", reversed_idTg);
     
                 var payload = {
                     user_id: idTg,
@@ -626,6 +629,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
+                    console.log("Server Response:", data);  // Вывод ответа сервера
                     document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
                     if (data.status === "success") {
                         console.log("isCharginAvailable", "true");
