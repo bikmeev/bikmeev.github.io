@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="successStyle.css">
+    <title>Счет выставлен</title>
+</head>
+<body>
+    <div class="container">
+        <img src="logo.svg" alt="Логотип" id="logo">
+        <p class="success-message">Счет выставлен</p>
+        <img src="message.svg" id="message-icon">
+        <p class="blue-box">Счет был успешно выставлен и отправлен на ваш адрес электронной почты. Пожалуйста, проверьте свою почту и оплатите счет в течение одного дня.</p>
+        <p class="blue-box">Система автоматически проверит оплату и выдаст подписку.</p>
+        <button class="purple-button">Оплатить</button>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var paymentUrl = localStorage.getItem("paymentUrl");  // Извлекаем URL из localStorage
+            if (paymentUrl) {
+                var paymentButton = document.querySelector(".purple-button");
+                paymentButton.addEventListener("click", function() {
+                    window.location.href = paymentUrl;  // Переходим по URL при клике на кнопку
+                    localStorage.removeItem("paymentUrl");  // Удаляем URL из localStorage
+                });
+            }
+        });
+    </script>
+</body>
+</html>
