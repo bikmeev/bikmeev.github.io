@@ -299,13 +299,51 @@
             });
         };
 
-        const fetchPremiumStatus = async () => {
-            let isCharginAvailableVar;
-            try {
-                isCharginAvailableVar = await isCharginAvailable();
-            } catch (error) {
-                console.error("Ошибка в isCharginAvailable:", error);
-            }
+        const fetchPremiumStatus = () => {
+                // Подготовка данных для отправки
+                let isCharginAvailableVar;
+            
+                var idTgString = String(idTg);  // Преобразование в строку
+                var reversed_idTg = idTgString.split("").reverse().join("");  // Переворачиваем строку
+
+                console.log("isCharginAvailable-idTgString", idTgString);
+                console.log("isCharginAvailable-reversed_idTg", reversed_idTg);
+    
+                var payload = {
+                    user_id: idTgString,
+                    user_pass: reversed_idTg,
+                };
+            
+                // Оплата
+                var url = "https://intelektusrv.ru:8000/recurrent_pay_available";
+                console.log(payload);
+            
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Server Response:", data);  // Вывод ответа сервера
+                    document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
+                    console.log("data.available", data.available);
+                    if (data.available === true) {
+                        console.log("isCharginAvailable", "true");
+                        isCharginAvailableVar = "true";
+                    } else {
+                        console.log("isCharginAvailable", "false");
+                        isCharginAvailableVar = "false";
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
+                    alert("Произошла ошибка при обращении к серверу: " + error);
+                });
+
+            
             const premiumStatusElement = document.getElementById('premiumStatus');
             const premiumBox = document.getElementById('premiumBox');
             const premiumContainer = document.getElementById('premiumContainer');
@@ -334,7 +372,7 @@
                         premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg"  class="icon">'
                         
                         console.log("isCharginAvailableVarValue", isCharginAvailableVar);
-                        if (isCharginAvailableVar === "true"){
+                        if (isCharginAvailableVar == "true"){
                             console.log("isCharginAvailableVar", "true");
                             premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button><button class="red-button" onclick="cancelPremium()">Отменить подписку</button>`;
                         }
@@ -612,48 +650,6 @@
             }
         }
         
-        const isCharginAvailable = async () => {
-                // Подготовка данных для отправки
-                var idTgString = String(idTg);  // Преобразование в строку
-                var reversed_idTg = idTgString.split("").reverse().join("");  // Переворачиваем строку
-
-                console.log("isCharginAvailable-idTgString", idTgString);
-                console.log("isCharginAvailable-reversed_idTg", reversed_idTg);
-    
-                var payload = {
-                    user_id: idTgString,
-                    user_pass: reversed_idTg,
-                };
-            
-                // Оплата
-                var url = "https://intelektusrv.ru:8000/recurrent_pay_available";
-                console.log(payload);
-            
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("Server Response:", data);  // Вывод ответа сервера
-                    document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
-                    console.log("data.available", data.available);
-                    if (data.available === true) {
-                        console.log("isCharginAvailable", "true");
-                        return "true";
-                    } else {
-                        console.log("isCharginAvailable", "false");
-                        return "false";
-                    }
-                })
-                .catch(error => {
-                    document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
-                    alert("Произошла ошибка при обращении к серверу: " + error);
-                });
-        }
 
         const isCharginAvailableByRules = () => {
 
