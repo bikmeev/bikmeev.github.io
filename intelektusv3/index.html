@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус v2.195</title>
+    <title>Интелектус v2.196</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -662,9 +662,12 @@
                 .then(data => {
                     console.log(data);
                     if (data.status === "success") {
-                        if (data.days_left > 18 || data.days_left < 4) {
+                        var days_left_var = parseInt(data.days_left, 10);  // Преобразование в целое число
+                        if (days_left_var > 18 || days_left_var < 4) {
+                            console.log("days_left_var", "false");
                             return "false";
                         } else {
+                            console.log("days_left_var", "true");
                             return "true";
                         }
                     }
