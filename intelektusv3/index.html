@@ -634,6 +634,7 @@
                         })
                         .then(response => response.json())
                         .then(data => {
+                            console.log(`Received data:`, data);
                             document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
                             if (data.success === "success") {
                                 showLayer('menu');
