@@ -25,7 +25,7 @@
     </div>
     <div id="question" class="hidden">
         <img src="logo.svg" alt="Логотип" id="logo">
-        <p class="blue-box">Задавай любой вопрос я  помогу тебе!</p>
+        <p class="blue-box">Задавай любой вопрос я помогу тебе!</p>
         <div class="switch">
             <button class="text-switch">
                 <p class="text-icon">𝐓</p>
@@ -88,6 +88,7 @@
         <p>Загрузка в среднем занимает 20 секунд, но может занять до минуты.</p>
     </div>
     <div id="cameralayer" class="hidden">
+        <img src="logo.svg" alt="Логотип" id="logo">
         <p class="blue-box">Загрузи фотографию со своим вопросом</p>
         <div class="switch">
             <button class="text-switch1" onclick="openText()">
@@ -100,8 +101,8 @@
             </button>
         </div>
         <label for="file" class="custom-file-upload">Выбрать файл</label>
-        <input type="file" id="file">
-        <div id="error"><p>Файл не выбран</p></div>
+        <input type="file" id="file" onchange="selected()">
+        <div id="error"><p></p></div>
         <button class="purple-button" id="submit">Загрузить файл</button>
     </div>
     <script>
@@ -325,7 +326,14 @@
                         premiumStatusElement.innerHTML = '<p class="blue-box">Поздравляю, у тебя есть активная подписка!</p>';
                         premiumBox.classList.add("sub");
                         premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg"  class="icon">'
-                        premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button>`;
+                        
+                        isCharginAvailableVar = isCharginAvailable();
+                        if (isCharginAvailableVar == "true"){
+                            premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button><button class="red-button" onclick="cancelPremium()">Отменить подписку</button>`;
+                        }
+                        else{
+                            premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button>`;
+                        }
                         document.getElementById('extendPremium').addEventListener('click', () => {
                             window.location.href = 'https://intelektus.ru/pay?user=' + idTg;
                         });
@@ -496,6 +504,13 @@
         function validFileType(file) {
             return fileTypes.includes(file[0].type);
         }
+
+        const selected = () =>{
+            const fileName = document.createElement("p");
+            error.appendChild(fileName);
+            fileName.textContent = "Фото выбрано";
+        }
+
         
         submit.addEventListener('click', () => {
             while (error.firstChild) {
@@ -548,6 +563,106 @@
                 }
             }      
         });
+
+        const cancelPremium = () => {
+
+            isCharginAvailableByRulesVar = isCharginAvailableByRules();
+            if (isCharginAvailableByRulesVar == "false"){
+                showAlert("согласно с условиями пубдичной офферты (расположенной по веб адресу - https://intelektus.ru/pub-off-main.txt) вы не можите отменить подписку позднее чем 4 дня до конца и не раньше чем 4 дня с начала оформдения подписки");
+            } else{
+                // Подготовка данных для отправки
+                var reversed_idTg = idTg.split("").reverse().join("");  // Переворачиваем idTg
+    
+                var payload = {
+                    user_id: idTg,
+                    user_pass: reversed_idTg,
+                };
+            
+                // Оплата
+                var url = "https://intelektusrv.ru:8000/remove_cards";
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
+                    if (data.status === "success") {
+                        return "true";
+                    } else {
+                        alert("Ошибка: " + data.reason);
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
+                    alert("Произошла ошибка при обращении к серверу: " + error);
+                });
+            }
+        }
+        
+        const isCharginAvailable = () => {
+                // Подготовка данных для отправки
+                var reversed_idTg = idTg.split("").reverse().join("");  // Переворачиваем idTg
+    
+                var payload = {
+                    user_id: idTg,
+                    user_pass: reversed_idTg,
+                };
+            
+                // Оплата
+                var url = "https://intelektusrv.ru:8000/recurrent_pay_available";
+                fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
+                    if (data.status === "success") {
+                        return "true";
+                    } else {
+                        return "false";
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
+                    alert("Произошла ошибка при обращении к серверу: " + error);
+                });
+        }
+
+        const isCharginAvailableByRules = () => {
+
+            fetch(`https://intelektusrv.ru:8000/premium_end_date_br/${idTg}`, {
+                    method: 'POST',
+                })
+                .then(response => {
+                    console.log(response); // Выводит весь объект ответа
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    if (data.status === "success") {
+                        if (data.days_left > 18 || data.days_left < 4) {
+                            return "false";
+                        } else {
+                            return "true";
+                        }
+                    }
+                    else if (data.status === "failed") {
+                        showAlert("критическая ошибка или сервер не досупен - нажмите кнопку <вернутся>");
+                    }
+                    else {
+                        console.error(data.reason);
+                    }
+                })    
+            }
+        
  
     </script>
 </body>
