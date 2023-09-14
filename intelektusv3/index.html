@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус v2.199</title>
+    <title>Интелектус v2.1991</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -299,8 +299,8 @@
             });
         };
 
-        const fetchPremiumStatus = () => {
-            isCharginAvailableVar = isCharginAvailable();
+        const fetchPremiumStatus = await () => {
+            const isCharginAvailableVar = await isCharginAvailable();
             const premiumStatusElement = document.getElementById('premiumStatus');
             const premiumBox = document.getElementById('premiumBox');
             const premiumContainer = document.getElementById('premiumContainer');
@@ -607,7 +607,7 @@
             }
         }
         
-        const isCharginAvailable = () => {
+        const isCharginAvailable = async () => {
                 // Подготовка данных для отправки
                 var idTgString = String(idTg);  // Преобразование в строку
                 var reversed_idTg = idTgString.split("").reverse().join("");  // Переворачиваем строку
@@ -623,7 +623,8 @@
                 // Оплата
                 var url = "https://intelektusrv.ru:8000/recurrent_pay_available";
                 console.log(payload);
-                fetch(url, {
+            
+                const response = await fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
