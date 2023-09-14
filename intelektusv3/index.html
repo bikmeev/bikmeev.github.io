@@ -347,7 +347,8 @@
             const premiumStatusElement = document.getElementById('premiumStatus');
             const premiumBox = document.getElementById('premiumBox');
             const premiumContainer = document.getElementById('premiumContainer');
-            fetch(`https://intelektusrv.ru:8000/premium_end_date/${idTg}`, {
+            setTimeout(() => {
+                fetch(`https://intelektusrv.ru:8000/premium_end_date/${idTg}`, {
                 method: 'POST',
             })
             .then(response => {
@@ -391,6 +392,7 @@
                     console.error(data.reason);
                 }
             })    
+        }, 3000);
         }
 
         const copyText = () => {
