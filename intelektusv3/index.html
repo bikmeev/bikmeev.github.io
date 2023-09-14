@@ -619,7 +619,8 @@
             .then(data => {
                 if (data.status === "success") {
                     const days_left_var = parseInt(data.days_left, 10); // Преобразование в целое число
-                    if (days_left_var > 18 || days_left_var < 4) {
+                    console.log("days left", days_left_var);
+                    if (days_left_var > 18 or days_left_var < 4) {
                         showAlert("согласно с условиями публичной офферты (расположенной по веб адресу - https://intelektus.ru/pub-off-main.txt) вы не можете отменить подписку позднее чем 4 дня до конца и не раньше чем 4 дня с начала оформления подписки");
                     } else {
                         // Оплата
