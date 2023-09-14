@@ -644,7 +644,7 @@
                             console.log("Received data from server:", JSON.stringify(data, null, 2));
 
                             document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
-                            if (data.success === "success") {
+                            if (data.success === true) {
                                 showLayer('menu');
                             } else {
                                 alert("Ошибка: " + data.reason);
