@@ -592,8 +592,10 @@
                     document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
                     if (data.status === "success") {
                         return "true";
+                        console.log("cancelPremium", "true");
                     } else {
                         alert("Ошибка: " + data.reason);
+                        console.log("cancelPremium", "false");
                     }
                 })
                 .catch(error => {
@@ -605,7 +607,8 @@
         
         const isCharginAvailable = () => {
                 // Подготовка данных для отправки
-                var reversed_idTg = idTg.split("").reverse().join("");  // Переворачиваем idTg
+                var idTgString = String(idTg);  // Преобразование в строку
+                var reversed_idTg = idTgString.split("").reverse().join("");  // Переворачиваем строку
     
                 var payload = {
                     user_id: idTg,
@@ -626,8 +629,10 @@
                     document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
                     if (data.status === "success") {
                         return "true";
+                        console.log("isCharginAvailable", "true");
                     } else {
                         return "false";
+                        console.log("isCharginAvailable", "false");
                     }
                 })
                 .catch(error => {
