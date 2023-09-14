@@ -27,7 +27,7 @@
                 var payload = {
                     user_id: device_id,
                     user_pass: reversed_device_id,
-                    amount: 50,
+                    amount: 2800,
                 };
                 
                 // Измените этот URL на ваш
@@ -44,7 +44,8 @@
                 .then(data => {
                     document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
                     if (data.status === "success") {
-                        window.location.href = "success.html";
+                        localStorage.setItem("paymentUrl", data.url);
+                        window.location.href = "pre_success_p.html";
                     } else {
                         alert("Ошибка: " + data.reason);
                     }
