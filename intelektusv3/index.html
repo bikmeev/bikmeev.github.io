@@ -604,7 +604,7 @@
             console.log("idTg in cancelPremium", idTg);
             const idTgString = String(idTg); // Преобразование idTg в строку
             const payload = {
-                user_id: idTg,
+                user_id: idTgString,
                 user_pass: idTgString.split("").reverse().join(""), // Переворачиваем idTg
             };
         
@@ -624,13 +624,19 @@
                         showAlert("согласно с условиями публичной офферты (расположенной по веб адресу - https://intelektus.ru/pub-off-main.txt) вы не можете отменить подписку позднее чем 4 дня до конца и не раньше чем 4 дня с начала оформления подписки");
                     } else {
                         // Оплата
+                        console.log("idTg in cancelPremium", idTg);
+                        const idTgString = String(idTg); // Преобразование idTg в строку
+                        const payload1 = {
+                            user_id: idTgString,
+                            user_pass: idTgString.split("").reverse().join(""), // Переворачиваем idTg
+                        };
                         const url = "https://intelektusrv.ru:8000/remove_cards";
                         fetch(url, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify(payload)
+                            body: JSON.stringify(payload1)
                         })
                         .then(response => response.json())
                         .then(data => {
