@@ -133,6 +133,10 @@ body {
     margin-right: 6px;
 }
 
+.camera-switch1 img{
+    margin-right: 6px;
+}
+
 .camera{
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -340,8 +344,8 @@ body {
 
 #cameralayer {
     align-items: center;
+    margin: 0;
     flex-direction: column;
-    padding: 5px;
     border: 1px #838383;
 }
 
@@ -368,10 +372,10 @@ body {
     
 }
 
-
 input[type="file"] {
     display: none;
 }
+
 .custom-file-upload {
     border: 1px solid #ccc;
     display: inline-block;
@@ -379,5 +383,18 @@ input[type="file"] {
     cursor: pointer;
 }
 
-
-
+.red-button{
+    background-color: #f22825;
+    border: none;
+    color: white;
+    padding: auto;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    padding: 0.5em;
+    font-size: 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 14px;
+}
