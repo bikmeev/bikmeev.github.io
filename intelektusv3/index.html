@@ -591,11 +591,11 @@
                 .then(data => {
                     document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
                     if (data.status === "success") {
-                        return "true";
                         console.log("cancelPremium", "true");
+                        return "true";
                     } else {
-                        alert("Ошибка: " + data.reason);
                         console.log("cancelPremium", "false");
+                        alert("Ошибка: " + data.reason);
                     }
                 })
                 .catch(error => {
@@ -628,11 +628,11 @@
                 .then(data => {
                     document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
                     if (data.status === "success") {
-                        return "true";
                         console.log("isCharginAvailable", "true");
+                        return "true";
                     } else {
-                        return "false";
                         console.log("isCharginAvailable", "false");
+                        return "false";
                     }
                 })
                 .catch(error => {
