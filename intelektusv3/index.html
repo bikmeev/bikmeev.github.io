@@ -632,8 +632,8 @@
                 .then(data => {
                     console.log("Server Response:", data);  // Вывод ответа сервера
                     document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
-                    console.log("data.availabl", data.availabl);
-                    if (data.available === "true") {
+                    console.log("data.available", data.available);
+                    if (data.available === true) {
                         console.log("isCharginAvailable", "true");
                         return "true";
                     } else {
