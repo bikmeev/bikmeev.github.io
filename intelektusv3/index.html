@@ -632,7 +632,7 @@
                 .then(data => {
                     console.log("Server Response:", data);  // Вывод ответа сервера
                     document.getElementById("loading").style.display = "none"; // Скрываем окно ожидания
-                    if (data.status === "success") {
+                    if (data.available === "true") {
                         console.log("isCharginAvailable", "true");
                         return "true";
                     } else {
