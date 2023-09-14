@@ -300,6 +300,7 @@
         };
 
         const fetchPremiumStatus = () => {
+            isCharginAvailableVar = isCharginAvailable();
             const premiumStatusElement = document.getElementById('premiumStatus');
             const premiumBox = document.getElementById('premiumBox');
             const premiumContainer = document.getElementById('premiumContainer');
@@ -327,7 +328,6 @@
                         premiumBox.classList.add("sub");
                         premiumBox.innerHTML = '<p>Подписка</p><img src="lightning-filled.svg"  class="icon">'
                         
-                        isCharginAvailableVar = isCharginAvailable();
                         console.log("isCharginAvailableVarValue", isCharginAvailableVar);
                         if (isCharginAvailableVar === "true"){
                             console.log("isCharginAvailableVar", "true");
