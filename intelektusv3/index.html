@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интелектус v2.19991</title>
+    <title>Интелектус v2.19992</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -219,16 +219,17 @@
             
             let tg = window.Telegram.WebApp;
             
-            idTg = tg.initDataUnsafe.user.id;
-            console.log("idTg befour check on null", idTg);
-            if (idTg == null)
-            {
+            try {
+                idTg = tg.initDataUnsafe.user.id;
+            } catch (error) {
                 hideAll();
                 const warningDiv = document.createElement('div');
                 warningDiv.id = 'serverWarning';
                 warningDiv.innerHTML = `<p>вы не вошли в свой аккаунт</p><p>следуйте инструкциям в боте</p>`;
                 document.body.appendChild(warningDiv);
+                console.log("Обработка ошибки: " + error.message);
             }
+
             tg.expand();
             console.log("idTg", idTg);
 
