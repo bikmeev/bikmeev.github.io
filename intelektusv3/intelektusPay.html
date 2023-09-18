@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="paymentStyle.css">
+    <title>Оплата</title>
+    <script>
+        function redirectToQiwi() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var userId = urlParams.get('user');
+            window.location.href = 'https://bikmeev.github.io/bill.html?user=' + userId
+        }
+        function redirectToBinance() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var userId = urlParams.get('user');
+            window.location.href = 'https://bikmeev.github.io/bill-b.html?user=' + userId
+        }
+        function redirectToYooKassa() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var userId = urlParams.get('user');
+            window.location.href = 'https://bikmeev.github.io/bill-yoo.html?user=' + userId
+        }
+        function redirectToPayture() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var userId = urlParams.get('user');
+            window.location.href = 'https://bikmeev.github.io/bill_payture.html?user=' + userId
+        }
+
+    </script>
+</head>
+<body>
+    <div class="container">
+        <p>Выберите способ оплаты:</p>
+        <div class="button-container">
+            <img src="creditCard.svg" alt="Credit Card">
+            <button class="special-button" onclick="redirectToPayture()">Банковская карта</button>
+        </div>
+        <div class="button-container">
+            <img src="qiwi.svg" alt="Qiwi">
+            <button class="special-button" onclick="redirectToQiwi()">Qiwi Кошелёк</button>
+        </div>
+        <div class="button-container1">
+            <img src="sberpay.png" alt="sberpay" width="55"">
+            <button class="special-button" onclick="redirectToYooKassa()">Сбер Pay</button>
+        </div>
+        <div class="button-container">
+            <img src="binance.svg" alt="Binance">
+            <button class="special-button" onclick="redirectToBinance()">Binance Pay</button>
+        </div>
+        <div class="button-container blured">
+            <img src="time.svg" alt="Time">
+            <button class="special-button" onclick="alert('Скоро...')">Скоро...</button>
+        </div>
+    </div>
+</body>
+</html>
