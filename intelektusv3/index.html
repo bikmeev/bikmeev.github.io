@@ -375,7 +375,7 @@
                                     premiumContainer.innerHTML = `<p class="date">Дата окончания подписки: ${data.premium_end_date}</p><p class="blue-box">Помни: ты всегда можешь продлить свою подписку заранее!</p><button id="extendPremium" class="purple-button">Продлить подписку</button><button class="red-button" onclick="cancelPremium()">Отменить подписку</button>`;
                                 }
                                 document.getElementById('extendPremium').addEventListener('click', () => {
-                                    window.location.href = 'https://intelektus.ru/pay?user=' + idTg;
+                                    window.location.href = 'intelektus.ru/pay?user=' + idTg;
                                 });
                             } else if (data.status === "failed") {
                                 showAlert("критическая ошибка или сервер не досупен - нажмите кнопку <вернутся>");
